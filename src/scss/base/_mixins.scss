@@ -1,0 +1,183 @@
+@use 'variables' as v;
+
+/** Media Queries **/
+@mixin telefono {
+    @media (min-width: v.$telefono) {
+        @content;
+    }
+}
+@mixin tablet {
+    @media (min-width: v.$tablet) {
+        @content;
+    }
+}
+@mixin desktop {
+    @media (min-width: v.$desktop) {
+        @content;
+    }
+}
+@mixin xl_desktop {
+    @media (min-width: v.$xl_desktop) {
+        @content;
+    }
+}
+
+@mixin boton($bgColor, $colorTexto) {
+    background-color: $bgColor;
+    padding: 1.5rem 4rem;
+    color: $colorTexto;
+    font-size: 1.8rem;
+    font-weight: 700;
+    border: none;
+    transition-property: background-color;
+    transition-duration: .3s;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+
+	// Referenciamos al padre con &
+    &:hover {
+        background-color: darken( $bgColor, 10% );
+        cursor: pointer;
+    }
+}
+
+// Creamos un GRID al que le damos nº columnas y el gap
+@mixin grid($columnas, $gap ) {
+    display: grid;
+    gap: $gap;
+    grid-template-columns: repeat($columnas, 1fr);
+}
+
+@mixin contenedor {
+	width: min(95%, 140rem);
+	margin: 0 auto;
+}
+
+@mixin contenedor-md {
+	width: min(95%, 80rem);
+	margin: 0 auto;
+}
+
+@mixin contenedor-sm {
+	width: min(95%, 60rem);
+	margin: 0 auto;
+}
+
+@mixin headings {
+	font-family: v.$fuente_principal;
+	font-weight: v.$black;
+	margin: 2rem 0;
+}
+
+@mixin nombre-pagina {
+	@include headings;
+	margin: 6rem 0 3rem 0;
+	text-align: center;
+}
+
+// Permite que el tamaño vaya cambiando dinamicamente al encoger o agrandar la pagina
+@mixin texto-fluido($min,$max) {
+	// minimo, maximo y tamaño deseado. clamp es una funcion intermedia entre min y max
+	// restar un rem para que no empiece muy grande en las pequeñas 
+	font-size: clamp($min, calc(10vw - 1rem), $max); 
+}
+
+@mixin texto-degradado($inicio, $final) {
+	background: linear-gradient(to right, $inicio, $final);
+	// Permite que el degradado afecte solo al texto. 
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+}
+
+@mixin logo {
+	color: v.$blanco;
+	text-align: center;
+	margin: 1rem 0;
+	
+	@include desktop {
+		text-align: left;
+		margin: 0;
+	}
+}
+
+@mixin rrss($color, $size) {
+
+	.rrss__enlace {
+		
+		&::before {
+			color: $color;
+			font-size: $size;
+			display: inline-block;
+			font-style: normal;
+			text-rendering: auto;                 
+			-webkit-font-smoothing: antialiased;  // Mejora la suavidad de los iconos
+			font-family: "Font Awesome 6 Brands";
+		}
+		
+		&[href*="facebook"]::before {
+			content: "\f39e";
+		}
+		
+		&[href*="github"]::before {
+			content: "\f09b";
+		}
+		
+		&[href*="tiktok"]::before {
+			content: "\e07b";
+		}
+		&[href*="instagram"]::before {
+			content: "\f16d";
+		}
+		&[href*="youtube"]::before {
+			content: "\f167";
+		}
+		&[href*="x.com"]::before {
+			content: "\e61b ";
+		}
+	}
+}
+
+@mixin enlace {
+	all:unset; //deshace los estilos, y asi evitas que hereden 
+	color: v.$blanco;
+	font-size: 1.4rem;
+	text-transform: uppercase;
+	font-weight: v.$bold;
+
+
+	&:hover {
+		color: v.$azul;
+		cursor: pointer;
+	}
+
+}
+
+@mixin shadow {
+	box-shadow: rgba(50,50,93,0.25) 0px 13px 27px -5px,
+				rgba(0,0,0,0.3) 0px 8px 16px -8px;
+}
+
+@mixin reset-lista {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+@mixin tags {
+	@include reset-lista;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.5rem;
+	margin-top: 1.5rem;
+
+	//selector "primer nivel de hijos" 
+	> li {
+		background-color: v.$azul;
+		color: v.$blanco;
+		padding: 1rem;
+		border-radius: 1.4rem;
+		font-weight: v.$bold;
+	}
+}
