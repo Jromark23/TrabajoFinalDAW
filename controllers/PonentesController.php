@@ -11,26 +11,32 @@ class PonentesController
 {
 
 	public static function index(Router $router)
-	{	
+	{
+		if (!is_admin()) {
+			header('Location: /login');
+			exit;
+		}
 		// obtenemos numero de pagina y validamos
 		$pagina_actual = $_GET['page'];
 		$pagina_actual = filter_var($pagina_actual, FILTER_VALIDATE_INT);
 
 		// si no es valido, dirigimos a la 1 
-		if(!$pagina_actual ||$pagina_actual < 1) {
+		if (!$pagina_actual || $pagina_actual < 1) {
 			header('Location: /admin/ponentes?page=1');
+			exit;
 		}
-		
+
 		$registros_pagina = 6;
 		$total_registros = Ponente::count();
-		$paginacion = new Paginacion($pagina_actual,$registros_pagina,$total_registros);
+		$paginacion = new Paginacion($pagina_actual, $registros_pagina, $total_registros);
 
-		if($paginacion->total_paginas() < $pagina_actual) {
+		if ($paginacion->total_paginas() < $pagina_actual) {
 			header('Location: /admin/ponentes?page=1');
+			exit;
 		}
 
 		$ponentes = Ponente::paginar($registros_pagina, $paginacion->offset());
-		
+
 		if (!is_admin()) {
 			header('Location: /login');
 			exit;
@@ -47,6 +53,7 @@ class PonentesController
 	{
 		if (!is_admin()) {
 			header('Location /login');
+			exit;
 		}
 		$alertas = [];
 		$ponente = new Ponente;
@@ -104,6 +111,7 @@ class PonentesController
 	{
 		if (!is_admin()) {
 			header('Location /login');
+			exit;
 		}
 		$alertas = [];
 
@@ -181,15 +189,16 @@ class PonentesController
 	{
 		if (!is_admin()) {
 			header('Location /login');
+			exit;
 		}
 		$alertas = [];
 
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$id = $_POST['id'];
-		
+
 			$ponente = Ponente::find($id);
-			if(!isset($ponente)) {
+			if (!isset($ponente)) {
 				header('Location: /admin/ponentes');
 				exit;
 			}

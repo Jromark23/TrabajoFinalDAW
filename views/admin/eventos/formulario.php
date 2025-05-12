@@ -35,11 +35,13 @@
 					<label for="<?= strtolower($dia->nombre); ?>"><?= $dia->nombre; ?></label>
 
 					<input type="radio" id="<?= strtolower($dia->nombre); ?>"
-						name="dia" value="<?= $dia->id; ?>">
+						name="dia" value="<?= $dia->id; ?>" 
+						<?= ($evento->dia_id === $dia->id) ? 'checked' : ''; ?>
+					>
 				</div>
 			<?php } ?>
 		</div>
-		<input type="hidden" name="dia_id" value="">
+		<input type="hidden" name="dia_id" value="<?= $evento->dia_id ?>">
 	</div>
 
 	<div id="horass" class="formulario__campo">
@@ -49,7 +51,7 @@
 				<li data-hora-id="<?= $hora->id; ?>" class="horas__hora horas__hora--disabled"> <?= $hora->hora ?> </li>
 			<?php } ?>
 		</ul>
-		<input type="hidden" name="hora_id" value="">
+		<input type="hidden" name="hora_id" value="<?= $evento->hora_id ?>">
 	</div>
 </fieldset>
 
@@ -62,7 +64,7 @@
 			placeholder="Buscar ponentes">
 
 		<ul id="listaPonentes" class="listaPonentes"></ul>
-		<input type="hidden" name="ponente_id" value="">
+		<input type="hidden" name="ponente_id" value="<?= $evento->ponente_id ?>">
 	</div>
 
 	<div class="formulario__campo">

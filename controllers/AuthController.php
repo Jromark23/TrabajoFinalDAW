@@ -28,8 +28,17 @@ class AuthController
 					// El usuario existe
 					if (password_verify($_POST['password'], $usuario->password)) {
 
+						// Configurar la cookie de sesión para que muera al cerrar navegador y sea valida en toda la web
+						session_set_cookie_params([
+							'lifetime' => 0,
+							'path' => '/'
+						]);
 						// Iniciar la sesión
 						session_start();
+
+						// Regenerar ID de sesión para evitar que quede guardada
+						session_regenerate_id(true);
+
 						$_SESSION['id'] = $usuario->id;
 						$_SESSION['nombre'] = $usuario->nombre;
 						$_SESSION['apellido'] = $usuario->apellido;
@@ -37,15 +46,13 @@ class AuthController
 						$_SESSION['admin'] = $usuario->admin ?? null;
 
 						// Redireccion admin o user
-						if($usuario->admin) {
+						if ($usuario->admin) {
 							header('Location: /admin/dashboard');
 							exit;
 						} else {
 							header('Location: /finalizar-registro');
 							exit;
 						}
-
-
 					} else {
 						Usuario::setAlerta('error', 'Contraseña incorrecta');
 					}
@@ -176,8 +183,10 @@ class AuthController
 
 		$token_valido = true;
 
-		if (!$token) header('Location: /');
-		exit;
+		if (!$token) {
+			header('Location: /');
+			exit;
+		}
 
 		// Identificar el usuario con este token
 		$usuario = Usuario::where('token', $token);
@@ -237,8 +246,10 @@ class AuthController
 
 		$token = sanitizeHtml($_GET['token']);
 
-		if (!$token) header('Location: /');
-		exit;
+		if (!$token) {
+			header('Location: /');
+			exit;
+		}
 
 		// Encontrar al usuario con este token
 		$usuario = Usuario::where('token', $token);

@@ -54,10 +54,11 @@ $router->get('/admin/eventos/crear', [EventosController::class, 'crear']);
 $router->post('/admin/eventos/crear', [EventosController::class, 'crear']);
 $router->get('/admin/eventos/editar', [EventosController::class, 'editar']);
 $router->post('/admin/eventos/editar', [EventosController::class, 'editar']);
-$router->post('/admin/eventos/eliminar', [EventosController::class, 'index']);
+$router->post('/admin/eventos/eliminar', [EventosController::class, 'eliminar']);
 
 $router->get('/api/horarios-eventos',[APIeventos::class, 'index']);
 $router->get('/api/ponentes',[APIponentes::class, 'index']);
+$router->get('/api/ponente',[APIponentes::class, 'ponente']);
 
 
 $router->get('/admin/usuarios', [UsuariosController::class, 'index']);
