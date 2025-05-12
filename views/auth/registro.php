@@ -1,6 +1,6 @@
 <main class="auth">
 	<h2 class="auth__heading">
-		<?php echo $titulo; ?>
+		<?= $titulo; ?>
 	</h2>
 	<p class="auth__texto">
 		Regístrate en el campus
@@ -16,7 +16,7 @@
 				Nombre
 			</label>
 			<input class="formulario__input" type="text" name="nombre" id="nombre" placeholder="Ingresa tu nombre"
-			value="<?php echo $usuario->nombre?>">
+			value="<?= $usuario->nombre?>">
 		</div>
 
 		<div class="formulario__campo">
@@ -24,7 +24,7 @@
 				Apellido
 			</label>
 			<input class="formulario__input" type="text" name="apellido" id="apellido" placeholder="Ingresa tu apellido"
-			value="<?php echo $usuario->apellido?>">
+			value="<?= $usuario->apellido?>">
 		</div>
 
 		<div class="formulario__campo">
@@ -32,7 +32,7 @@
 				Email
 			</label>
 			<input class="formulario__input" type="email" name="email" id="email" placeholder="correo@correo.com"
-			value="<?php echo $usuario->email?>">
+			value="<?= $usuario->email?>">
 		</div>
 
 		<div class="formulario__campo">

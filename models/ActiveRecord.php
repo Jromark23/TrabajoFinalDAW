@@ -144,10 +144,30 @@ class ActiveRecord
 		return array_shift($resultado);
 	}
 
-	// Busqueda Where con Columna 
+	// Busqueda Where con columna y valor 
 	public static function where($columna, $valor)
 	{
 		$query = "SELECT * FROM " . static::$tabla . " WHERE $columna = '$valor'";
+		$resultado = self::consultarSQL($query);
+		return array_shift($resultado);
+	}
+
+// Busqueda where con varias opciones mediante array
+	public static function whereArray($array = [])
+	{
+		$query = "SELECT * FROM " . static::$tabla . " WHERE";
+
+		foreach($array as $clave => $valor) {
+			//Detecta el ultimo elemento del array
+			if ($clave == array_key_last($array)) {
+				$query .= " $clave = '$valor'";
+			} else {
+				$query .= " $clave = '$valor' AND ";
+			}
+		}
+
+		//echo $query;
+
 		$resultado = self::consultarSQL($query);
 		return array_shift($resultado);
 	}

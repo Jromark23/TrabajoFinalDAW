@@ -1,6 +1,6 @@
 <main class="auth">
 	<h2 class="auth__heading">
-		<?php echo $titulo; ?>
+		<?= $titulo; ?>
 	</h2>
 	<p class="auth__texto"> Recupera tu contraseña </p>
 

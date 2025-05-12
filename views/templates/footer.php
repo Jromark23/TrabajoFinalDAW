@@ -26,7 +26,7 @@
 	<p class="footer__copyright">
 		Proyecto Final
 		<span class="footer__copyright--peque">
-			- Todos los derechos reservados &copy; <?php echo date('Y') ?>
+			- Todos los derechos reservados &copy; <?= date('Y') ?>
 		</span>
 	</p>
 </footer>

@@ -4,8 +4,8 @@
 		// recorremos el valor, por si tiene varios mensajes 
 		foreach ($alerta as $mensaje) {
 ?>
-	<div class="alerta alerta__<?php echo $key; ?>">
-		<?php echo $mensaje ?>
+	<div class="alerta alerta__<?= $key; ?>">
+		<?= $mensaje ?>
 	</div>
 <?php
 		}

@@ -1,4 +1,4 @@
-<h2 class="dashboard__heading"> <?php echo $titulo; ?> </h2>
+<h2 class="dashboard__heading"> <?= $titulo; ?> </h2>
 
 <div class="dashboard__contenedor-boton">
 	
@@ -27,19 +27,19 @@
 				<?php foreach ($ponentes as $ponente) { ?>
 					<tr class="table__tr">
 						<td class="table__td">
-							<?php echo $ponente->nombre . " " . $ponente->apellido ?>
+							<?= $ponente->nombre . " " . $ponente->apellido ?>
 						</td>
 						<td class="table__td">
-							<?php echo $ponente->ciudad . ", " . $ponente->pais ?>
+							<?= $ponente->ciudad . ", " . $ponente->pais ?>
 						</td>
 						<td class="table__td--acciones">
-							<a class="table__accion table__accion--editar" href="/admin/ponentes/editar?id=<?php echo $ponente->id; ?>">
+							<a class="table__accion table__accion--editar" href="/admin/ponentes/editar?id=<?= $ponente->id; ?>">
 								<i class="fa-solid fa-pen-to-square"></i>
 								Editar
 							</a>
 
 							<form action="/admin/ponentes/eliminar" method="post" class="table__formulario">
-								<input type="hidden" name="id" value="<?php echo $ponente->id; ?>">
+								<input type="hidden" name="id" value="<?= $ponente->id; ?>">
 								<button class="table__accion table__accion--eliminar" type="submit">
 									<i class="fa-solid fa-trash"></i>
 									Eliminar
@@ -56,4 +56,4 @@
 	<?php }  ?>
 </div>
 
-<?php echo $paginacion; ?>
+<?= $paginacion; ?>

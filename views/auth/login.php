@@ -1,5 +1,5 @@
 <main class="auth">
-	<h2 class="auth__heading"> <?php echo $titulo; ?> </h2>
+	<h2 class="auth__heading"> <?= $titulo; ?> </h2>
 	<p class="auth__texto"> Inicia sesión en el Campus </p>
 
 	<?php require_once __DIR__ . '/../templates/alertas.php'; 	?>

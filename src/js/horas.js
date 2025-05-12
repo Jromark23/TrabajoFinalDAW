@@ -6,20 +6,52 @@
 	if (horas) {
 		// Seleccionamos los días para buscar cual está activo
 		const dias = document.querySelectorAll('[name="dia"]');
-		const hidden = document.querySelector('[name="dia_id"]');
+		const hiddenDia = document.querySelector('[name="dia_id"]');
+		const hiddenHora = document.querySelector('[name="hora_id"]');
 		const categoria = document.querySelector('[name="categoria_id"]');
 
-		// Asignamos para poder tener controlado sincronizadas horas y dias y mostrar en directo
+		// Objeto para realizar la busqueda de los eventos
 		let busqueda = {
 			categoria_id: '',
 			dia: ''
 		}
-		
+
 		categoria.addEventListener('change', asignarBusqueda);
 		dias.forEach(dia => dia.addEventListener('change', asignarBusqueda));
 
+
 		function asignarBusqueda(e) {
 			busqueda[e.target.name] = e.target.value;
+
+			// Nos permite saber si solo está uno completado. 
+			if (Object.values(busqueda).includes('')) {
+				return;
+			}
+			buscarEventos();
+		}
+
+
+		async function buscarEventos() {
+			
+			const { dia, categoria_id} = busqueda;
+			const url = `/api/horarios-eventos?dia_id=${dia}&categoria_id=${categoria_id}`;
+
+			//console.log(url);
+
+			const resultado = await fetch(url);
+			const eventos = await resultado.json();
+
+			obtenerHorarios();
+		}
+
+		function obtenerHorarios() {
+			const horas = document.querySelectorAll('#horas li');
+			
+			horas.forEach(hora => hora.addEventListener('click', seleccionarHora));
+		}
+
+		function seleccionarHora(e) {
+			console.log(e.target);
 		}
 	}
 })();
