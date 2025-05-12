@@ -24,6 +24,7 @@
 			busqueda[e.target.name] = e.target.value;
 
 			//Reiniciar campos cada vez que cambiamos
+			hiddenDia.value = '';
 			hiddenHora.value = '';
 
 			//Deshabilita la hora anterior si la hay 
@@ -54,13 +55,12 @@
 		}
 
 		function obtenerHorarios(eventos) {
-			//Reiniciar horas
+			// Seleccionamos todas las horas de la lista y las reiniciamos
+			const listaHoras = document.querySelectorAll('#horas li');
+			listaHoras.forEach(li => li.classList.add('horas__hora--disabled'));
 
 			// Comprobamos los eventos, y quitamos el deshabilitado a las horas que corresponda
 			const horasUsadas = eventos.map(evento => evento.hora_id);
-
-			// Seleccionamos todas las horas de la lista
-			const listaHoras = document.querySelectorAll('#horas li');
 
 			// Convertimos a un array (Tenemos NodeList) para poder usar el arrayMethod "filter"
 			const listaHorasArray = Array.from(listaHoras);
@@ -86,9 +86,12 @@
 			hiddenHora.value = e.target.dataset.horaId;
 
 			//Agregamos clase para mantener visualmente la seleccion, asegurando que es una hora libre
+			if (!e.target.classList.contains('horas__hora--disabled')) {
+				e.target.classList.add('horas__hora--selected');
+			}
 
-			e.target.classList.add('horas__hora--selected');
-
+			// Llenamos el campo oculto con el dia que tiene check 
+			hiddenDia.value = document.querySelector('[name="dia"]:checked').value;
 		}
 	}
 })();
