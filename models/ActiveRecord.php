@@ -1,7 +1,17 @@
 <?php
 //ORM
 namespace Model;
-
+/**
+ * Creadas en tiempo de ejecucion, poniendolas aqui no muestra error. 
+ * @property Categoria $categoria
+ * @property Categoria $categoria_id
+ * @property Ponente $ponente
+ * @property Ponente $ponente_id
+ * @property Dia $dia
+ * @property Dia $dia_id
+ * @property Hora $hora
+ * @property Hora $hora_id
+ */
 class ActiveRecord
 {
 	// Base DE DATOS
@@ -251,7 +261,7 @@ class ActiveRecord
 
 	// Paginar registros, numero de registros y desde donde
 	public static function paginar($numero, $offset) {
-		$query = "SELECT * FROM " . static::$tabla . " ORDER BY apellido LIMIT $numero OFFSET $offset ";
+		$query = "SELECT * FROM " . static::$tabla . " ORDER BY 1 DESC LIMIT $numero OFFSET $offset ";
 		$resultado = self::consultarSQL($query);
 		return $resultado;
 	}
