@@ -37,11 +37,6 @@ class PonentesController
 
 		$ponentes = Ponente::paginar($registros_pagina, $paginacion->offset());
 
-		if (!is_admin()) {
-			header('Location: /login');
-			exit;
-		}
-
 		$router->renderizar('admin/ponentes/index', [
 			'titulo' => 'Ponentes',
 			'ponentes' => $ponentes,
