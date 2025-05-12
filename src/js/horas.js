@@ -19,9 +19,18 @@
 		categoria.addEventListener('change', asignarBusqueda);
 		dias.forEach(dia => dia.addEventListener('change', asignarBusqueda));
 
-
+		// Asigna los campos para consultar horas segun dia y categoria
 		function asignarBusqueda(e) {
 			busqueda[e.target.name] = e.target.value;
+
+			//Reiniciar campos cada vez que cambiamos
+			hiddenHora.value = '';
+
+			//Deshabilita la hora anterior si la hay 
+			const horaPrevia = document.querySelector('.horas__hora--selected');
+			if (horaPrevia) {
+				horaPrevia.classList.remove('horas__hora--selected')
+			}
 
 			// Nos permite saber si solo está uno completado. 
 			if (Object.values(busqueda).includes('')) {
@@ -32,8 +41,8 @@
 
 
 		async function buscarEventos() {
-			
-			const { dia, categoria_id} = busqueda;
+
+			const { dia, categoria_id } = busqueda;
 			const url = `/api/horarios-eventos?dia_id=${dia}&categoria_id=${categoria_id}`;
 
 			//console.log(url);
@@ -41,17 +50,45 @@
 			const resultado = await fetch(url);
 			const eventos = await resultado.json();
 
-			obtenerHorarios();
+			obtenerHorarios(eventos);
 		}
 
-		function obtenerHorarios() {
-			const horas = document.querySelectorAll('#horas li');
-			
+		function obtenerHorarios(eventos) {
+			//Reiniciar horas
+
+			// Comprobamos los eventos, y quitamos el deshabilitado a las horas que corresponda
+			const horasUsadas = eventos.map(evento => evento.hora_id);
+
+			// Seleccionamos todas las horas de la lista
+			const listaHoras = document.querySelectorAll('#horas li');
+
+			// Convertimos a un array (Tenemos NodeList) para poder usar el arrayMethod "filter"
+			const listaHorasArray = Array.from(listaHoras);
+
+
+			const resultado = listaHorasArray.filter(li => !horasUsadas.includes(li.dataset.horaId));
+
+			resultado.forEach(li => li.classList.remove('horas__hora--disabled'))
+
+			// Traemos las horas que no estan deshabilitadas
+			const horas = document.querySelectorAll('#horas li:not(.horas__hora--disabled)');
+
 			horas.forEach(hora => hora.addEventListener('click', seleccionarHora));
 		}
 
 		function seleccionarHora(e) {
-			console.log(e.target);
+			//Deshabilita la hora anterior si la hay 
+			const horaPrevia = document.querySelector('.horas__hora--selected');
+			if (horaPrevia) {
+				horaPrevia.classList.remove('horas__hora--selected')
+			}
+			//console.log(e.target.dataset.horaId);
+			hiddenHora.value = e.target.dataset.horaId;
+
+			//Agregamos clase para mantener visualmente la seleccion, asegurando que es una hora libre
+
+			e.target.classList.add('horas__hora--selected');
+
 		}
 	}
 })();

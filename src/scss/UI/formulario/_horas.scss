@@ -22,5 +22,24 @@
 			background-color: v.$azul;
 			cursor: pointer;
 		}
+
+		&--selected {
+			//@extend .horas__hora;
+			color: v.$blanco;
+			background-color: v.$azul;
+		}
+
+		&--disabled {
+			//@extend .horas__hora;
+			border: 1px solid v.$gris;
+			color: v.$gris;
+			//opacity: .5;
+
+			&:hover {
+				@extend %horas__hora--disabled;
+				background-color: v.$blanco;
+				cursor: not-allowed;
+			}
+		}
 	}
 }

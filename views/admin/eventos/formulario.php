@@ -42,11 +42,11 @@
 		<input type="hidden" name="dia_id" value="">
 	</div>
 
-	<div id="horas" class="formulario__campo">
+	<div id="horass" class="formulario__campo">
 		<label for="hora" class="formulario__label" >Seleccionar hora</label>
 		<ul class="horas" id="horas">
 			<?php foreach ($horas as $hora) { ?>
-				<li data-hora-id="<?= $hora->id; ?>" class="horas__hora"> <?= $hora->hora ?> </li>
+				<li data-hora-id="<?= $hora->id; ?>" class="horas__hora horas__hora--disabled"> <?= $hora->hora ?> </li>
 			<?php } ?>
 		</ul>
 		<input type="hidden" name="hora_id" value="">
