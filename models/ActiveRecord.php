@@ -128,6 +128,20 @@ class ActiveRecord
 		return $resultado;
 	}
 
+	public static function allArray($array = [])
+{
+    $query = "SELECT ";
+
+    // Convertimos el array en una lista separada por comas
+    $query .= implode(', ', $array);
+
+    $query .= " FROM " . static::$tabla;
+
+    $resultado = self::consultarSQL($query);
+    return $resultado;
+}
+
+
 	// Busca un registro por su id
 	public static function find($id)
 	{
@@ -139,7 +153,7 @@ class ActiveRecord
 	// Obtener Registros con cierta cantidad
 	public static function get($limite)
 	{
-		$query = "SELECT * FROM " . static::$tabla . " LIMIT $limite ORDER BY 3";
+		$query = "SELECT * FROM " . static::$tabla . " LIMIT $limite ORDER BY 1 DESC";
 		$resultado = self::consultarSQL($query);
 		return array_shift($resultado);
 	}
@@ -155,7 +169,7 @@ class ActiveRecord
 // Busqueda where con varias opciones mediante array
 	public static function whereArray($array = [])
 	{
-		$query = "SELECT * FROM " . static::$tabla . " WHERE";
+		$query = "SELECT * FROM " . static::$tabla . " WHERE ";
 
 		foreach($array as $clave => $valor) {
 			//Detecta el ultimo elemento del array

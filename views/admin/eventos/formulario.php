@@ -27,7 +27,7 @@
 	</div>
 
 	<div class="formulario__campo">
-		<label for="dia" class="formulario__label">Días</label>
+		<label class="formulario__label">Días</label>
 
 		<div class="formulario__radio">
 			<?php foreach ($dias as $dia) { ?>
@@ -43,7 +43,7 @@
 	</div>
 
 	<div id="horass" class="formulario__campo">
-		<label for="hora" class="formulario__label" >Seleccionar hora</label>
+		<label class="formulario__label" >Seleccionar hora</label>
 		<ul class="horas" id="horas">
 			<?php foreach ($horas as $hora) { ?>
 				<li data-hora-id="<?= $hora->id; ?>" class="horas__hora horas__hora--disabled"> <?= $hora->hora ?> </li>
@@ -60,6 +60,9 @@
 		<label for="ponentes" class="formulario__label">Ponente</label>
 		<input type="text" name="ponentes" id="ponentes" class="formulario__input"
 			placeholder="Buscar ponentes">
+
+		<ul id="listaPonentes" class="listaPonentes"></ul>
+		<input type="hidden" name="ponente_id" value="">
 	</div>
 
 	<div class="formulario__campo">

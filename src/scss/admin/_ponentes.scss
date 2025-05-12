@@ -1,20 +1,20 @@
 @use 'base/variables' as v;
 @use 'base/mixins' as m;
 
-.horas {
+.listaPonentes {
+	
 	@include m.reset-lista;
 	@include m.grid(1, 1rem);
-	
-	
-	@include m.tablet {	
-		@include m.grid(2, 1rem);
-	}
 
-	&__hora {
+	// @include m.tablet {
+	// 	@include m.grid(2, 1rem);
+	// }
+
+	&__ponente{
 		color: v.$azul;
 		border: 1px solid v.$azul;
-		border-radius: 1rem;
 		padding: 1rem;
+		border-radius: 1rem;
 		text-align: center;
 
 		&:hover {
@@ -24,22 +24,18 @@
 		}
 
 		&--selected {
-			//@extend .horas__hora;
 			color: v.$blanco;
 			background-color: v.$azul;
 		}
+	}
+	
+	&__vacio {
+		background-color: lighten(v.$rojo, 60);
+		//border-left: .5rem solid v.$rojo;
+		color: v.$rojo;
+		text-align: center;
+		padding: 1rem;
+		border-radius: 1rem;
 
-		&--disabled {
-			//@extend .horas__hora;
-			border: 1px solid v.$gris;
-			color: v.$gris;
-			//opacity: .5;
-
-			&:hover {
-				@extend .horas__hora--disabled;
-				background-color: v.$blanco;
-				cursor: not-allowed;
-			}
-		}
 	}
 }
