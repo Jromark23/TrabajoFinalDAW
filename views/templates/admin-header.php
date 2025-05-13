@@ -2,7 +2,7 @@
 	<div class="dashboard__header--grid">
 		<a href="/">
 			<h2 class="dashboard__logo">
-				&#60;PaginaJoel />
+				&#60;ProyectoFinal />
 			</h2>
 		</a>
 

@@ -11,6 +11,7 @@ use Controllers\UsuariosController;
 use Controllers\RegalosController;
 use Controllers\APIeventos;
 use Controllers\APIponentes;
+use Controllers\PaginasController;
 
 $router = new Router();
 
@@ -64,6 +65,16 @@ $router->get('/api/ponente',[APIponentes::class, 'ponente']);
 $router->get('/admin/usuarios', [UsuariosController::class, 'index']);
 
 $router->get('/admin/regalos', [RegalosController::class, 'index']);
+
+
+
+// Zona frontend
+$router->get('/', [PaginasController::class, 'index']);
+$router->get('/nosotros', [PaginasController::class, 'nosotros']);
+$router->get('/entradas', [PaginasController::class, 'entradas']);
+$router->get('/eventos', [PaginasController::class, 'eventos']);
+
+
 
 
 

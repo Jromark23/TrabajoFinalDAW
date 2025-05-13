@@ -1,0 +1,26 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.nosotros {
+
+	&__grid{
+		@include m.contenedor;
+		@include m.grid(1, 3rem);
+		padding: 3rem;
+
+		@include m.tablet {
+			align-items: center;
+			padding: 1.5rem;
+		}
+
+		@include m.desktop{
+			@include m.grid(2, 5rem);
+			align-items: center;
+			padding: 0;
+		}
+	}
+
+	&__texto {
+		line-height: 1.8;
+	}
+}

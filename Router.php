@@ -1,7 +1,9 @@
 <?php
 
 namespace MVC;
-
+/**
+ * 
+ */
 class Router
 {
     public array $getRoutes = [];
@@ -43,11 +45,15 @@ class Router
             $$key = $value; 
         }
 
+		// Guarda todo lo que se va a renderizar en un buffer temporal y lo almacena para enviar despues al navegador
         ob_start(); 
 
         include_once __DIR__ . "/views/$view.php";
 
-        $contenido = ob_get_clean(); // Limpia el Buffer
+		//Obtiene todo lo capturado y limpia el buffer. 
+		//El contenido capturado se guarda en una variable y permite que todo quede en el orden que deseamos.
+		// Permite construit primero la vista y luego insertarla en orden
+        $contenido = ob_get_clean(); 
 
 		$url_actual = $_SERVER['PATH_INFO'] ?? '/';
 		//debuguear($url_actual);

@@ -22,3 +22,8 @@ h3 {
 [class$="__heading"] {
 	@include m.nombre-pagina;
 }
+
+// buscamos la clase que TERMINE en __heading y añadira ese mixing de css
+[class$="__descripcion"] {
+	@include m.descripcion-pagina;
+}

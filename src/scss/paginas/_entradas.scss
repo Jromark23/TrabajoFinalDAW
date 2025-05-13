@@ -1,0 +1,56 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.entradas {
+
+	&__grid{
+		@include m.contenedor;
+		@include m.grid(1, 3rem);
+		padding: 3rem;
+
+
+
+		@include m.tablet {
+			@include m.grid(2, 3rem);
+
+			align-items: start;
+		}
+
+		@include m.desktop{
+			@include m.grid(3, 3rem);
+		}
+	}
+
+}
+
+.entrada {
+	@include m.card;
+
+	
+		&:nth-child(2) {
+			order: -1;
+			@include m.tablet { 
+				grid-column: 1 / -1;
+				text-align: center;
+			}
+			
+			@include m.desktop { 
+				order: unset;
+				grid-column: auto;
+				text-align: unset;
+			}
+		}
+
+	&__lista {
+		@include m.reset-lista;
+		line-height: 2;
+	}
+
+	&__precio {
+		font-size: 5rem;
+		margin: 3rem 0 0 0;
+		color: v.$azul;
+		font-weight: v.$black;
+		text-align: center;
+	}
+}

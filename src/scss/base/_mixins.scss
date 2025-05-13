@@ -76,6 +76,14 @@
 	text-align: center;
 }
 
+@mixin descripcion-pagina {
+	text-align: center;
+	font-size: 1.8rem;
+	font-weight: v.$delgada;
+	color: v.$gris-oscuro;
+	margin-bottom: 5rem;
+}
+
 // Permite que el tamaño vaya cambiando dinamicamente al encoger o agrandar la pagina
 @mixin texto-fluido($min,$max) {
 	// minimo, maximo y tamaño deseado. clamp es una funcion intermedia entre min y max
@@ -179,5 +187,16 @@
 		padding: 1rem;
 		border-radius: 1.4rem;
 		font-weight: v.$bold;
+	}
+}
+
+@mixin card {
+	border: 1px solid lighten(v.$gris, 10);
+	padding: 3rem;
+
+	&__nombre {
+		font-weight: v.$black;
+		font-size: 2.6rem;
+		margin: 2rem 0;
 	}
 }

@@ -8,7 +8,7 @@
 		<div class="header__contenido">
 			<a href="/">
 				<h1 class="header__logo">
-					&#60;PaginaJoel />
+					&#60;ProyectoFinal />
 				</h1>
 
 				<p class="header__texto">14 - 15 junio 2025</p>
@@ -23,13 +23,13 @@
 	<div class="barra__contenido">
 		<a href="/">
 			<h2 class="barra__logo">
-				&#60;PaginaJoel />
+				&#60;ProyectoFinal />
 			</h2>
 		</a>
 		<nav class="navegacion">
-			<a href="/finalproject" class="navegacion__enlace">Evento</a>
-			<a href="/paquetes" class="navegacion__enlace">Paquetes</a>
-			<a href="/conferencias" class="navegacion__enlace">Talleres / Conferencias</a>
+			<a href="/nosotros" class="navegacion__enlace">Evento</a>
+			<a href="/entradas" class="navegacion__enlace">Paquetes</a>
+			<a href="/eventos" class="navegacion__enlace">Talleres / Conferencias</a>
 			<a href="/registro" class="navegacion__enlace">Comprar Entrada</a>
 		</nav>
 	</div>

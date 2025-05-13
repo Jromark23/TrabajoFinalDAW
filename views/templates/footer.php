@@ -2,7 +2,7 @@
 	<div class="footer__grid">
 		<div class="footer__contenido">
 			<h3 class="footer__logo">
-				&#60;PaginaJoel />
+				&#60;ProyectoFinal />
 			</h3>
 
 			<p class="footer__texto">
