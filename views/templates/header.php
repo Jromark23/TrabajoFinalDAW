@@ -28,7 +28,7 @@
 		</a>
 		<nav class="navegacion">
 			<a href="/nosotros" class="navegacion__enlace">Evento</a>
-			<a href="/entradas" class="navegacion__enlace">Paquetes</a>
+			<a href="/entradas" class="navegacion__enlace">Entradas</a>
 			<a href="/eventos" class="navegacion__enlace">Talleres / Conferencias</a>
 			<a href="/registro" class="navegacion__enlace">Comprar Entrada</a>
 		</nav>

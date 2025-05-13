@@ -176,6 +176,14 @@ class ActiveRecord
 		return array_shift($resultado);
 	}
 
+	// Busqueda Where con un orden
+	public static function whereOrden($columna, $orden)
+	{
+		$query = "SELECT * FROM " . static::$tabla . " ORDER BY $columna $orden";
+		$resultado = self::consultarSQL($query);
+		return $resultado;
+	}
+
 // Busqueda where con varias opciones mediante array
 	public static function whereArray($array = [])
 	{
