@@ -1,3 +1,9 @@
+import './horas.js';
+import './ponentes.js';
+import './tags.js';
+import './slider.js';
+
+
 // Evita el envío de los formulario con Enter
 document.addEventListener('keydown', function (event) {
 	if (event.key === 'Enter') {

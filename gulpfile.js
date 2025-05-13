@@ -17,9 +17,12 @@ const avif = require('gulp-avif');
 // Javascript
 const terser = require('gulp-terser-js');
 const concat = require('gulp-concat');
-const rename = require('gulp-rename')
+const rename = require('gulp-rename');
 
+// Webpack
+const webpack = require('webpack-stream');
 
+// Incluimos todos los .scss .js y todas las imagenes 
 const paths = {
 	scss: 'src/scss/**/*.scss',
 	js: 'src/js/**/*.js',
@@ -38,20 +41,36 @@ function css() {
 }
 function javascript() {
 	return src(paths.js)
+		.pipe(webpack({
+			mode: 'production',
+			entry: './src/js/app.js',
+			module: {
+				rules: [
+					{
+						test: /\.css$/i,
+						use: ['style-loader', 'css-loader'],
+					}
+				]
+			},
+			watch: true
+		}))
 		.pipe(sourcemaps.init())
-		.pipe(concat('bundle.js'))
+		/* ya lo hace webpack y se incluye en el layout en lugar del que generabamos nosotros
+		.pipe(concat('bundle.js'))  */
 		.pipe(terser())
 		.pipe(sourcemaps.write('.'))
-		.pipe(rename({ suffix: '.min' }))
-		.pipe(dest('./public/build/js'))
+		.pipe(rename({ suffix: '.min' }))	//
+		.pipe(dest('./public/build/js'))	// Lugar de almacenamiento
 }
 
+// Toma las imagenes de SRC/IMG y las optimiza en build
 function imagenes() {
 	return src(paths.imagenes)
 		.pipe(cache(imagemin({ optimizationLevel: 3 })))
 		.pipe(dest('public/build/img'))
 }
 
+// convierte las imagenes a webp
 function versionWebp(done) {
 	const opciones = {
 		quality: 50
@@ -62,6 +81,7 @@ function versionWebp(done) {
 	done();
 }
 
+// convierte las imagenes a avif
 function versionAvif(done) {
 	const opciones = {
 		quality: 50

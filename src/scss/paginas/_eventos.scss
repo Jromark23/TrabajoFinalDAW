@@ -19,22 +19,26 @@
 			color: v.$secundario;
 		}
 	}
-	
-	// &__lista {
-	// 	@include m.reset-lista;
-	// 	line-height: 2;
-	// }
 
+	&--talleres {
+		.evento__info {
+			background-color: v.$secundario;
+
+			&:hover {
+				background-color: darken(v.$secundario, 10%);;
+			}
+		}
+	}
+	
 	&__fecha {
 		color: v.$gris;
 		margin: 3rem 0 1rem 0;
 	}
 
-
-}
-
-.eventos--talleres {
-	
+	.swiper-button-prev,
+	.swiper-button-next {
+		color: rgba(v.$blanco, .5);
+	}
 }
 
 .evento {
@@ -53,6 +57,20 @@
 		&:hover {
 			background-color: darken(v.$azul, 10%);
 		}
+
+		&--talleres {
+			@extend .evento__info;
+			background-color: v.$secundario;
+
+			&:hover {
+			background-color: darken(v.$secundario, 10%);
+		}
+		}
+	}
+
+	&__nombre {
+		font-size: 2.4rem;
+		margin: 0;
 	}
 
 	&__ponente {
@@ -63,9 +81,12 @@
 	}
 
 	&__img {
-		width: 7rem;
+		width: 6rem;
+		height: 6rem;
 		background-color: v.$blanco;
 		border-radius: 50%;
+		object-fit: cover;    
+		object-position: top; 
 	}
 
 	&__ponente-nombre {
@@ -75,6 +96,7 @@
 	//line-clamp nos permite "cortar" el texto limitando lineas
 	&__descripcion {
 		font-size: 1.6rem;
+		margin-bottom: 2rem;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 4;
