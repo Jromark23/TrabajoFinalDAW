@@ -7,8 +7,8 @@
 
 	<div class="eventos">
 		<h3 class="eventos__heading">&lt;Conferencias/> </h3>
+		
 		<p class="eventos__fecha">Viernes 14 de junio</p>
-
 		<div class="eventos__lista slider swiper">
 			<div class="swiper-wrapper">
 				<?php foreach ($eventos['conferencia_v'] as $evento) {
@@ -24,7 +24,6 @@
 		</div>
 
 		<p class="eventos__fecha">Sabado 15 de junio</p>
-
 		<div class="eventos__lista slider swiper">
 			<div class="swiper-wrapper">
 				<?php foreach ($eventos['conferencia_s'] as $evento) { 
@@ -42,8 +41,8 @@
 
 	<div class="eventos eventos--talleres">
 		<h3 class="eventos__heading--talleres">&lt;Talleres/> </h3>
+		
 		<p class="eventos__fecha">Viernes 14 de junio</p>
-
 		<div class="eventos__lista slider swiper">
 			<div class="swiper-wrapper">
 				<?php foreach ($eventos['taller_v'] as $evento) {
@@ -60,7 +59,6 @@
 		</div>
 
 		<p class="eventos__fecha">Sabado 15 de junio</p>
-
 		<div class="eventos__lista slider swiper">
 			<div class="swiper-wrapper">
 				<?php foreach ($eventos['taller_s'] as $evento) { 

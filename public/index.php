@@ -77,5 +77,5 @@ $router->get('/eventos', [PaginasController::class, 'eventos']);
 
 
 
-
+// Comprueba la ruta en la que estamos y ejecuta el callback asociado
 $router->comprobarRutas();
