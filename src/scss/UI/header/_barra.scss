@@ -3,7 +3,11 @@
 
 .barra {
 	background-color: v.$azul;
+	border: 1px solid v.$azul;
 
+	@include m.desktop {
+		border: none
+	}
 	&__contenido {
 
 		@include m.contenedor;
@@ -19,7 +23,6 @@
 
 	&__logo {
 		@include m.logo;
-		@include m.texto-fluido(2rem, 3rem);
-	}
+		@include m.texto-fluido(1.5rem, 2.7rem);	}
 	
 }

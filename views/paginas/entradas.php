@@ -5,10 +5,6 @@
 	</p>
 
 	<div class="entradas__grid">
-
-
-
-
 		<div class="entrada">
 			<h3 class="entrada__nombre">Acceso virtual</h3>
 			<ul class="entrada__lista">

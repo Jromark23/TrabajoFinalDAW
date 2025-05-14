@@ -19,7 +19,7 @@ $router = new Router();
 // Login
 $router->get('/login', [AuthController::class, 'login']);
 $router->post('/login', [AuthController::class, 'login']);
-$router->post('/logout', [AuthController::class, 'logout']);
+$router->post('/logout', callback: [AuthController::class, 'logout']);
 
 // Crear Cuenta
 $router->get('/registro', [AuthController::class, 'registro']);

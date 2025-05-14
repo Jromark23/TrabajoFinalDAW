@@ -61,6 +61,7 @@ class Router
 		// Permite construit primero la vista y luego insertarla en orden
         $contenido = ob_get_clean(); 
 
+		// Si no hay info (estas en la raiz, añade /)
 		$url_actual = $_SERVER['PATH_INFO'] ?? '/';
 		//debuguear($url_actual);
 

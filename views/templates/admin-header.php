@@ -7,7 +7,7 @@
 		</a>
 
 		<nav class="dashboard__nav">
-			<form action="/logout" class="dashboard__form">
+			<form action="/logout" class="dashboard__form" method="POST">
 				<input type="submit" class="dashboard__submit--salir" value="Cerrar sesión">
 			</form>
 		</nav>

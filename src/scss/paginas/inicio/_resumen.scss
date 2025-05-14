@@ -1,0 +1,47 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.resumen {
+	min-height: 30rem;
+	padding: 12rem 0;
+
+	background-image: linear-gradient(to right, rgba(v.$azul, .7), rgba(v.$azul, .9)), 
+		url(../img/conferencia2.jpg), image-set(url(../img/conferencia2.avif), url(../img/conferencia2.webp));
+
+	//background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+
+	@include m.tablet {
+		background-image: linear-gradient(to right, rgba(v.$azul, .7), rgba(v.$azul, .9)), 
+		url(../img/conferencia.jpg), image-set(url(../img/conferencia.avif), url(../img/conferencia.webp));
+		background-position: 50% 30%;
+	}
+
+	&__grid {
+		@include m.contenedor;
+		@include m.grid(1, 5rem);
+		@include m.tablet {
+			@include m.grid(2, 5rem);
+		};
+	}
+
+	&__texto {
+
+		font-weight: v.$black;
+		line-height: 1;
+		font-size: 2.4rem;
+		text-transform: uppercase;
+		margin: 0;
+		color: v.$blanco;
+
+		&--numero{
+			@extend .resumen__texto;
+			font-size: 8rem;
+		}
+	}
+
+	&__bloque { 
+		text-align: center;
+	}
+}

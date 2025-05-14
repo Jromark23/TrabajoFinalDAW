@@ -3,7 +3,7 @@
 
 .header {
 
-	min-height: 60rem;
+	min-height: 40rem;
 	
 	// Hay que poner la relativa desde public/build/css que es donde compila
 	background-image: url(../img/grafico.svg), url(../img/grafico.svg), 
@@ -11,7 +11,7 @@
 	url(../img/header2.avif), image-set(url(../img/header2.avif), url(../img/header2.webp));
 
 	background-repeat: no-repeat;
-	background-size: 400px, 400px, cover, cover;
+	background-size: 200px, 200px, cover, cover;
 	background-position: top left, bottom right, center, center;
 
 	&__contenedor {
@@ -30,25 +30,23 @@
 	}
 
 	&__enlace {
-		color: v.$blanco;
-		font-size: 1.4rem;
-		text-transform: uppercase;
-		font-weight: v.$bold;
+		@include m.enlace;
+	}
 
-		&:hover {
-			color: v.$azul;
-		}
+	&__form {
+		display: flex
+	}
+
+	&__submit {
+		@include m.enlace;
 	}
 
 	&__contenido {
-		padding-top: 10rem;
+		padding-top: 3rem;
 
-		@include m.tablet {
-			padding-top: 5rem;
-		}
 	}
 	&__logo {
-		@include m.texto-fluido(1rem, 8rem);
+		@include m.texto-fluido(1rem, 6rem);
 		@include m.texto-degradado(v.$azul, v.$secundario);
 		text-align: center;
 		
