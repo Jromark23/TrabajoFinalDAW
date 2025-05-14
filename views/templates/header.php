@@ -5,7 +5,7 @@
 			<?php if (is_user()) { ?>
 				<?php if (is_admin()) { 
 					//Solo mostrara si el usuario tb es admin?>
-					<a href="/registro" class="header__enlace">Administrar</a>
+					<a href="/admin/dashboard" class="header__enlace">Administrar</a>
 				<?php } ?>
 				<form action="/logout" class="header__form" method="POST">
 					<input type="submit" class="header__submit" value="Cerrar sesión">

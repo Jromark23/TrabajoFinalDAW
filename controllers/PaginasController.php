@@ -12,7 +12,7 @@ use Model\Evento;
 
 class PaginasController
 {
-	//
+	// Landing de la web 
 	public static function index(Router $router)
 	{
 		$eventos = Evento::whereOrden('hora_id', 'ASC');
@@ -41,17 +41,27 @@ class PaginasController
 		}
 
 		// Obtener los totales para mostrar en directo en el inicio 
-		$ponentes = Ponente::count();
-		$ponentes = Ponente::count();
-		$ponentes = Ponente::count();
-		$ponentes = Ponente::count();
+		$ponentes_total = Ponente::count();
+		$conferencias_total = Evento::count('categoria_id', 1);
+		$talleres_total = Evento::count('categoria_id', 2);
+		
+		
+		// Obtener todos los ponentes
+		$ponentes = Ponente::all();
+
+		
 
 		$router->renderizar(('paginas/index'), [
 			'titulo' => 'Inicio',
-			'eventos' => $eventos_formateados
+			'eventos' => $eventos_formateados,
+			'ponentes_total' => $ponentes_total,
+			'conferencias_total' => $conferencias_total,
+			'talleres_total' => $talleres_total,
+			'ponentes' => $ponentes
 		]);
 	}
 
+	// Sobre nosotros y el evento
 	public static function nosotros(Router $router)
 	{
 		$router->renderizar(('paginas/nosotros'), [
@@ -59,6 +69,7 @@ class PaginasController
 		]);
 	}
 
+	// Pagina para los tipos de entradas
 	public static function entradas(Router $router)
 	{
 		$router->renderizar(('paginas/entradas'), [
@@ -66,6 +77,7 @@ class PaginasController
 		]);
 	}
 
+	// Pagina de informacion con los eventos
 	public static function eventos(Router $router)
 	{
 		$eventos = Evento::whereOrden('hora_id', 'ASC');

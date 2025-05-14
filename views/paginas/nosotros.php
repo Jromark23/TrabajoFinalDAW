@@ -5,7 +5,7 @@
 	</p>
 
 	<div class="nosotros__grid">
-		<div class="nosotros__imagen">
+		<div <?= animacion_aos(); ?> class="nosotros__imagen">
 			<picture>
 				<source srcset="build/img/conferencia.avif">
 				<source srcset="build/img/conferencia.webp">
@@ -14,11 +14,11 @@
 		</div>
 
 		<div class="nosotros__contenido">
-			<p class="nosotros__texto">
+			<p <?= animacion_aos(); ?> class="nosotros__texto">
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis possimus fugit inventore molestias et animi, voluptatum ab nemo amet? Laudantium totam expedita omnis repudiandae optio nisi quo, sapiente neque voluptatem.
 			</p>
 
-			<p class="nosotros__texto">
+			<p <?= animacion_aos(); ?> class="nosotros__texto">
 				Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit quod labore, eaque, tenetur aperiam commodi voluptas ullam rem alias molestias repudiandae expedita incidunt blanditiis est necessitatibus neque laboriosam? Quisquam, deleniti.
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione cupiditate tenetur ipsa, unde quam neque fugit. Maxime autem voluptates incidunt libero placeat modi quasi numquam. Tempore dolorem illo eum deleniti.
 			</p>

@@ -1,0 +1,17 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.mapa {
+	height: 45rem;
+	margin-top: 5rem;
+
+	&__h{
+		margin: 0;
+		text-align: left;
+	}
+	
+	&__p{
+		font-size: 1.8rem;
+		margin: 0;
+	}
+}
