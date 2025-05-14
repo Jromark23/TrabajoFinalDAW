@@ -258,10 +258,14 @@ class ActiveRecord
 		return $resultado;
 	}
 
-	// Total registros
-	public static function count()
+	// Total registros con posibilidad de filtrar
+	public static function count($columna = '', $valor = '')
 	{
 		$query = "SELECT COUNT(*) as total FROM " . static::$tabla;
+
+		if($columna) {
+			$query .= " WHERE $columna = $valor";
+		}
 		$resultado = self::$db->query($query);
 		$fila = $resultado->fetch_assoc();
 		return $fila['total'] ?? 0;
