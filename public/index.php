@@ -12,6 +12,7 @@ use Controllers\RegalosController;
 use Controllers\APIeventos;
 use Controllers\APIponentes;
 use Controllers\PaginasController;
+use Controllers\RegistroController;
 
 $router = new Router();
 
@@ -66,13 +67,18 @@ $router->get('/admin/usuarios', [UsuariosController::class, 'index']);
 
 $router->get('/admin/regalos', [RegalosController::class, 'index']);
 
-
-
 // Zona frontend
 $router->get('/', [PaginasController::class, 'index']);
 $router->get('/nosotros', [PaginasController::class, 'nosotros']);
 $router->get('/entradas', [PaginasController::class, 'entradas']);
 $router->get('/eventos', [PaginasController::class, 'eventos']);
+$router->get('/404', [PaginasController::class, 'error']);
+
+// Registro usuarios
+$router->get('/finalizar', [RegistroController::class, 'crear']);
+$router->post('/finalizar/virtual', [RegistroController::class, 'virtual']);
+$router->post('/finalizar/presencial', [RegistroController::class, 'presencial']);
+$router->post('/finalizar/basico', [RegistroController::class, 'basico']);
 
 
 

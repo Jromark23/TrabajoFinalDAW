@@ -39,7 +39,8 @@ class Router
         if ( $callback ) {
             call_user_func($callback, $this);
         } else {
-            echo "Página no encontrada o ruta no válida";
+            //header('Location: /404');
+			exit;
         }
     }
 

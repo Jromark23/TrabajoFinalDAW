@@ -1,0 +1,14 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.error404 {
+	padding: 25rem auto;
+
+	&__contenedor {
+		text-align: center;
+	}
+
+	&__enlace {
+		color: v.$azul;
+	}
+}

@@ -44,12 +44,12 @@ class PaginasController
 		$ponentes_total = Ponente::count();
 		$conferencias_total = Evento::count('categoria_id', 1);
 		$talleres_total = Evento::count('categoria_id', 2);
-		
-		
+
+
 		// Obtener todos los ponentes
 		$ponentes = Ponente::all();
 
-		
+
 
 		$router->renderizar(('paginas/index'), [
 			'titulo' => 'Inicio',
@@ -110,6 +110,13 @@ class PaginasController
 		$router->renderizar(('paginas/eventos'), [
 			'titulo' => 'Conferencias & talleres',
 			'eventos' => $eventos_formateados
+		]);
+	}
+
+	public static function error(Router $router)
+	{
+		$router->renderizar(('paginas/error'), [
+			'titulo' => 'Página no encontrada'
 		]);
 	}
 }
