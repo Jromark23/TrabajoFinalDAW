@@ -16,10 +16,7 @@
 			</ul>
 
 			<p class="entrada__precio">50€</p>
-
-			<form action="/finalizar/virtual" method="post">
-				<input class="entradas__submit" type="submit" value="Inscripcion virtual">
-			</form>
+			<div id="paypal-button-container-virtual"></div>
 		</div>
 
 		<div class="entrada">
@@ -34,9 +31,10 @@
 			</ul>
 
 			<p class="entrada__precio">120€</p>
-			<form action="/finalizar/presencial" method="post">
-				<input class="entradas__submit" type="submit" value="Inscripcion presencial">
-			</form>
+			<div id="paypal-button-container-presencial"></div>
+
+
+
 		</div>
 
 		<div class="entrada">
@@ -46,10 +44,55 @@
 			</ul>
 
 			<p class="entrada__precio">0€</p>
-			<form action="/finalizar/basico" method="post">
-				<input class="entradas__submit" type="submit" value="Inscripcion básica">
-			</form>
 		</div>
 
 	</div>
+
+	<script>
+		paypal.Buttons({
+			createOrder: function(data, actions) {
+				return actions.order.create({
+					purchase_units: [{
+						description: "Acceso presencial",
+						amount: {
+							currency_code: "EUR",
+							value: "120.00"
+						}
+					}]
+				});
+			},
+			onApprove: function(data, actions) {
+				return actions.order.capture().then(function(details) {
+					alert('Pago completado por ' + details.payer.name.given_name);
+				});
+			},
+			onError: function(err) {
+				console.error(err);
+				alert('Error al procesar el pago.');
+			}
+		}).render('#paypal-button-container-presencial');
+
+		paypal.Buttons({
+			createOrder: function(data, actions) {
+				return actions.order.create({
+					purchase_units: [{
+						description: "Acceso virtual",
+						amount: {
+							currency_code: "EUR",
+							value: "50.00"
+						}
+					}]
+				});
+			},
+			onApprove: function(data, actions) {
+				return actions.order.capture().then(function(details) {
+					alert('Pago completado por ' + details.payer.name.given_name);
+				});
+			},
+			onError: function(err) {
+				console.error(err);
+				alert('Error al procesar el pago.');
+			}
+		}).render('#paypal-button-container-virtual');
+	</script>
 </main>

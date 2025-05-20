@@ -148,4 +148,38 @@ class RegistroController
 			'registro' => $registro
 		]);
 	}
+
+		public static function pagar(Router $router)
+	{
+
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			if (!is_user()) {
+				header('Location: /login');
+				exit;
+			}
+		}
+
+		// validar que no viene vacio post 
+		if(empty($_POST)) {
+			echo json_encode([]);
+			return;
+		}
+
+		// si viene, crear el registro en la base 
+
+		$token = substr(md5(uniqid(rand(), true)), 0, 8);
+
+		$datos = [$_POST];
+
+		debuguear($datos);
+
+		$registro = new Registro($datos);
+		$resultado = $registro->guardar();
+
+		if ($resultado) {
+			// urlencode evita caracteres especiales
+			header('Location: /entrada?id=' . urlencode($registro->token));
+			exit;
+		}
+	}
 }

@@ -11,15 +11,14 @@
 	background-image:  url('/build/img/codigoBarras.avif'), 
 		image-set(url('/build/img/codigoBarras.avif'), url('/build/img/codigoBarras.webp'));
 	background-repeat: no-repeat;
-	background-position: right;
-	//background-position: center bottom -4rem;
-	//background-size: 80% auto;
+	background-position: center bottom -4rem;
+	background-size: 80% auto;
 
-	// @include m.tablet {
-	// 	width: 60rem;
-	// 	height: 30rem;
-	// 	background-position: right bottom 4rem;
-	// }
+	@include m.tablet {
+		width: 60rem;
+		height: 30rem;
+		background-position: right bottom 4rem;
+	}
 
 
 	&--presencial{
@@ -32,47 +31,45 @@
 		background-color: lighten(v.$gris-oscuro, 20);
 	}
 
-	&__logo {
-		@include m.logo;
-		@include m.texto-fluido(2rem, 4rem);
+	// &__logo {
+	// 	@include m.logo;
+	// 	@include m.texto-fluido(2rem, 4rem);
+	// }
+
+	// &__plan, &__nombre {
+	// 	font-size: 2rem;
+	// 	font-weight: v.$regular;
+	// }
+
+	// &__codigo {
+	// 	font-size: 3rem;
+	// 	font-weight: v.$semibold;
+	// }
+
+	&--acceso {
+		width: 30rem;
+		height: 50rem;
+		padding: 6rem 3rem;
+	@include m.tablet {
+		width: 60rem;
+		height: 30rem;
+		//background-position: right bottom 4rem;
 	}
+		.ticket__logo {
+			@include m.texto-fluido(2rem, 3rem);
+		}
 
-	&__plan, &__nombre {
-		font-size: 2rem;
-		font-weight: v.$regular;
-	}
+		.ticket__codigo {
+			font-size: 4rem;
+			text-align: center;
+			font-weight: v.$bold;
+		}
 
-	&__codigo {
-		font-size: 3rem;
-		font-weight: v.$semibold;
-	}
-
-	//&--acceso {
-		// width: 30rem;
-		// height: 50rem;
-		// padding: 6rem 3rem;
-
-		// @include m.tablet {
-		// 	width: 60rem;
-		// 	height: 30rem;
-		// 	//background-position: right bottom 4rem;
-		// }
-
-		// .ticket__logo {
-		// 	@include m.texto-fluido(2rem, 3rem);
-		// }
-
-		// .ticket__codigo {
-		// 	font-size: 4rem;
-		// 	text-align: center;
-		// 	font-weight: v.$bold;
-		// }
-
-		// .ticket__nombre {
-		// 	text-transform: capitalize;
-		// 	font-size: 2.4rem;
-		// 	font-weight: v.$black;
-		// }
+		.ticket__nombre {
+			text-transform: capitalize;
+			font-size: 2.4rem;
+			font-weight: v.$black;
+		}
 	}
 
 }

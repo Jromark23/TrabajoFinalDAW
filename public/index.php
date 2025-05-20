@@ -81,6 +81,8 @@ $router->post('/finalizar/basico', [RegistroController::class, 'basico']);
 $router->post('/finalizar/virtual', [RegistroController::class, 'virtual']);
 $router->post('/finalizar/presencial', [RegistroController::class, 'presencial']);
 
+$router->post('/finalizar/pagar', [RegistroController::class, 'pagar']);
+
 
 
 
