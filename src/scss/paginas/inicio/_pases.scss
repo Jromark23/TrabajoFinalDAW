@@ -21,6 +21,7 @@
 		image-set(url('/build/img/codigoBarras.avif'), url('/build/img/codigoBarras.webp'));
 	background-repeat: no-repeat;
 	background-position: right top;
+	//background-size: 50% ;
 
 
 	&--presencial{
@@ -29,7 +30,7 @@
 	&--virtual{
 		background-color: v.$secundario;
 	}
-	&--gratis{
+	&--básico{
 		background-color: lighten(v.$gris-oscuro, 20);
 	}
 

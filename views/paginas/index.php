@@ -124,7 +124,7 @@
 			<p class="pase__precio">50€</p>
 		</div>
 
-		<div <?= animacion_aos(); ?> class="pase pase--gratis">
+		<div <?= animacion_aos(); ?> class="pase pase--básico">
 			<h4 class="pase__logo">&#60ProyectoFinal /></h4>
 			<p class="pase__tipo">Básico</p>
 			<p class="pase__precio">0€</p>
