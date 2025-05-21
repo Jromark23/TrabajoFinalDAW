@@ -1,9 +1,9 @@
 <main class="registro">
 	<h2 class="registro__heading">
 		<?= $titulo; ?>
-		<p class="registro__descripcion"> Elige el tipo de entrada </p>
-
 	</h2>
+	<p class="registro__descripcion"> Elige el tipo de entrada </p>
+
 
 	<div class="entradas__grid">
 		<div class="entrada">
@@ -44,55 +44,77 @@
 			</ul>
 
 			<p class="entrada__precio">0€</p>
+			<form action="/finalizar/basico" method="post">
+				<input class="entradas__submit" type="submit" value="Inscripcion básica">
+			</form>
 		</div>
 
 	</div>
 
-	<script>
-		paypal.Buttons({
-			createOrder: function(data, actions) {
-				return actions.order.create({
-					purchase_units: [{
-						description: "Acceso presencial",
-						amount: {
-							currency_code: "EUR",
-							value: "120.00"
-						}
-					}]
-				});
-			},
-			onApprove: function(data, actions) {
-				return actions.order.capture().then(function(details) {
-					alert('Pago completado por ' + details.payer.name.given_name);
-				});
-			},
-			onError: function(err) {
-				console.error(err);
-				alert('Error al procesar el pago.');
-			}
-		}).render('#paypal-button-container-presencial');
-
-		paypal.Buttons({
-			createOrder: function(data, actions) {
-				return actions.order.create({
-					purchase_units: [{
-						description: "Acceso virtual",
-						amount: {
-							currency_code: "EUR",
-							value: "50.00"
-						}
-					}]
-				});
-			},
-			onApprove: function(data, actions) {
-				return actions.order.capture().then(function(details) {
-					alert('Pago completado por ' + details.payer.name.given_name);
-				});
-			},
-			onError: function(err) {
-				console.error(err);
-				alert('Error al procesar el pago.');
-			}
-		}).render('#paypal-button-container-virtual');
-	</script>
 </main>
+
+<script>
+	paypal.Buttons({
+		createOrder: function(data, actions) {
+			return actions.order.create({
+				purchase_units: [{
+					description: "1",
+					amount: {
+						currency_code: "EUR",
+						value: "120.00"
+					}
+				}]
+			});
+		},
+		onApprove: function(data, actions) {
+			return actions.order.capture().then(function(details) {
+				const datos = new FormData();
+				// Recogemos el array que nos devuelve, y cogemos descripcion y el pago_id
+				datos.append('paquete_id', details.purchase_units[0].description);
+				datos.append('pago_id', details.purchase_units[0].payments.captures[0].id);
+
+				//Mandamos al back por post
+				fetch('/finalizar/pagar', {
+						method: 'POST',
+						body: datos
+					})
+					.then(respuesta => respuesta.json())
+					.then(resultado => {
+						if (resultado.resultado) {
+							actions.redirect('http://localhost:3000/finalizar/conferencias');
+						}
+					})
+
+
+
+			});
+		},
+		onError: function(err) {
+			console.error(err);
+			alert('Error al procesar el pago.');
+		}
+	}).render('#paypal-button-container-presencial');
+
+	paypal.Buttons({
+		createOrder: function(data, actions) {
+			return actions.order.create({
+				purchase_units: [{
+					description: "2",
+					amount: {
+						currency_code: "EUR",
+						value: "50.00"
+					}
+				}]
+			});
+		},
+		onApprove: function(data, actions) {
+			return actions.order.capture().then(function(details) {
+
+			});
+		},
+		onError: function(err) {
+			console.error(err);
+			alert('Error al procesar el pago.');
+		}
+	}).render('#paypal-button-container-virtual');
+</script>

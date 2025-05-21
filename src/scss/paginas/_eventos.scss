@@ -42,6 +42,7 @@
 
 .evento {
 
+	
 	&__hora {
 		font-weight: v.$bold;
 	}
@@ -52,7 +53,7 @@
 		background-color: v.$azul;
 		color: v.$blanco;
 		transition: 300ms background-color ease;
-
+		
 		&:hover {
 			background-color: darken(v.$azul, 10%);
 		}
@@ -70,6 +71,12 @@
 	&__nombre {
 		font-size: 2.4rem;
 		margin: 0;
+		//height: 6rem; // ver si podemos hacer de otra manera pàra que mantenga la misma altura la card 
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		overflow: hidden;
 	}
 
 	&__ponente {
@@ -105,6 +112,16 @@
 		@include m.tablet {
 			-webkit-line-clamp: 2;
 			line-clamp: 2;
+		}
+	}
+
+	&__boton {
+		@include m.boton(v.$blanco, v.$negro);
+		margin-top: 1rem;
+
+		&:disabled {
+			opacity: .5;
+			cursor: not-allowed;
 		}
 	}
 }

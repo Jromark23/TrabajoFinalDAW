@@ -1,0 +1,96 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.eventos-registro {
+	@include m.contenedor;
+
+	@include m.tablet {
+		display: flex;
+		gap: 2rem;
+		align-items: flex-start; // necesario para el sticky de registro 
+	}
+
+
+	&__listado{
+
+		@include m.tablet {
+			flex: 0 0 60%;
+			// width: 60%;
+		}
+	}
+
+	&__grid {
+
+		@include m.grid(1, 3rem);
+		@include m.tablet {
+			@include m.grid(2, 3rem);
+		}
+		// @include m.desktop {
+		// 	@include m.grid(3, 5rem);
+		// }
+	}
+
+	&__heading {
+
+		&--conferencias {
+			color: v.$azul;
+			//white-space: nowrap;
+			@include m.texto-fluido(2rem, 6rem);
+		}
+
+		&--talleres {
+			color: v.$secundario;
+			@include m.texto-fluido(2rem, 6rem);
+			margin-top: 5rem;
+		}
+	}
+}
+
+.registro {
+
+	background-color: v.$gris-claro;
+	padding: 3rem;
+	border-radius: 1rem;
+
+	@include m.tablet {
+			flex: 0 0 40%;
+			// width: 40%;
+			position: sticky;
+			top: 3rem;
+		}
+
+	&__fecha {
+		margin: 3rem 0;
+	}
+
+	&__heading {
+		margin: 0 0 3rem 0;
+	}
+
+	&__nombre {
+		font-size: 2rem;
+		font-weight: v.$bold;
+		margin: 0;
+	}
+
+
+	&__evento {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem;
+
+		&:nth-child(even) {
+			background-color: darken(v.$gris-claro, 3);
+		}
+	}
+	&__eliminar {
+		all: unset; // eliminar estilos por defecto
+		color: v.$rojo;
+
+		&:hover {
+			cursor: pointer;
+		}
+
+	}
+}

@@ -6,7 +6,11 @@ use Model\Paquete;
 use Model\Usuario;
 use Model\Registro;
 use MVC\Router;
-use Intervention\Image\ImageManagerStatic as Image;
+use Model\Categoria;
+use Model\Dia;
+use Model\Hora;
+use Model\Ponente;
+use Model\Evento;
 
 class RegistroController
 {
@@ -24,7 +28,7 @@ class RegistroController
 		//debuguear($registro);
 
 		// Si ya esta registrado en este tipo, le mostramos su entrada para 
-		if(isset($registro) && $registro->paquete_id === '3') {
+		if (isset($registro) && $registro->paquete_id === '3') {
 			// urlencode evita caracteres especiales
 			header('Location: /entrada?id=' . urlencode($registro->token));
 			exit;
@@ -127,7 +131,7 @@ class RegistroController
 		//debuguear($id);
 
 		if (!$id || strlen($id) !== 8) {
-			header('Location: /5555555555');
+			header('Location: /');
 			exit;
 		}
 
@@ -149,7 +153,7 @@ class RegistroController
 		]);
 	}
 
-		public static function pagar(Router $router)
+	public static function pagar(Router $router)
 	{
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -158,28 +162,81 @@ class RegistroController
 				exit;
 			}
 		}
-
+		//debuguear($_POST);
 		// validar que no viene vacio post 
-		if(empty($_POST)) {
+		if (empty($_POST)) {
 			echo json_encode([]);
 			return;
 		}
 
-		// si viene, crear el registro en la base 
+		//debuguear("aqui estoy");
 
-		$token = substr(md5(uniqid(rand(), true)), 0, 8);
+		// Guardamos la respuesta de paypal
+		$datos = $_POST;
+		$datos['token'] = substr(md5(uniqid(rand(), true)), 0, 8);
+		$datos['usuario_id'] = $_SESSION['id'];
 
-		$datos = [$_POST];
+		//debuguear($datos);
+		try {
+			// si viene, crear el registro en la bbdd
+			$registro = new Registro($datos);
+			$resultado = $registro->guardar();
 
-		debuguear($datos);
+			echo json_encode([
+				'resultado' => $resultado
+			]);
+		} catch (\Throwable $th) {
+			echo json_encode([
+				'resultado' => 'error'
+			]);
+		}
+	}
 
-		$registro = new Registro($datos);
-		$resultado = $registro->guardar();
-
-		if ($resultado) {
-			// urlencode evita caracteres especiales
-			header('Location: /entrada?id=' . urlencode($registro->token));
+	public static function conferencias(Router $router)
+	{
+		
+		if (!is_user()) {
+			header('Location: /login');
 			exit;
 		}
+
+		// Comprobar que tiene entrada presencial 
+		$usuario_id = $_SESSION['id'];
+		$registro = Registro::where('usuario_id', $usuario_id);
+
+		if ($registro->paquete_id !== "1") {
+			header('Location: /');
+			exit;
+		}
+
+		$eventos = Evento::whereOrden('hora_id', 'ASC');
+
+		$eventos_formateados = [];
+
+		foreach ($eventos as $evento) {
+
+			$evento->categoria = Categoria::find($evento->categoria_id);
+			$evento->dia = Dia::find($evento->dia_id);
+			$evento->hora = Hora::find($evento->hora_id);
+			$evento->ponente = Ponente::find($evento->ponente_id);
+
+			if ($evento->dia_id === '1' && $evento->categoria_id === '1') {
+				$eventos_formateados['conferencia_v'][] = $evento;
+			}
+			if ($evento->dia_id === '2' && $evento->categoria_id === '1') {
+				$eventos_formateados['conferencia_s'][] = $evento;
+			}
+			if ($evento->dia_id === '1' && $evento->categoria_id === '2') {
+				$eventos_formateados['taller_v'][] = $evento;
+			}
+			if ($evento->dia_id === '2' && $evento->categoria_id === '2') {
+				$eventos_formateados['taller_s'][] = $evento;
+			}
+		}
+
+		$router->renderizar('registro/conferencias', [
+			'titulo' => 'Elija las 5 conferencias a las que quiere asistir',
+			'eventos' => $eventos_formateados
+		]);
 	}
 }

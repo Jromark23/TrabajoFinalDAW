@@ -50,7 +50,7 @@ class AuthController
 							header('Location: /admin/dashboard');
 							exit;
 						} else {
-							header('Location: /finalizar-registro');
+							header('Location: /finalizar');
 							exit;
 						}
 					} else {
