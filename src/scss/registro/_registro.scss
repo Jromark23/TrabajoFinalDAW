@@ -58,13 +58,17 @@
 			position: sticky;
 			top: 3rem;
 		}
+	
+	&__descripcion {
+		text-align: center;
+	}
 
 	&__fecha {
 		margin: 3rem 0;
 	}
 
 	&__heading {
-		margin: 0 0 3rem 0;
+		margin: 0 0 1rem 0;
 	}
 
 	&__nombre {
@@ -91,6 +95,24 @@
 		&:hover {
 			cursor: pointer;
 		}
+	}
 
+	&__regalo{	
+		margin-top: 5rem;
+	}
+
+	&__label{
+		display: block;
+		font-size: 2.2rem;
+		font-weight: v.$bold;
+		margin-bottom: 1rem;
+	}
+
+	&__select{
+		width: 100%;
+		background-color: v.$blanco;
+		border: 1px solid v.$gris;
+		border-radius: 1rem;
+		padding: 1rem;
 	}
 }

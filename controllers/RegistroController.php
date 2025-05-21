@@ -10,6 +10,7 @@ use Model\Categoria;
 use Model\Dia;
 use Model\Hora;
 use Model\Ponente;
+use Model\Regalo;
 use Model\Evento;
 
 class RegistroController
@@ -234,9 +235,12 @@ class RegistroController
 			}
 		}
 
+		$regalos = Regalo::all('ASC');
+
 		$router->renderizar('registro/conferencias', [
 			'titulo' => 'Elija las 5 conferencias a las que quiere asistir',
-			'eventos' => $eventos_formateados
+			'eventos' => $eventos_formateados,
+			'regalos' => $regalos
 		]);
 	}
 }

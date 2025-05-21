@@ -43,11 +43,27 @@
 		<h2 class="registro__heading">
 			Eventos seleccionados
 		</h2>
-		<p>Seleccione hasta 5 eventos</p>
+		<p class="registro__descripcion">Seleccione hasta 5 eventos</p>
 
-		<div id="registro-carro" class="registro__carro">
+		<div id="registro-carro" class="registro__carro"></div>
 
+		<div class="registro__regalo">
+			<label for="regalo" class="registro__label">Elige tu regalo</label>
+			<select id="regalo" class="registro__select">
+				<option value="">Selecciona tu regalo</option>
+				<?php foreach($regalos as $regalo) { ?>
+				
+					<option value="<?= $regalo->id; ?>"><?= $regalo->nombre; ?></option>
+				<?php } ?>
+			</select>
 		</div>
+
+		<form action="" id="registro" class="formulario">
+			<div class="formulario__campo">
+				<input type="submit" class="formulario__submit formulario__submit--entero" value="Registrarme">
+			</div>
+		</form>
+
 	</aside>
 
 </div>
