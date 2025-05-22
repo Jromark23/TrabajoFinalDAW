@@ -13,6 +13,12 @@ class DashboardController {
 			exit;
 		}
 		
+		// Ver los ultimos registrados 
+		
+
+
+
+
 		$router-> renderizar('admin/dashboard/index', [
 			'titulo' => 'Panel de administación'
 		]);

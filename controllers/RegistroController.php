@@ -30,7 +30,7 @@ class RegistroController
 		//debuguear($registro);
 
 		// Si ya esta registrado con el paquete basico, le mostramos su entrada para 
-		if (isset($registro) && $registro->paquete_id === '3') {
+		if (isset($registro) && ($registro->paquete_id === '3' || $registro->paquete_id === '2')) {
 			// urlencode evita caracteres especiales
 			header('Location: /entrada?id=' . urlencode($registro->token));
 			exit;
