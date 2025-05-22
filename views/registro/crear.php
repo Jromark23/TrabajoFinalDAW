@@ -54,6 +54,7 @@
 </main>
 
 <script>
+	// Boton de presencial 
 	paypal.Buttons({
 		createOrder: function(data, actions) {
 			return actions.order.create({
@@ -69,7 +70,7 @@
 		onApprove: function(data, actions) {
 			return actions.order.capture().then(function(details) {
 				const datos = new FormData();
-				// Recogemos el array que nos devuelve, y cogemos descripcion y el pago_id
+				// Recogemos el array que nos devuelve paypal con la informacion y cogemos descripcion y el pago_id
 				datos.append('paquete_id', details.purchase_units[0].description);
 				datos.append('pago_id', details.purchase_units[0].payments.captures[0].id);
 
@@ -84,9 +85,6 @@
 							actions.redirect('http://localhost:3000/finalizar/conferencias');
 						}
 					})
-
-
-
 			});
 		},
 		onError: function(err) {
@@ -94,6 +92,7 @@
 			alert('Error al procesar el pago.');
 		}
 	}).render('#paypal-button-container-presencial');
+
 
 	paypal.Buttons({
 		createOrder: function(data, actions) {
@@ -109,7 +108,21 @@
 		},
 		onApprove: function(data, actions) {
 			return actions.order.capture().then(function(details) {
+				const datos = new FormData();
+				datos.append('paquete_id', details.purchase_units[0].description);
+				datos.append('pago_id', details.purchase_units[0].payments.captures[0].id);
 
+				//Mandamos al back por post
+				fetch('/finalizar/pagar', {
+						method: 'POST',
+						body: datos
+					})
+					.then(respuesta => respuesta.json())
+					.then(resultado => {
+						if (resultado.resultado) {
+							actions.redirect('http://localhost:3000/finalizar/conferencias');
+						}
+					})
 			});
 		},
 		onError: function(err) {

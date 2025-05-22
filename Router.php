@@ -39,7 +39,7 @@ class Router
         if ( $callback ) {
             call_user_func($callback, $this);
         } else {
-            //header('Location: /404');
+            header('Location: /404');
 			exit;
         }
     }

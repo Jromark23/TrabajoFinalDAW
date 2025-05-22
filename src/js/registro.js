@@ -27,7 +27,7 @@ import Swal from 'sweetalert2';
 				// Deshabilitar el evento al seleccionarlo y colocarlo en el carrito
 				e.target.disabled = true;
 
-				console.log(eventos);
+				//console.log(eventos);
 
 				mostrarEventos();
 			} else {
@@ -44,8 +44,11 @@ import Swal from 'sweetalert2';
 		function mostrarEventos() {
 
 			carrito.innerHTML = '';
+			document.querySelector("#carroVacio").style.display = 'block';
 
 			if (eventos.length > 0) {
+				document.querySelector("#carroVacio").style.display = 'none';
+
 				eventos.forEach(evento => {
 					const aniadirEvento = document.createElement('DIV');
 					aniadirEvento.classList.add('registro__evento');
@@ -65,6 +68,12 @@ import Swal from 'sweetalert2';
 					aniadirEvento.appendChild(eliminarBtn);
 					carrito.appendChild(aniadirEvento);
 				})
+			} else {
+				//document.querySelector("#carroVacio").style.display = 'block';
+				// const errorRegistro = document.createElement("P");
+				// errorRegistro.textContent = "No hay eventos, añade hasta 5";
+				// errorRegistro.classList.add("registro__texto");
+				// carrito.appendChild(errorRegistro);
 			}
 		}
 
@@ -78,12 +87,75 @@ import Swal from 'sweetalert2';
 			mostrarEventos();
 		}
 
-		function enviarFormulario(e) {
+		async function enviarFormulario(e) {
 			e.preventDefault();
 
+			// Obtenemos el ID del regalo y los eventos seleccionados 
+			const regaloId = document.querySelector("#regalo").value;
+			const eventosId = eventos.map(evento => evento.id);
 
-			console.log("submit");
+			if (eventosId.length === 0 || regaloId === "") {
+				Swal.fire({
+					title: 'Error',
+					text: "Debe seleccionar al menos un evento y un regalo.",
+					icon: 'error',
+					confirmButtonText: 'Aceptar'
+				});
+				return;
+			}
+
+			// Preparamos los datos a enviar con un objeto FormData
+			const datos = new FormData();
+			datos.append('eventos', eventosId);
+			datos.append('regalo_id', regaloId);
+
+			console.log("log1");
+			try {
+				console.log("log2");
+				const url = '/finalizar/conferencias';
+				const respuesta = await fetch(url, {
+					method: 'POST',
+					body: datos
+				});
+
+				console.log("log3");
+				if (!respuesta.ok) throw new Error("Error en la solicitud");
+				console.log("log4");
+
+				const resultado = await respuesta.json();
+				//console.log(resultado);
+
+				console.log("log5");
+				if (resultado.resultado) {
+
+					// Mensjae de OK
+					Swal.fire({
+						title: '¡Completado!',
+						text: "Formulario enviado correctamente.",
+						icon: 'success',
+						confirmButtonText: 'Aceptar'
+					}).then(() => location.href = `/entrada?id=${resultado.token}`);
+				} else {
+					Swal.fire({
+						title: 'Error',
+						text: "Hubo un problema con la compra, revisa si aún quedan entradas.",
+						icon: 'error',
+						confirmButtonText: 'Aceptar'
+					}).then(() => location.reload());
+				}
+			} catch (error) {
+
+				console.error(error);
+
+				Swal.fire({
+					title: 'Error',
+					text: "Hubo un problema al enviar el formulario.",
+					icon: 'error',
+					confirmButtonText: 'Aceptar'
+				});
+			}
 		}
+
 
 
 	}

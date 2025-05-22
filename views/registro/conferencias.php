@@ -41,9 +41,9 @@
 
 	<aside class="registro">
 		<h2 class="registro__heading">
-			Eventos seleccionados
+			Eventos
 		</h2>
-		<p class="registro__descripcion">Seleccione hasta 5 eventos</p>
+		<p id="carroVacio" class="registro__descripcion">No hay eventos seleccionados, seleccione hasta 5 eventos</p>
 
 		<div id="registro-carro" class="registro__carro"></div>
 

@@ -83,6 +83,7 @@ $router->post('/finalizar/presencial', [RegistroController::class, 'presencial']
 
 $router->post('/finalizar/pagar', [RegistroController::class, 'pagar']);
 $router->get('/finalizar/conferencias', [RegistroController::class, 'conferencias']);
+$router->post('/finalizar/conferencias', [RegistroController::class, 'conferencias']);
 
 
 

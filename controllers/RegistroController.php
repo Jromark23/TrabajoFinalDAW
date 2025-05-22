@@ -12,6 +12,7 @@ use Model\Hora;
 use Model\Ponente;
 use Model\Regalo;
 use Model\Evento;
+use Model\EventosRegistros;
 
 class RegistroController
 {
@@ -28,14 +29,18 @@ class RegistroController
 
 		//debuguear($registro);
 
-		// Si ya esta registrado en este tipo, le mostramos su entrada para 
+		// Si ya esta registrado con el paquete basico, le mostramos su entrada para 
 		if (isset($registro) && $registro->paquete_id === '3') {
 			// urlencode evita caracteres especiales
 			header('Location: /entrada?id=' . urlencode($registro->token));
 			exit;
 		}
 
-
+		// Si esta registrado y tiene el paquete presencial lo mandamos a elegir las conferencias 
+		if (isset($registro) && $registro->paquete_id === '1') {
+			header('Location: /finalizar/conferencias');
+			exit;
+		}
 
 		$router->renderizar('registro/crear', [
 			'titulo' => 'Completar registro'
@@ -195,7 +200,6 @@ class RegistroController
 
 	public static function conferencias(Router $router)
 	{
-		
 		if (!is_user()) {
 			header('Location: /login');
 			exit;
@@ -205,10 +209,25 @@ class RegistroController
 		$usuario_id = $_SESSION['id'];
 		$registro = Registro::where('usuario_id', $usuario_id);
 
+		// Si ya existe el registro y su paquete es virtual le mandamos a su entrada
+		if (isset($registro) && $registro->paquete_id === '2') {
+			header('Location: /entrada?id=' . urlencode($registro->token));
+			exit;
+		}
+
+		// Si el paquete no es presencial, le mandamos a inicio
 		if ($registro->paquete_id !== "1") {
 			header('Location: /');
 			exit;
 		}
+
+		// Si ya tiene el registro, redirigir a la entrada
+
+		if (isset($registro->regalo_id) && $registro->paquete_id === "1") {
+			header('Location: /entrada?id=' . urlencode($registro->token));
+			exit;
+		}
+
 
 		$eventos = Evento::whereOrden('hora_id', 'ASC');
 
@@ -236,6 +255,72 @@ class RegistroController
 		}
 
 		$regalos = Regalo::all('ASC');
+
+		// Registro
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			if (!is_user()) {
+				header('Location: /login');
+				exit;
+			}
+
+			$eventos = explode(',', $_POST['eventos']);
+			if (empty($eventos)) {
+				echo json_encode(['resultado' => false]);
+				return;
+			}
+
+			// Obtener el usuario
+			$usuario = Registro::where('usuario_id', $_SESSION['id']);
+			// Si no existe el usuario, o el usuario no tiene comprado presencial, lo echamos
+			if (!isset($usuario) || $usuario->paquete_id !== "1") {
+				echo json_encode(['resultado' => false]);
+				return;
+			}
+
+			$eventos_aux = [];
+			// Validar que quedan entradas 
+			foreach ($eventos as $evento_id) {
+				$evento = Evento::find($evento_id);
+
+				if (!isset($evento) || $evento->disponibles === "0") {
+					echo json_encode(['resultado' => false]);
+					return;
+				}
+
+				$eventos_aux[] = $evento;
+			}
+
+			// si quedan entradas, actualizarlas
+			foreach ($eventos_aux as $evento) {
+				$evento->disponibles -= 1;
+				$evento->guardar();
+
+				// guardar el registro completo en la base de datos 
+				$datos = [
+					'evento_id' => (int)$evento->id,
+					'registro_id' => (int)$registro->id
+				];
+
+				$registro_usuario = new EventosRegistros($datos);
+				$registro_usuario->guardar();
+			}
+
+			// guardart el regalo 
+			$registro->sincronizar(['regalo_id' => $_POST['regalo_id']]);
+			$resultado = $registro->guardar();
+
+			if ($resultado) {
+				echo json_encode([
+					'resultado' => $resultado,
+					'token' => $registro->token
+				]);
+			} else {
+				echo json_encode(['resultado' => false]);
+			}
+
+			return;
+		}
+
 
 		$router->renderizar('registro/conferencias', [
 			'titulo' => 'Elija las 5 conferencias a las que quiere asistir',
