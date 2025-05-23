@@ -200,3 +200,8 @@
 		margin: 2rem 0;
 	}
 }
+
+
+@mixin bg_gradiente($color) {
+	background-image: linear-gradient(to left top, $color, lighten($color, 15%));
+}

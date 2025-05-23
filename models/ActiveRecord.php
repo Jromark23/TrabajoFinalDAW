@@ -1,6 +1,7 @@
 <?php
 //ORM
 namespace Model;
+
 /**
  * Creadas en tiempo de ejecucion, poniendolas aqui no muestra error. 
  * @property Categoria $categoria
@@ -139,17 +140,17 @@ class ActiveRecord
 	}
 
 	public static function allArray($array = [])
-{
-    $query = "SELECT ";
+	{
+		$query = "SELECT ";
 
-    // Convertimos el array en una lista separada por comas
-    $query .= implode(', ', $array);
+		// Convertimos el array en una lista separada por comas
+		$query .= implode(', ', $array);
 
-    $query .= " FROM " . static::$tabla;
+		$query .= " FROM " . static::$tabla;
 
-    $resultado = self::consultarSQL($query);
-    return $resultado;
-}
+		$resultado = self::consultarSQL($query);
+		return $resultado;
+	}
 
 
 	// Busca un registro por su id
@@ -163,9 +164,9 @@ class ActiveRecord
 	// Obtener Registros con cierta cantidad
 	public static function get($limite)
 	{
-		$query = "SELECT * FROM " . static::$tabla . " LIMIT $limite ORDER BY 1 DESC";
+		$query = "SELECT * FROM " . static::$tabla . " ORDER BY id DESC LIMIT $limite";
 		$resultado = self::consultarSQL($query);
-		return array_shift($resultado);
+		return $resultado;
 	}
 
 	// Busqueda Where con columna y valor 
@@ -184,12 +185,19 @@ class ActiveRecord
 		return $resultado;
 	}
 
-// Busqueda where con varias opciones mediante array
+	// Busqueda Where con un orden y un limite
+	public static function whereOrdenLimit($columna, $orden, $limit)
+	{
+		$query = "SELECT * FROM " . static::$tabla . " ORDER BY $columna $orden LIMIT $limit";
+		$resultado = self::consultarSQL($query);
+		return $resultado;
+	}
+	// Busqueda where con varias opciones mediante array
 	public static function whereArray($array = [])
 	{
 		$query = "SELECT * FROM " . static::$tabla . " WHERE ";
 
-		foreach($array as $clave => $valor) {
+		foreach ($array as $clave => $valor) {
 			//Detecta el ultimo elemento del array
 			if ($clave == array_key_last($array)) {
 				$query .= " $clave = '$valor'";
@@ -263,7 +271,7 @@ class ActiveRecord
 	{
 		$query = "SELECT COUNT(*) as total FROM " . static::$tabla;
 
-		if($columna) {
+		if ($columna) {
 			$query .= " WHERE $columna = $valor";
 		}
 		$resultado = self::$db->query($query);
@@ -271,8 +279,28 @@ class ActiveRecord
 		return $fila['total'] ?? 0;
 	}
 
+	// Total registros con array where 
+	public static function totalArray($array = [])
+	{
+		$query = "SELECT COUNT(*) FROM " . static::$tabla . " WHERE ";
+
+		foreach ($array as $clave => $valor) {
+			//Detecta el ultimo elemento del array
+			if ($clave == array_key_last($array)) {
+				$query .= " $clave = '$valor'";
+			} else {
+				$query .= " $clave = '$valor' AND ";
+			}
+		}
+
+		$resultado = self::$db->query($query);
+		$total = $resultado->fetch_array();
+		return array_shift($total);
+	}
+
 	// Paginar registros, numero de registros y desde donde
-	public static function paginar($numero, $offset) {
+	public static function paginar($numero, $offset)
+	{
 		$query = "SELECT * FROM " . static::$tabla . " ORDER BY 1 DESC LIMIT $numero OFFSET $offset ";
 		$resultado = self::consultarSQL($query);
 		return $resultado;
