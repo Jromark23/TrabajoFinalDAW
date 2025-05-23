@@ -30,14 +30,14 @@ class RegistroController
 		//debuguear($registro);
 
 		// Si ya esta registrado con el paquete basico, le mostramos su entrada para 
-		if (isset($registro) && ($registro->paquete_id === '3' || $registro->paquete_id === '2')) {
+		if (isset($registro) && ($registro->paquete_id == '3' || $registro->paquete_id == '2')) {
 			// urlencode evita caracteres especiales
 			header('Location: /entrada?id=' . urlencode($registro->token));
 			exit;
 		}
 
 		// Si esta registrado y tiene el paquete presencial lo mandamos a elegir las conferencias 
-		if (isset($registro) && $registro->paquete_id === '1') {
+		if (isset($registro) && $registro->paquete_id == '1') {
 			header('Location: /finalizar/conferencias');
 			exit;
 		}
@@ -82,6 +82,7 @@ class RegistroController
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			if (!is_user()) {
 				header('Location: /login');
+				exit;
 			}
 		}
 
@@ -110,6 +111,7 @@ class RegistroController
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			if (!is_user()) {
 				header('Location: /login');
+				exit;
 			}
 		}
 
@@ -128,6 +130,7 @@ class RegistroController
 		if ($resultado) {
 			// urlencode evita caracteres especiales
 			header('Location: /entrada?id=' . urlencode($registro->token));
+			exit;
 		}
 	}
 
@@ -143,15 +146,16 @@ class RegistroController
 
 		$registro = Registro::where('token', $id);
 
-		$registro->usuario = Usuario::find($registro->usuario_id);
-		$registro->paquete = Paquete::find($registro->paquete_id);
-
 		//debuguear($registro);
 
 		if (!$registro) {
 			header('Location: /');
 			exit;
 		}
+		
+		$registro->usuario = Usuario::find($registro->usuario_id);
+		$registro->paquete = Paquete::find($registro->paquete_id);
+
 
 		$router->renderizar('registro/entrada', [
 			'titulo' => 'Asistencia al evento',
@@ -221,12 +225,12 @@ class RegistroController
 			exit;
 		}
 
-		// Si ya tiene el registro, redirigir a la entrada
+		// // Si ya tiene el registro, redirigir a la entrada
 
-		if (isset($registro->regalo_id) && $registro->paquete_id === "1") {
-			header('Location: /entrada?id=' . urlencode($registro->token));
-			exit;
-		}
+		// if (isset($registro->regalo_id) && $registro->paquete_id === "1") {
+		// 	header('Location: /entrada?id=' . urlencode($registro->token));
+		// 	exit;
+		// }
 
 
 		$eventos = Evento::whereOrden('hora_id', 'ASC');
@@ -266,7 +270,7 @@ class RegistroController
 			$eventos = explode(',', $_POST['eventos']);
 			if (empty($eventos)) {
 				echo json_encode(['resultado' => false]);
-				return;
+				exit;
 			}
 
 			// Obtener el usuario
@@ -274,7 +278,7 @@ class RegistroController
 			// Si no existe el usuario, o el usuario no tiene comprado presencial, lo echamos
 			if (!isset($usuario) || $usuario->paquete_id !== "1") {
 				echo json_encode(['resultado' => false]);
-				return;
+				exit;
 			}
 
 			$eventos_aux = [];
@@ -284,7 +288,7 @@ class RegistroController
 
 				if (!isset($evento) || $evento->disponibles === "0") {
 					echo json_encode(['resultado' => false]);
-					return;
+					exit;
 				}
 
 				$eventos_aux[] = $evento;
@@ -318,7 +322,7 @@ class RegistroController
 				echo json_encode(['resultado' => false]);
 			}
 
-			return;
+			exit;
 		}
 
 

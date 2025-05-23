@@ -87,6 +87,8 @@ class AuthController
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+			//debuguear($_POST);
+
 			$usuario->sincronizar($_POST);
 
 			$alertas = $usuario->validar_cuenta();
@@ -112,7 +114,10 @@ class AuthController
 
 					// Enviar email
 					$email = new Email($usuario->email, $usuario->nombre, $usuario->token);
+					error_log("Antes de enviarConfirmacion()");
 					$email->enviarConfirmacion();
+					error_log("Después de enviarConfirmacion()");
+
 
 
 					if ($resultado) {
