@@ -9,8 +9,8 @@ $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
 // traemos las funciones auxiliares del proyecto, y la base de datos
-require 'funciones.php';
-require 'database.php';
+require __DIR__ . '/funciones.php';
+require __DIR__ . '/database.php';
 
 // Conectarnos a la base de datos
 ActiveRecord::setDB($db);

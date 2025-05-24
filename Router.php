@@ -23,7 +23,7 @@ class Router
     public function comprobarRutas()
     {
 		// Recupera la URL y el METHOD por el que llega 
-        $url_actual = $_SERVER['PATH_INFO'] ?? '/';
+        $url_actual = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
         $method = $_SERVER['REQUEST_METHOD'];
 
 		// Añade el callback que corresponda si existe
@@ -63,7 +63,7 @@ class Router
         $contenido = ob_get_clean(); 
 
 		// Si no hay info (estas en la raiz, añade /)
-		$url_actual = $_SERVER['PATH_INFO'] ?? '/';
+		$url_actual = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
 		//debuguear($url_actual);
 
 		// Si la URL contiene admin, pasamos al layout de administradores

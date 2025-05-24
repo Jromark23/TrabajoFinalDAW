@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    # Desactiva MultiViews para no interferir con URLs limpias
+    Options -MultiViews
+    # Asegura que PATH_INFO esté disponible
+    AcceptPathInfo On
+
+    RewriteEngine On
+    # Si no es un fichero ni un directorio real, redirige todo a index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L,QSA]
+</IfModule>

@@ -12,7 +12,7 @@
 		<div class="eventos__lista slider swiper">
 			<div class="swiper-wrapper">
 				<?php foreach ($eventos['conferencia_v'] as $evento) {
-					include	__DIR__ . '../../templates/evento.php';
+					include	__DIR__ . '/../templates/evento.php';
 				} ?>
 			</div>
 			<!-- Paginación (bolitas) -->
@@ -27,7 +27,7 @@
 		<div class="eventos__lista slider swiper">
 			<div class="swiper-wrapper">
 				<?php foreach ($eventos['conferencia_s'] as $evento) { 
-					include	__DIR__ . '../../templates/evento.php';
+					include	__DIR__ . '/../templates/evento.php';
 				} ?>
 			</div>
 			<!-- Paginación (bolitas) -->
@@ -46,7 +46,7 @@
 		<div class="eventos__lista slider swiper">
 			<div class="swiper-wrapper">
 				<?php foreach ($eventos['taller_v'] as $evento) {
-					include	__DIR__ . '../../templates/evento.php';
+					include	__DIR__ . '/../templates/evento.php';
 				}
 				?>
 			</div>
@@ -62,7 +62,7 @@
 		<div class="eventos__lista slider swiper">
 			<div class="swiper-wrapper">
 				<?php foreach ($eventos['taller_s'] as $evento) { 
-					include	__DIR__ . '../../templates/evento.php';
+					include	__DIR__ . '/../templates/evento.php';
 				} ?>
 			</div>
 			<!-- Paginación (bolitas) -->

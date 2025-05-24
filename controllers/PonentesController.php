@@ -57,7 +57,7 @@ class PonentesController
 
 			// Comprobar que venga la imagen
 			if (!empty($_FILES['imagen']['tmp_name'])) {
-				$img_folder = '../public/img/speakers';
+				$img_folder = '../img/speakers';
 				// Si no existe, crea la carpeta
 				if (!is_dir($img_folder)) {
 					mkdir($img_folder, 0777, true);
@@ -136,7 +136,7 @@ class PonentesController
 
 			// Comprobar si hay imagen
 			if (!empty($_FILES['imagen']['tmp_name'])) {
-				$img_folder = '../public/img/speakers';
+				$img_folder = '/img/speakers';
 				// Si no existe, crea la carpeta
 				if (!is_dir($img_folder)) {
 					mkdir($img_folder, 0777, true);

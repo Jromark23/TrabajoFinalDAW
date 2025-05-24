@@ -4,11 +4,11 @@ node_modules\
 vendor/
 vendor\
 
-public/img/speakers/
-public\img\speakers\
+img/speakers/
+img\speakers\
 
-public/build/
-public\build\
+build/
+build\
 
 # Ignorar variables de entorno
 .env
