@@ -3,6 +3,7 @@
 namespace Classes;
 
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 class Email
 {
@@ -17,61 +18,72 @@ class Email
 		$this->nombre = $nombre;
 		$this->token = $token;
 	}
+	private function configurarSMTP(PHPMailer $mail)
+	{
+		$mail->isSMTP();
+		$mail->Host       = $_ENV['EMAIL_HOST'];
+		$mail->SMTPAuth   = true;
+		$mail->Username   = $_ENV['EMAIL_USER'];
+		$mail->Password   = $_ENV['EMAIL_PASS'];
+		$mail->SMTPSecure = $_ENV['EMAIL_ENCRYPTION']; // 'ssl'
+		$mail->Port       = (int) $_ENV['EMAIL_PORT'];
+
+		// Opcional: desactivar verificación de certificados (solo si tienes errores SSL)
+		$mail->SMTPOptions = [
+			'ssl' => [
+				'verify_peer'       => false,
+				'verify_peer_name'  => false,
+				'allow_self_signed' => true,
+			],
+		];
+	}
 
 	public function enviarConfirmacion()
 	{
 		$mail = new PHPMailer();
-		$mail->isSMTP();
-		$mail->Host = $_ENV['EMAIL_HOST'];
-		$mail->SMTPAuth = true;
-		$mail->Port = $_ENV['EMAIL_PORT'];
-		$mail->Username = $_ENV['EMAIL_USER'];
-		$mail->Password = $_ENV['EMAIL_PASS'];
+		$this->configurarSMTP($mail);
 
-		$mail->setFrom('trabajofinal@joelroman.com');
+		$mail->setFrom($_ENV['EMAIL_USER'], 'Trabajo Final');
 		$mail->addAddress($this->email, $this->nombre);
 		$mail->Subject = 'Confirma tu Cuenta';
 
-		// Set HTML
-		$mail->isHTML(TRUE);
+		$mail->isHTML(true);
 		$mail->CharSet = 'UTF-8';
+		$mail->Body = "
+            <html>
+                <p><strong>Hola {$this->nombre}</strong>, tu cuenta ha sido creada, pero es necesario confirmarla.</p>
+                <p><a href='{$_ENV['HOST']}/confirmar-cuenta?token={$this->token}'>Confirmar Cuenta</a></p>
+            </html>
+        ";
 
-		$contenido = '<html>';
-		$contenido .= "<p><strong>Hola " . $this->nombre .  "</strong> tu cuenta ha sido creada, pero es necesario confirmarla.</p>";
-		$contenido .= "<p>Presiona aquí: <a href='" . $_ENV['HOST'] . "/confirmar-cuenta?token=" . $this->token . "'>Confirmar Cuenta</a>";
-		$contenido .= '</html>';
-		$mail->Body = $contenido;
 
-		//Enviar el mail
+
+
+		// $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
+
 		$mail->send();
 	}
 
 	public function enviarInstrucciones()
 	{
-
 		$mail = new PHPMailer();
-		$mail->isSMTP();
-		$mail->Host = $_ENV['EMAIL_HOST'];
-		$mail->SMTPAuth = true;
-		$mail->Port = $_ENV['EMAIL_PORT'];
-		$mail->Username = $_ENV['EMAIL_USER'];
-		$mail->Password = $_ENV['EMAIL_PASS'];
+		$this->configurarSMTP($mail);
 
-		$mail->setFrom('trabajofinal@joelroman.com');
+		$mail->setFrom($_ENV['EMAIL_USER'], 'Trabajo Final');
 		$mail->addAddress($this->email, $this->nombre);
-		$mail->Subject = 'Reestablece tu password';
+		$mail->Subject = 'Reestablece tu contraseña';
 
-		// Set HTML
-		$mail->isHTML(TRUE);
+		$mail->isHTML(true);
 		$mail->CharSet = 'UTF-8';
+		$mail->Body = "
+            <html>
+                <p><strong>Hola {$this->nombre}</strong>, has solicitado reestablecer tu contraseña.</p>
+                <p><a href='{$_ENV['HOST']}/reestablecer?token={$this->token}'>Reestablecer contraseña</a></p>
+            </html>
+        ";
 
-		$contenido = '<html>';
-		$contenido .= "<p><strong>Hola " . $this->nombre .  "</strong> Has solicitado reestablecer tu contraseña, sigue el siguiente enlace para hacerlo.</p>";
-		$contenido .= "<p>Presiona aquí: <a href='" . $_ENV['HOST'] . "/reestablecer?token=" . $this->token . "'>Reestablecer contraseña</a>";
-		$contenido .= '</html>';
-		$mail->Body = $contenido;
+		// $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
 
-		//Enviar el mail
 		$mail->send();
 	}
 }

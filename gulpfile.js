@@ -30,27 +30,48 @@ function imagenes() {
 		.pipe(dest('build/img'))
 }
 
-// convierte las imagenes a webp
+// // // convierte las imagenes a webp
+// // function versionWebp(done) {
+// // 	const opciones = {
+// // 		quality: 50
+// // 	};
+// // 	src('src/img/**/*.{png,jpg}')
+// // 		.pipe(webp(opciones))
+// // 		.pipe(dest('build/img'))
+// // 	done();
+// // }
+
+// // // convierte las imagenes a avif
+// // function versionAvif(done) {
+// // 	const opciones = {
+// // 		quality: 50
+// // 	};
+// // 	src('src/img/**/*.{png,jpg}')
+// // 		.pipe(avif(opciones))
+// // 		.pipe(dest('build/img'))
+// // 	done();
+// // }
+
 function versionWebp(done) {
 	const opciones = {
 		quality: 50
 	};
-	src('src/img/**/*.{png,jpg}')
+	src('src/img/**/*.{png,jpg}', { base: 'src/img' })
 		.pipe(webp(opciones))
-		.pipe(dest('build/img'))
+		.pipe(dest('public/build/img'));
 	done();
 }
 
-// convierte las imagenes a avif
 function versionAvif(done) {
 	const opciones = {
 		quality: 50
 	};
-	src('src/img/**/*.{png,jpg}')
+	src('src/img/**/*.{png,jpg}', { base: 'src/img' })
 		.pipe(avif(opciones))
-		.pipe(dest('build/img'))
+		.pipe(dest('public/build/img'));
 	done();
 }
+
 
 // Incluimos las rutas para procesar los archivos
 const paths = {

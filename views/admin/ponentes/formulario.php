@@ -34,11 +34,11 @@
 		<div class="formulario__imagen">
 			<!-- picture nos permite mejorar el rendimiento eligiendo entre varias opciones, y pudiendo priorizar webp -->
 			<picture>
-				<source srcset="<?= $_ENV['HOST'] . '/img/speakers/' . $ponente->imagen; ?>.webp" 
+				<source srcset="<?= $_ENV['HOST'] . '/build/img/speakers/' . $ponente->imagen; ?>.webp" 
 					type="image/webp">
-				<source srcset="<?= $_ENV['HOST'] . '/img/speakers/' . $ponente->imagen; ?>.png" 
+				<source srcset="<?= $_ENV['HOST'] . '/build/img/speakers/' . $ponente->imagen; ?>.png" 
 					type="image/png">
-				<img src="<?= $_ENV['HOST'] . '/img/speakers/' . $ponente->imagen; ?>.png" alt="Imagen ponente">
+				<img src="<?= $_ENV['HOST'] . '/build/img/speakers/' . $ponente->imagen; ?>.png" alt="Imagen ponente">
 			</picture>
 		</div>
 	<?php } ?>
