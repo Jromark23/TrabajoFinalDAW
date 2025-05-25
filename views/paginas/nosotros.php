@@ -1,5 +1,5 @@
 <main class="nosotros">
-	<h2 class="nosotros__heading"> <?= $titulo; ?> </h2>
+	<h2 class="nosotros__heading" id="info"> <?= $titulo; ?> </h2>
 	<p class="nosotros__descripcion">
 		Bienvenido al evento mas importante del año
 	</p>

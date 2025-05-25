@@ -1,5 +1,5 @@
 <main class="auth">
-	<h2 class="auth__heading">
+	<h2 class="auth__heading" id="reg">
 		<?= $titulo; ?>
 	</h2>
 	<p class="auth__texto">
@@ -51,8 +51,8 @@
 
 		<input type="submit" class="formulario__submit" value="Crear cuenta">
 		<div class="acciones">
-			<a href="/login" class="acciones__enlace">¿Ya tienes cuenta? Iniciar sesión</a>
-			<a href="/olvide" class="acciones__enlace">Olvidé mi contraseña</a>
+			<a href="/login" data-scroll="inicio" class="acciones__enlace">¿Ya tienes cuenta? Iniciar sesión</a>
+			<a href="/olvide" data-scroll="inicio" class="acciones__enlace">Olvidé mi contraseña</a>
 		</div>
 	</form>
 </main>

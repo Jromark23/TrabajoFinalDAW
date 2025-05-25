@@ -1,5 +1,5 @@
 <main class="entradas">
-	<h2 class="entradas__heading"> <?= $titulo; ?> </h2>
+	<h2 class="entradas__heading" id="tipo"> <?= $titulo; ?> </h2>
 	<p class="entradas__descripcion">
 		Elige tu tipo de entrada
 	</p>

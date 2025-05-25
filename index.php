@@ -74,6 +74,7 @@ $router->get('/', [PaginasController::class, 'index']);
 $router->get('/nosotros', [PaginasController::class, 'nosotros']);
 $router->get('/entradas', [PaginasController::class, 'entradas']);
 $router->get('/eventos', [PaginasController::class, 'eventos']);
+$router->get('/talleres', [PaginasController::class, 'talleres']);   // aqui 
 $router->get('/404', [PaginasController::class, 'error']);
 
 // Registro usuarios

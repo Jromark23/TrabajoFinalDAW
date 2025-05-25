@@ -20,3 +20,44 @@ document.addEventListener('keydown', function (event) {
 		event.preventDefault();
 	}
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+	// Enlaces que tengan data-scroll
+	const enlaces = document.querySelectorAll('a[data-scroll]');
+
+	enlaces.forEach(enlace => {
+		enlace.addEventListener('click', function (e) {
+			e.preventDefault();
+
+			const destino = this.getAttribute('href'); // Todas las redirecciones
+			const idObjetivo = this.dataset.scroll;   // 'localizador'
+
+			// Si ya esta en la pagina
+			if (window.location.pathname === destino) {
+				// Scroll directo 
+				const objetivo = document.getElementById(idObjetivo);
+				if (objetivo) {
+					objetivo.scrollIntoView({ behavior: 'smooth' });
+					// Borra el hash de la URL por si acaso
+					history.replaceState(null, '', destino);
+				}
+			} else {
+				// Guarda en sessionStorage a dónde quieres hacer scroll
+				sessionStorage.setItem('scrollTo', idObjetivo);
+				window.location.href = destino;
+			}
+		});
+	});
+
+	// Si vienes de otra página y se ha guardado un destino de scroll
+	const destinoGuardado = sessionStorage.getItem('scrollTo');
+	if (destinoGuardado) {
+		const objetivo = document.getElementById(destinoGuardado);
+		if (objetivo) {
+			objetivo.scrollIntoView({ behavior: 'smooth' });
+		}
+		// Eliminar para que no se repita el scroll en el futuro
+		sessionStorage.removeItem('scrollTo');
+	}
+});
+

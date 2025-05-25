@@ -19,7 +19,7 @@
 	</form>
 
 	<div class="acciones">
-		<a href="/login" class="acciones__enlace">Iniciar sesión</a>
-		<a href="/registro" class="acciones__enlace">¿No tienes cuenta? Registrarse</a>
+		<a href="/login" data-scroll="inicio" class="acciones__enlace">Iniciar sesión</a>
+		<a href="/registro" data-scroll="inicio" class="acciones__enlace">¿No tienes cuenta? Registrarse</a>
 	</div>
 </main>

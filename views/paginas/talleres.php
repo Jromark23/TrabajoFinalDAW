@@ -5,15 +5,16 @@
 	</p>
 
 
-	<div class="eventos">
-		<h3 class="eventos__heading" id="conferencias">&lt;Conferencias/> </h3>
+		<div class="eventos eventos--talleres">
+		<h3 class="eventos__heading--talleres" id="talleres">&lt;Talleres/> </h3>
 		
 		<p class="eventos__fecha">Viernes 14 de junio</p>
 		<div class="eventos__lista slider swiper">
 			<div class="swiper-wrapper">
-				<?php foreach ($eventos['conferencia_v'] as $evento) {
+				<?php foreach ($eventos['taller_v'] as $evento) {
 					include	__DIR__ . '/../templates/evento.php';
-				} ?>
+				}
+				?>
 			</div>
 			<!-- Paginación (bolitas) -->
 			<div class="swiper-pagination"></div>
@@ -26,7 +27,7 @@
 		<p class="eventos__fecha">Sabado 15 de junio</p>
 		<div class="eventos__lista slider swiper">
 			<div class="swiper-wrapper">
-				<?php foreach ($eventos['conferencia_s'] as $evento) { 
+				<?php foreach ($eventos['taller_s'] as $evento) { 
 					include	__DIR__ . '/../templates/evento.php';
 				} ?>
 			</div>
@@ -38,6 +39,4 @@
 			<div class="swiper-button-next"></div>
 		</div>
 	</div>
-
-	
 </main>
