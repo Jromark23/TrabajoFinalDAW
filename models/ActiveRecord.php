@@ -118,6 +118,8 @@ class ActiveRecord
 	}
 
 	// Registros - CRUD
+
+	// Si tiene ID, actualizamos y si no, creamos. 
 	public function guardar()
 	{
 		$resultado = '';

@@ -55,33 +55,34 @@
 }
 
 @mixin contenedor-md {
-	width: min(95%, 80rem);
+	width: min(90%, 80rem);
 	margin: 0 auto;
 }
 
 @mixin contenedor-sm {
-	width: min(95%, 60rem);
+	width: min(90%, 60rem);
 	margin: 0 auto;
 }
 
 @mixin headings {
 	font-family: v.$fuente_principal;
 	font-weight: v.$black;
-	margin: 2rem 0;
-}
-
-@mixin nombre-pagina {
-	@include headings;
-	margin: 6rem 0 3rem 0;
+	margin: 3rem 0 2rem 0;
 	text-align: center;
 }
+
+// @mixin nombre-pagina {
+// 	@include headings;
+// 	margin: 4rem 0 3rem 0;
+// 	text-align: center;
+// }
 
 @mixin descripcion-pagina {
 	text-align: center;
 	font-size: 1.8rem;
 	font-weight: v.$delgada;
 	color: v.$gris-oscuro;
-	margin-bottom: 5rem;
+	margin-bottom: 4rem;
 }
 
 // Permite que el tamaño vaya cambiando dinamicamente al encoger o agrandar la pagina

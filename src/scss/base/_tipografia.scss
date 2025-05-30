@@ -18,9 +18,9 @@ h3 {
     text-align: center;
 }
 
-// buscamos la clase que TERMINE en __heading y añadira ese mixing de css
+// buscamos la clase que TERMINE en __heading y añadir ese mixing de css
 [class$="__heading"] {
-	@include m.nombre-pagina;
+	@include m.headings;
 }
 
 // buscamos la clase que TERMINE en __heading y añadira ese mixing de css

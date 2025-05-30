@@ -1,13 +1,16 @@
 <main class="agenda">
-	<h2 class="agenda__heading"> <?= $titulo; ?> </h2>
-	<p class="agenda__descripcion">
-		Talleres y conferencias guiados por expertos.
-	</p>
+	<?php // Nos aseguramos de que solo se inyecte en /talleres y no en el inicio
+	if (pagina_actual('/talleres')): ?>
+		<h2 class="agenda__heading"><?= $titulo; ?></h2>
+		<p class="agenda__descripcion">
+			Talleres y conferencias guiados por expertos.
+		</p>
+	<?php endif; ?>
 
 
-		<div class="eventos eventos--talleres">
+	<div class="eventos eventos--talleres">
 		<h3 class="eventos__heading--talleres" id="talleres">&lt;Talleres/> </h3>
-		
+
 		<p class="eventos__fecha">Viernes 14 de junio</p>
 		<div class="eventos__lista slider swiper">
 			<div class="swiper-wrapper">
@@ -27,7 +30,7 @@
 		<p class="eventos__fecha">Sabado 15 de junio</p>
 		<div class="eventos__lista slider swiper">
 			<div class="swiper-wrapper">
-				<?php foreach ($eventos['taller_s'] as $evento) { 
+				<?php foreach ($eventos['taller_s'] as $evento) {
 					include	__DIR__ . '/../templates/evento.php';
 				} ?>
 			</div>

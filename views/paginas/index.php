@@ -1,5 +1,6 @@
 <?php
 	include_once __DIR__ . '/eventos.php';
+	include_once __DIR__ . '/talleres.php';
 ?>
 
 <section class="resumen">

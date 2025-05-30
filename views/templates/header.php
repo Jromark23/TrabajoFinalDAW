@@ -34,8 +34,8 @@
 <div class="barra">
 	<div class="barra__contenido">
 		<a href="/" data-scroll="inicio">
-			<h2 class="barra__logo" id="inicio">
-				&#60;ProyectoFinal />
+			<h2 class="barra__logo nav__enlace" id="inicio">
+				Inicio
 			</h2>
 		</a>
 		<nav class="nav">

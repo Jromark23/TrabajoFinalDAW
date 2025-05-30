@@ -3,7 +3,15 @@
 
 .header {
 
-	min-height: 40rem;
+	min-height: 28rem;
+
+	@include m.tablet {
+		min-height: 35rem;
+	}
+	
+	@include m.desktop {
+		min-height: 42rem;
+	}
 	
 	// Hay que poner la relativa desde public/build/css que es donde compila
 	background-image: url(../img/grafico.svg), url(../img/grafico.svg), 
@@ -19,7 +27,7 @@
 	}
 
 	&__navegacion {
-		padding: 5rem 0;
+		padding: 3rem 0;
 		display: flex;
 		justify-content: center;
 		gap: 2rem;
@@ -42,7 +50,7 @@
 	}
 
 	&__contenido {
-		padding-top: 3rem;
+		padding-top: 1rem;
 
 	}
 	&__logo {
@@ -71,12 +79,16 @@
 			font-size: 2rem;
 		}
 	}
+
 	&__boton {
+		
 		@include m.boton(v.$secundario, v.$blanco);
 		text-transform: uppercase;
 		margin: 2rem 0;
+		display: none;
 
-		@include m.tablet {
+		@include m.desktop {
+			display: inline-block;
 			width: auto;
 		}
 	}
