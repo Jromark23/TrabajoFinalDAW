@@ -56,4 +56,12 @@ class Evento extends ActiveRecord
 
 		return self::$alertas;
 	}
+
+	public function cargarRelaciones()
+	{
+		$this->categoria = Categoria::find($this->categoria_id);
+		$this->ponente = Ponente::find($this->ponente_id);
+		$this->dia = Dia::find($this->dia_id);
+		$this->hora = Hora::find($this->hora_id);
+	}
 }

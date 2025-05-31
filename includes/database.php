@@ -1,15 +1,34 @@
 <?php
+declare(strict_types=1);
 
-$db = mysqli_connect(
-    $_ENV['DB_HOST'] ?? '',
-    $_ENV['DB_USER'] ?? '', 
-    $_ENV['DB_PASS'] ?? '', 
-    $_ENV['DB_NAME'] ?? ''
-);
+// Cargar variables de entorno (ya lo haces en app.php)
+$host     = $_ENV['DB_HOST'] ?? 'localhost';
+$dbname   = $_ENV['DB_NAME'] ?? '';
+$user     = $_ENV['DB_USER'] ?? '';
+$password = $_ENV['DB_PASS'] ?? '';
+$charset  = 'utf8mb4';
 
-if (!$db) {
-    echo "Error: No se pudo conectar a MySQL.";
-    echo "errno de depuración: " . mysqli_connect_errno();
-    echo "error de depuración: " . mysqli_connect_error();
+// Crea el DSN (Data Source Name), sting de conexion con MYSQL 
+$dsn = "mysql:host={$host};dbname={$dbname};charset={$charset}";
+
+try {
+    $db = new PDO(
+        $dsn,
+        $user,
+        $password,
+		// Opciones de configuracion del PDO 
+        [
+			// Lanza excepciones si hay errores
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+			// Los resultados los devuelve como array asociativo [clave = columna => dato]
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+			// Usa sentencias preparadas reales del servidor 
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ]
+    );
+} catch (PDOException $e) {
+    error_log('Database connection error: ' . $e->getMessage());
+
+    echo 'Error al conectar la base de datos.';
     exit;
 }
