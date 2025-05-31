@@ -9,6 +9,7 @@
 	<?php if ($token_valido) { 		?>
 
 		<form class="formulario" method="post">
+			<?= csrf() ?>
 			<div class="formulario__campo">
 				<label for="password" class="formulario__label">
 					Nueva contraseña

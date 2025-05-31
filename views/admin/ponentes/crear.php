@@ -11,6 +11,7 @@
 	<?php include_once __DIR__ . '/../../templates/alertas.php' ?>
 
 	<form action="/admin/ponentes/crear" method="post" class="formulario" enctype="multipart/form-data">
+		<?= csrf() ?>
 
 	<?php include_once __DIR__ . '/formulario.php'?>
 

@@ -44,6 +44,7 @@
 								</a>
 
 								<form action="/admin/eventos/eliminar" method="post" class="table__formulario">
+									<?= csrf() ?>
 									<input type="hidden" name="id" value="<?= $evento->id; ?>">
 									<button class="table__accion table__accion--eliminar" type="submit">
 										<i class="fa-solid fa-trash"></i>

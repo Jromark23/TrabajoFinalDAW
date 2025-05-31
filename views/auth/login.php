@@ -6,6 +6,7 @@
 
 
 	<form class="formulario" method="POST" action="/login">
+		<?= csrf() ?>
 		<div class="formulario__campo">
 			<label for="email" class="formulario__label">
 				Email

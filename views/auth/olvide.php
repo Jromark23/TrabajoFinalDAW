@@ -8,6 +8,7 @@
 
 
 	<form class="formulario" method="post" action="/olvide">
+		<?= csrf() ?>
 		<div class="formulario__campo">
 			<label for="email" class="formulario__label">
 				Email

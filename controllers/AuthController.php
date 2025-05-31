@@ -10,42 +10,42 @@ class AuthController
 {
 	public static function login(Router $router)
 	{
-
 		$alertas = [];
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-			$usuario = new Usuario($_POST);
+			// Validamos CSRF para asegurarnos de que no viene de otra web
+			$tokenForm = $_POST['csrf_token'] ?? '';
+			$tokenSess = $_SESSION['csrf_token'] ?? '';
+			if (!hash_equals($tokenSess, $tokenForm)) {
+				http_response_code(403);
+				exit('Error: token CSRF inválido.');
+			}
 
+			// Si todo va bien, continuamos normal
+			$usuario = new Usuario($_POST);
 			$alertas = $usuario->validarLogin();
 
 			if (empty($alertas)) {
-				// Verificar quel el usuario exista
+				// Verificar que el usuario exista y esté confirmado
 				$usuario = Usuario::where('email', $usuario->email);
+
 				if (!$usuario || !$usuario->confirmado) {
-					Usuario::setAlerta('error', 'El usuario no existe o no esta confirmado');
+					Usuario::setAlerta('error', 'El usuario no existe o no está confirmado');
 				} else {
-					// El usuario existe
+					// Si existe y esta coonfirmado seguimos. 
 					if (password_verify($_POST['password'], $usuario->password)) {
 
-						// Configurar la cookie de sesión para que muera al cerrar navegador y sea valida en toda la web
-						session_set_cookie_params([
-							'lifetime' => 0,
-							'path' => '/'
-						]);
-						// Iniciar la sesión
-						session_start();
-
-						// Regenerar ID de sesión para evitar que quede guardada
+						// Regenerar ID de sesión para evitar que quede guardada y se pueda usar en ataques usando un ID de sesion antiguo
 						session_regenerate_id(true);
 
-						$_SESSION['id'] = $usuario->id;
-						$_SESSION['nombre'] = $usuario->nombre;
+						$_SESSION['id']       = $usuario->id;
+						$_SESSION['nombre']   = $usuario->nombre;
 						$_SESSION['apellido'] = $usuario->apellido;
-						$_SESSION['email'] = $usuario->email;
-						$_SESSION['admin'] = $usuario->admin ?? null;
+						$_SESSION['email']    = $usuario->email;
+						$_SESSION['admin']    = $usuario->admin ?? null;
 
-						// Redireccion admin o user
+						// Redirigimos segun su rol
 						if ($usuario->admin) {
 							header('Location: /admin/dashboard');
 							exit;
@@ -60,19 +60,17 @@ class AuthController
 			}
 		}
 
-		$alertas = Usuario::getAlertas();
-
-		// Render a la vista 
+		// Renderizar la vista de login, cargando las alertas, etc.
 		$router->renderizar('auth/login', [
 			'titulo' => 'Iniciar Sesión',
 			'alertas' => $alertas
 		]);
 	}
 
+
 	public static function logout()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			session_start();
 			$_SESSION = [];
 			session_destroy();
 			header('Location: /');

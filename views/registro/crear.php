@@ -45,6 +45,7 @@
 
 			<p class="entrada__precio">0€</p>
 			<form action="/finalizar/basico" method="post">
+				<?= csrf() ?>
 				<input class="entradas__submit" type="submit" value="Inscripcion básica">
 			</form>
 		</div>

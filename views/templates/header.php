@@ -9,6 +9,7 @@
 					<a href="/admin/dashboard" class="header__enlace">Administrar</a>
 				<?php } ?>
 				<form action="/logout" class="header__form" method="POST">
+					<?= csrf() ?>
 					<input type="submit" class="header__submit" value="Cerrar sesión">
 				</form>
 			<?php } else { ?>

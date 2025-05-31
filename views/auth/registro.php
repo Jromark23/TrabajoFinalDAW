@@ -11,6 +11,7 @@
 	?>
 	
 	<form class="formulario" method="post" action="/registro">
+		<?= csrf() ?>
 		<div class="formulario__campo">
 			<label for="nombre" class="formulario__label">
 				Nombre

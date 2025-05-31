@@ -11,6 +11,7 @@
 	<?php include_once __DIR__ . '/../../templates/alertas.php' ?>
 
 	<form method="post" class="formulario" enctype="multipart/form-data">
+		<?= csrf() ?>
 		<?php include_once __DIR__ . '/formulario.php' ?>
 
 		<input class="formulario__submit formulario__submit--registrar" type="submit" value="Actualizar ponente">
