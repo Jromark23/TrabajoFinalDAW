@@ -10,6 +10,7 @@ class AuthController
 {
 	public static function login(Router $router)
 	{
+		// Resetea las alertas si las hubiera
 		$alertas = [];
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -32,6 +33,7 @@ class AuthController
 
 				if (!$usuario || !$usuario->confirmado) {
 					Usuario::setAlerta('error', 'El usuario no existe o no está confirmado');
+					$alertas = Usuario::getAlertas();
 				} else {
 					// Si existe y esta coonfirmado seguimos. 
 					if (password_verify($_POST['password'], $usuario->password)) {
@@ -55,6 +57,7 @@ class AuthController
 						}
 					} else {
 						Usuario::setAlerta('error', 'Contraseña incorrecta');
+						$alertas = Usuario::getAlertas();
 					}
 				}
 			}
@@ -161,14 +164,17 @@ class AuthController
 
 
 					// Imprimir la alerta
-					// Usuario::setAlerta('exito', 'Hemos enviado las instrucciones a tu email');
+					Usuario::setAlerta('exito', 'Hemos enviado las instrucciones a tu email');
+					$alertas = Usuario::getAlertas();
 
-					$alertas['exito'][] = 'Hemos enviado las instrucciones a tu email';
+					//$alertas['exito'][] = 'Hemos enviado las instrucciones a tu email';
 				} else {
 
 					// Usuario::setAlerta('error', 'El Usuario no existe o no esta confirmado');
 
-					$alertas['error'][] = 'El Usuario no existe o no esta confirmado';
+					//$alertas['error'][] = 'El Usuario no existe o no esta confirmado';
+					Usuario::setAlerta('error', 'El Usuario no existe o no esta confirmado');
+					$alertas = Usuario::getAlertas();
 				}
 			}
 		}
@@ -197,6 +203,7 @@ class AuthController
 
 		if (empty($usuario)) {
 			Usuario::setAlerta('error', 'Token no válido, intenta de nuevo');
+			$alertas = Usuario::getAlertas();
 			$token_valido = false;
 		}
 
@@ -261,6 +268,7 @@ class AuthController
 		if (empty($usuario)) {
 			// No se encontró un usuario con ese token
 			Usuario::setAlerta('error', 'Token no válido');
+			$alertas = Usuario::getAlertas();
 		} else {
 			// Confirmar la cuenta
 			$usuario->confirmado = 1;
@@ -271,13 +279,14 @@ class AuthController
 			$usuario->guardar();
 
 			Usuario::setAlerta('exito', 'Cuenta confirmada con éxito');
+			$alertas = Usuario::getAlertas();
 		}
 
 
 
 		$router->renderizar('auth/confirmar', [
 			'titulo' => 'Confirma tu cuenta',
-			'alertas' => Usuario::getAlertas()
+			'alertas' => $alertas
 		]);
 	}
 }

@@ -1,4 +1,6 @@
 <?php
+use Model\Usuario;
+
 // funcion que me ayuda a debuguear facilmente simplemente indicando la variable, y dandole formato con PRE
 function debuguear($variable): string
 {
@@ -11,8 +13,8 @@ function debuguear($variable): string
 // funcion que me ayuda a evitar la insercion de codigo malicioso convirtiendo caracteres especiales 
 function sanitizeHtml($html): string
 {
-	$s = htmlspecialchars($html);
-	return $s;
+	$string = htmlspecialchars($html);
+	return $string;
 }
 
 // Compara si la pagina actual es igual o contiene lo que le pasamos (se usará para admin y para resaltar en la princiapl )
@@ -24,13 +26,41 @@ function pagina_actual($path)
 // Devuelve si hay usuario logado 
 function is_user(): bool
 {
-	return isset($_SESSION['nombre']) && !empty($_SESSION);
+	// Verificamos que la sesion tiene ID
+    $userId = $_SESSION['id'] ?? null;
+
+    if (!$userId) {
+		return false;
+    }
+	
+    // Comprobamos si corresponde a un usuario real
+    $usuario = Usuario::find($userId);
+    if (!$usuario) {
+        return false;
+    }
+
+	
+    return true;
 }
 
 // Devuelve si el usuario logado actual es admin
 function is_admin(): bool
 {
-	return isset($_SESSION['admin']) && !empty($_SESSION['admin']);
+	// Comprobamos que hay usuario logado
+    $userId = $_SESSION['id'] ?? null;
+    if (!$userId) {
+        return false;
+    }
+
+    // Si lo hay, lo buscamos en la base de datos 
+    $usuario = Usuario::find($userId);
+
+    if (!$usuario) {
+        return false;
+    }
+	
+    // Si en BD es admin devuelve true
+    return ($usuario->admin == 1) ? true : false ;
 }
 
 // Funcion para la libreria AOS que ayuda a que haya animaciones random para usar
