@@ -5,17 +5,18 @@ namespace Controllers;
 use Classes\Email;
 use Model\Usuario;
 use MVC\Router;
+use DateTime;
 
 class AuthController
 {
 	public static function login(Router $router)
 	{
-		// Resetea las alertas si las hubiera
+		// Reiniciar las alertas al iniciar la petición
 		$alertas = [];
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-			// Validamos CSRF para asegurarnos de que no viene de otra web
+			// Validamos CSRF para asegurarnos de que la petición viene de nuestro formulario
 			$tokenForm = $_POST['csrf_token'] ?? '';
 			$tokenSess = $_SESSION['csrf_token'] ?? '';
 			if (!hash_equals($tokenSess, $tokenForm)) {
@@ -23,52 +24,89 @@ class AuthController
 				exit('Error: token CSRF inválido.');
 			}
 
-			// Si todo va bien, continuamos normal
-			$usuario = new Usuario($_POST);
-			$alertas = $usuario->validarLogin();
+			// Creamos un objeto Usuario con los datos del formulario
+			$usuarioFormulario = new Usuario($_POST);
+			// Validamos campos obligatorios (email y password)
+			$alertas = $usuarioFormulario->validarLogin();
 
 			if (empty($alertas)) {
-				// Verificar que el usuario exista y esté confirmado
-				$usuario = Usuario::where('email', $usuario->email);
+				// Buscamos en la base de datos un usuario con ese email
+				$usuario = Usuario::where('email', $usuarioFormulario->email);
 
 				if (!$usuario || !$usuario->confirmado) {
+					// Si no existe el usuario o no está confirmado, mostramos alerta
 					Usuario::setAlerta('error', 'El usuario no existe o no está confirmado');
 					$alertas = Usuario::getAlertas();
 				} else {
-					// Si existe y esta coonfirmado seguimos. 
-					if (password_verify($_POST['password'], $usuario->password)) {
+					// Comprobamos si supera los 5 intentos fallidos en 30 minutos
+					$ahora       = new DateTime();
+					// si hay un ultimo intento, lo convierte en fecha
+					$ultimo      = $usuario->ultimo_intento ? new DateTime($usuario->ultimo_intento) : null;
+					// si hay ultimo, calcula cuantos minutos han pasado 
+					$minutosDif  = $ultimo ? ($ahora->getTimestamp() - $ultimo->getTimestamp()) / 60 : null;
 
-						// Regenerar ID de sesión para evitar que quede guardada y se pueda usar en ataques usando un ID de sesion antiguo
-						session_regenerate_id(true);
-
-						$_SESSION['id']       = $usuario->id;
-						$_SESSION['nombre']   = $usuario->nombre;
-						$_SESSION['apellido'] = $usuario->apellido;
-						$_SESSION['email']    = $usuario->email;
-						$_SESSION['admin']    = $usuario->admin ?? null;
-
-						// Redirigimos segun su rol
-						if ($usuario->admin) {
-							header('Location: /admin/dashboard');
-							exit;
-						} else {
-							header('Location: /finalizar');
-							exit;
-						}
-					} else {
-						Usuario::setAlerta('error', 'Contraseña incorrecta');
+					// Si "esta bloqueado", calculamos cuánto queda para desbloquear y mandamos el mensaje sin dejarle acceder
+					if ($usuario->intentos_fallidos >= 5 && $minutosDif !== null && $minutosDif < 30) {
+						$minutosRestantes = max(0, 30 - floor($minutosDif));
+						Usuario::setAlerta(
+							'error',
+							"Demasiados intentos. Vuelve a intentarlo en {$minutosRestantes} minutos o solicite una nueva contraseña."
+						);
 						$alertas = Usuario::getAlertas();
+					} else {
+						// Si han pasado más de 30 minutos desde el último intento, reseteamos el contador
+						if ($ultimo && $minutosDif !== null && $minutosDif >= 30) {
+							$usuario->intentos_fallidos = 0;
+							$usuario->ultimo_intento    = null;
+							$usuario->guardar();
+						}
+
+						// Verificamos la contraseña 
+						if (password_verify($_POST['password'], $usuario->password)) {
+							// Contraseña correcta: reseteamos contador de fallos
+							$usuario->intentos_fallidos = 0;
+							$usuario->ultimo_intento    = null;
+							$usuario->guardar();
+
+							// Rotamos el ID de sesión por seguridad
+							session_regenerate_id(true);
+
+							// Guardamos la información mínima del usuario en sesión
+							$_SESSION['id']       = $usuario->id;
+							$_SESSION['nombre']   = $usuario->nombre;
+							$_SESSION['apellido'] = $usuario->apellido;
+							$_SESSION['email']    = $usuario->email;
+							$_SESSION['admin']    = $usuario->admin ?? null;
+
+							// Redirigimos según el rol
+							if ($usuario->admin) {
+								header('Location: /admin/dashboard');
+								exit;
+							} else {
+								header('Location: /finalizar');
+								exit;
+							}
+						} else {
+							// Contraseña incorrecta: incrementamos contador de fallos y marcamos hora
+							$usuario->intentos_fallidos++;
+							$usuario->ultimo_intento = date('Y-m-d H:i:s');
+							$usuario->guardar();
+
+							Usuario::setAlerta('error', 'Contraseña incorrecta');
+							$alertas = Usuario::getAlertas();
+						}
 					}
 				}
 			}
 		}
 
-		// Renderizar la vista de login, cargando las alertas, etc.
+		// Renderizar la vista de login, pasando todas las alertas (si las hay)
 		$router->renderizar('auth/login', [
-			'titulo' => 'Iniciar Sesión',
+			'titulo'  => 'Iniciar Sesión',
 			'alertas' => $alertas
 		]);
 	}
+
 
 
 	public static function logout()
@@ -109,6 +147,8 @@ class AuthController
 
 					// Generar el Token
 					$usuario->crearToken();
+					// Ponemos al token 30 minutos mas que la hora actual
+					$usuario->token_expiracion = date('Y-m-d H:i:s', strtotime('+30 minutes'));
 
 					// Crear un nuevo usuario
 					$resultado =  $usuario->guardar();
@@ -153,6 +193,9 @@ class AuthController
 
 					// Generar un nuevo token
 					$usuario->crearToken();
+					// Ponemos al token 30 minutos mas que la hora actual
+					$usuario->token_expiracion = date('Y-m-d H:i:s', strtotime('+30 minutes'));
+
 					unset($usuario->password2);
 
 					// Actualizar el usuario
@@ -188,45 +231,54 @@ class AuthController
 
 	public static function reestablecer(Router $router)
 	{
-
-		$token = sanitizeHtml($_GET['token']);
+		// Recogemos el token y lo sanitizamos
+		$token = sanitizeHtml($_GET['token'] ?? '');
 
 		$token_valido = true;
 
+		// Si no llega ninguno, vamos a inicio
 		if (!$token) {
 			header('Location: /');
 			exit;
 		}
 
-		// Identificar el usuario con este token
+		// Buscamos el usuario
 		$usuario = Usuario::where('token', $token);
 
-		if (empty($usuario)) {
+		// Si no existe, mostramos alerta y marcamos token como inválido
+		if (!$usuario) {
 			Usuario::setAlerta('error', 'Token no válido, intenta de nuevo');
 			$alertas = Usuario::getAlertas();
 			$token_valido = false;
+		} else {
+			// Si existe el usuario, comprobamos si el token ya expiró
+			if ($usuario->token_expiracion && strtotime($usuario->token_expiracion) < time()) {
+				// El token ya pasó su fecha de expiración
+				Usuario::setAlerta('error', 'El enlace de recuperación ha expirado. Solicita uno nuevo.');
+				$alertas = Usuario::getAlertas();
+				$token_valido = false;
+			}
 		}
 
 
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		if ($_SERVER['REQUEST_METHOD'] === 'POST' && $token_valido) {
 
-			// Añadir el nuevo password
 			$usuario->sincronizar($_POST);
-
-			// Validar el password
 			$alertas = $usuario->validarPassword();
 
+			// Si no hay errores de validacion reestablecemos la contraseña 
 			if (empty($alertas)) {
-				// Hashear el nuevo password
+				// Hasheamos la nueva contraseña para guardarla hasehada
 				$usuario->hashPassword();
 
-				// Eliminar el Token
+				// Limpiamos el token y la fecha, asi como los intentos fallidos y nuevo intento
 				$usuario->token = null;
+				$usuario->token_expiracion = null;
+				$usuario->intentos_fallidos = 0;
+				$usuario->ultimo_intento    = null;
 
-				// Guardar el usuario en la BD
 				$resultado = $usuario->guardar();
 
-				// Redireccionar a iniciar sesion
 				if ($resultado) {
 					header('Location: /login');
 					exit;
@@ -234,15 +286,17 @@ class AuthController
 			}
 		}
 
+		// Si llegamos aquí, recuperamos todas las alertas (si las hay) antes de renderizar
 		$alertas = Usuario::getAlertas();
 
-		// Muestra la vista
+		// Mostrar la vista de reestablecer contraseña, indicando si el token es válido o no
 		$router->renderizar('auth/reestablecer', [
-			'titulo' => 'Reestablecer contraseña',
-			'alertas' => $alertas,
+			'titulo'       => 'Reestablecer contraseña',
+			'alertas'      => $alertas,
 			'token_valido' => $token_valido
 		]);
 	}
+
 
 	public static function mensaje(Router $router)
 	{
@@ -255,7 +309,7 @@ class AuthController
 	public static function confirmar(Router $router)
 	{
 
-		$token = sanitizeHtml($_GET['token']);
+		$token = sanitizeHtml($_GET['token']) ?? null;
 
 		if (!$token) {
 			header('Location: /');
@@ -270,20 +324,23 @@ class AuthController
 			Usuario::setAlerta('error', 'Token no válido');
 			$alertas = Usuario::getAlertas();
 		} else {
-			// Confirmar la cuenta
-			$usuario->confirmado = 1;
-			$usuario->token = '';
-			unset($usuario->password2);
+			// Verifica si el token ha expirado
+			if ($usuario->token_expiracion && strtotime($usuario->token_expiracion) < time()) {
 
-			// Guardar en la BD
-			$usuario->guardar();
+				Usuario::setAlerta('error', 'El enlace de confirmación ha expirado. Solicita uno nuevo.');
+				$alertas = Usuario::getAlertas();
+			} else {
+				// El token es válido: confirmamos la cuenta
+				$usuario->confirmado = 1;
+				// Limpiamos campos de token y expiración
+				$usuario->token = null;
+				$usuario->token_expiracion = null;
+				$usuario->guardar();
 
-			Usuario::setAlerta('exito', 'Cuenta confirmada con éxito');
-			$alertas = Usuario::getAlertas();
+				Usuario::setAlerta('exito', 'Cuenta confirmada con éxito');
+				$alertas = Usuario::getAlertas();
+			}
 		}
-
-
-
 		$router->renderizar('auth/confirmar', [
 			'titulo' => 'Confirma tu cuenta',
 			'alertas' => $alertas

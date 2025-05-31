@@ -24,6 +24,7 @@
 
 	<div class="acciones">
 		<a href="/login" data-scroll="inicio" class="acciones__enlace">Iniciar sesión</a>
+		<a href="/olvide" data-scroll="inicio" class="acciones__enlace">Olvidé mi contraseña</a>
 		<a href="/registro" data-scroll="inicio" class="acciones__enlace">¿No tienes cuenta? Registrarse</a>
 	</div>
 </main>
