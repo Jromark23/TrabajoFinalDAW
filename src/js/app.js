@@ -5,6 +5,7 @@ import './slider.js';
 import './mapa.js';
 import './registro.js';
 import './regalos.js';
+import './cookies.js';
 
 
 // Evita el envío de los formulario con Enter

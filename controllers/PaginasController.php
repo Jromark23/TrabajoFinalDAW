@@ -158,4 +158,11 @@ class PaginasController
 			'titulo' => 'Página no encontrada'
 		]);
 	}
+
+	public static function politicaCookies(Router $router)
+	{
+		$router->renderizar(('paginas/politica-cookies'), [
+			'titulo' => 'Política de Cookies'
+		]);
+	}
 }

@@ -1,0 +1,105 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.cookies {
+	@include m.contenedor;
+	padding: 2rem;
+
+	&__heading {
+	font-size: 2.4rem;
+	margin-bottom: 2rem;
+
+	@include m.tablet {
+		font-size: 3rem;
+	}
+	}
+
+	&__subtitulo {
+	font-size: 1.8rem;
+	margin-top: 3rem;
+	margin-bottom: 1rem;
+	color: v.$azul;
+	}
+
+	&__subcategoria {
+	font-size: 1.6rem;
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+	color: v.$gris-oscuro;
+	}
+
+	&__categoria {
+	font-size: 1.6rem;
+	margin-top: 2rem;
+	font-weight: bold;
+	color: v.$negro;
+	}
+
+	&__texto {
+	font-size: 1.7rem;
+	line-height: 1.7;
+	margin-bottom: 1.5rem;
+	color: v.$gris-oscuro;
+	}
+
+	&__lista {
+	list-style: none;
+	padding-left: 1rem;
+	margin: 1.5rem 0;
+
+	li {
+		margin-bottom: 1rem;
+		font-size: 1.7rem;
+	}
+
+	a {
+		color: v.$azul;
+		text-decoration: underline;
+
+		&:hover {
+		text-decoration: none;
+		}
+	}
+	}
+
+	&__enlace {
+	color: v.$azul;
+	text-decoration: underline;
+
+	&:hover {
+		text-decoration: none;
+	}
+	}
+
+	&__bloques {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	margin-top: 2rem;
+	}
+
+	&__bloque {
+	background-color: v.$gris-claro;
+	padding: 1.5rem;
+	border-radius: 1rem;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+
+	@include m.tablet {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1rem 2rem;
+	}
+	}
+
+	&__campo {
+	font-size: 1.7rem;
+	line-height: 1.6;
+	}
+
+	&__actualizacion {
+	font-size: 1.2rem;
+	color: v.$gris;
+	margin-top: 2rem;
+	text-align: right;
+	}
+}

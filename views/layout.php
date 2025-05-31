@@ -13,6 +13,9 @@
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<link rel="stylesheet" href="/build/css/app.css">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+	<!-- Banner de cookies  -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+
 	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 	<!-- <script
 		src="https://www.paypal.com/sdk/js?client-id=BAA7HMUhOEFfWowkMxV5OpilFpZ2LFWnKVMpyIZGVs7eTl4lPYWt7cHxOjO0XfURD7VLoJpH4bT3tClALI&components=hosted-buttons&disable-funding=venmo&currency=EUR">
@@ -21,6 +24,8 @@
 		src="https://www.sandbox.paypal.com/sdk/js?client-id=AXSRRWOn38sM4QG14_dTCXaYd8HruGZl9ENAtlUBDsnLPasLjT7xiF1cz27IThVtH08dH9rx73bbX5q7&currency=EUR">
 	</script>
 
+	<!-- Librería de Cookie Consent  -->
+    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
 
 </head>
 

@@ -93,6 +93,7 @@ $router->get('/entradas', [PaginasController::class, 'entradas']);
 $router->get('/eventos', [PaginasController::class, 'eventos']);
 $router->get('/talleres', [PaginasController::class, 'talleres']);   // aqui 
 $router->get('/404', [PaginasController::class, 'error']);
+$router->get('/politica-cookies', [PaginasController::class, 'politicaCookies']);
 
 // Registro usuarios
 $router->get('/finalizar', [RegistroController::class, 'crear']);
