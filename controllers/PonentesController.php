@@ -53,10 +53,48 @@ class PonentesController
 		$alertas = [];
 		$ponente = new Ponente;
 
+
+
+
+
+
+		/*
+		*     VALIDACION DE LAS IMAGENES
+		*/
+
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 			// Comprobar que venga la imagen
 			if (!empty($_FILES['imagen']['tmp_name'])) {
+
+				// VALIDAR TAMAÑO MÁXIMO 
+				$maxSize = 2 * 1024 * 1024; // 2MB en bytes
+				if ($_FILES['imagen']['size'] > $maxSize) {
+					Ponente::setAlerta('error', 'La imagen no puede superar los 2 MB.');
+					// Renderizar la vista con alertas y terminar la ejecución
+					$router->renderizar('admin/ponentes/crear', [
+						'titulo'   => 'Registrar ponente',
+						'alertas'  => Ponente::getAlertas(),
+						'ponente'  => new Ponente,
+						'rrss'     => json_decode(json_encode([]))
+					]);
+					return;
+				}
+
+				// Validar tipos solo aceptar JPG o PNG
+				$info = getimagesize($_FILES['imagen']['tmp_name']);
+				if (!$info || ($info[2] !== IMAGETYPE_JPEG && $info[2] !== IMAGETYPE_PNG)) {
+					Ponente::setAlerta('error', 'Solo se permiten imágenes en formato JPG o PNG.');
+					$router->renderizar('admin/ponentes/crear', [
+						'titulo'   => 'Registrar ponente',
+						'alertas'  => Ponente::getAlertas(),
+						'ponente'  => new Ponente,
+						'rrss'     => json_decode(json_encode([]))
+					]);
+					return;
+				}
+
+
 				// $img_folder = '../img/speakers';
 				$img_folder = __DIR__ . '/../src/img/speakers';
 
@@ -74,6 +112,8 @@ class PonentesController
 
 				$_POST['imagen'] = $nombre_imagen;
 			}
+
+
 
 			// sanitizamos el array para que no de error y escapamos las \
 			$_POST['rrss'] = json_encode($_POST['rrss'], JSON_UNESCAPED_SLASHES);
@@ -127,6 +167,7 @@ class PonentesController
 			exit;
 		}
 
+
 		$ponente->img_actual = $ponente->imagen;
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -138,9 +179,37 @@ class PonentesController
 
 			// Comprobar si hay imagen
 			if (!empty($_FILES['imagen']['tmp_name'])) {
+
+
+				// Validar el tamaño maximo 
+				$maxSize = 2 * 1024 * 1024;
+				if ($_FILES['imagen']['size'] > $maxSize) {
+					Ponente::setAlerta('error', 'La imagen no puede superar los 2 MB.');
+					$router->renderizar('admin/ponentes/crear', [
+						'titulo'   => 'Registrar ponente',
+						'alertas'  => Ponente::getAlertas(),
+						'ponente'  => new Ponente,
+						'rrss'     => json_decode(json_encode([]))
+					]);
+					return;
+				}
+
+				// Validar tipos solo aceptar JPG o PNG
+				$info = getimagesize($_FILES['imagen']['tmp_name']);
+				if (!$info || ($info[2] !== IMAGETYPE_JPEG && $info[2] !== IMAGETYPE_PNG)) {
+					Ponente::setAlerta('error', 'Solo se permiten imágenes en formato JPG o PNG.');
+					$router->renderizar('admin/ponentes/crear', [
+						'titulo'   => 'Registrar ponente',
+						'alertas'  => Ponente::getAlertas(),
+						'ponente'  => new Ponente,
+						'rrss'     => json_decode(json_encode([]))
+					]);
+					return;
+				}
+				
 				//$img_folder = '/img/speakers';
 				$img_folder = __DIR__ . '/../src/img/speakers';
-				
+
 
 				// Si no existe, crea la carpeta
 				if (!is_dir($img_folder)) {

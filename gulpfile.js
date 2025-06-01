@@ -56,7 +56,7 @@ function versionWebp(done) {
 	const opciones = {
 		quality: 50
 	};
-	src('src/img/**/*.{png,jpg}', { base: 'src/img' })
+	src('src/img/**/*.{png,jpg,jpeg}', { base: 'src/img' })
 		.pipe(webp(opciones))
 		.pipe(dest('public/build/img'));
 	done();
@@ -66,7 +66,7 @@ function versionAvif(done) {
 	const opciones = {
 		quality: 50
 	};
-	src('src/img/**/*.{png,jpg}', { base: 'src/img' })
+	src('src/img/**/*.{png,jpg,jpeg}', { base: 'src/img' })
 		.pipe(avif(opciones))
 		.pipe(dest('public/build/img'));
 	done();
