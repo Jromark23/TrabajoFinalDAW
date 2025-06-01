@@ -90,7 +90,7 @@
 		const listaHorasArray = Array.from(listaHoras);
 
 
-		const resultado = listaHorasArray.filter(li => !horasUsadas.includes(li.dataset.horaId));
+		const resultado = listaHorasArray.filter(li => !horasUsadas.includes(Number(li.dataset.horaId)));
 
 		resultado.forEach(li => li.classList.remove('horas__hora--disabled'))
 
