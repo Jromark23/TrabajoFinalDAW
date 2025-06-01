@@ -1,4 +1,5 @@
 <?php
+
 use Model\Usuario;
 
 // funcion que me ayuda a debuguear facilmente simplemente indicando la variable, y dandole formato con PRE
@@ -27,40 +28,40 @@ function pagina_actual($path)
 function is_user(): bool
 {
 	// Verificamos que la sesion tiene ID
-    $userId = $_SESSION['id'] ?? null;
+	$userId = $_SESSION['id'] ?? null;
 
-    if (!$userId) {
+	if (!$userId) {
 		return false;
-    }
-	
-    // Comprobamos si corresponde a un usuario real
-    $usuario = Usuario::find($userId);
-    if (!$usuario) {
-        return false;
-    }
+	}
 
-	
-    return true;
+	// Comprobamos si corresponde a un usuario real
+	$usuario = Usuario::find($userId);
+	if (!$usuario) {
+		return false;
+	}
+
+
+	return true;
 }
 
 // Devuelve si el usuario logado actual es admin
 function is_admin(): bool
 {
 	// Comprobamos que hay usuario logado
-    $userId = $_SESSION['id'] ?? null;
-    if (!$userId) {
-        return false;
-    }
+	$userId = $_SESSION['id'] ?? null;
+	if (!$userId) {
+		return false;
+	}
 
-    // Si lo hay, lo buscamos en la base de datos 
-    $usuario = Usuario::find($userId);
+	// Si lo hay, lo buscamos en la base de datos 
+	$usuario = Usuario::find($userId);
 
-    if (!$usuario) {
-        return false;
-    }
-	
-    // Si en BD es admin devuelve true
-    return ($usuario->admin == 1) ? true : false ;
+	if (!$usuario) {
+		return false;
+	}
+
+	// Si en BD es admin devuelve true
+	return ($usuario->admin == 1) ? true : false;
 }
 
 // Funcion para la libreria AOS que ayuda a que haya animaciones random para usar
@@ -84,10 +85,22 @@ function animacion_aos()
 	return ' data-aos="' . $efectos[$efecto] . '" ';
 }
 
-function csrf(): string {
-    $token = $_SESSION['csrf_token'] ?? '';
-    
-    $tokenEscapado = htmlspecialchars($token, ENT_QUOTES, 'UTF-8');
-    return "<input type=\"hidden\" name=\"csrf_token\" value=\"{$tokenEscapado}\">";
+function csrf(): string
+{
+	$token = $_SESSION['csrf_token'] ?? '';
+
+	$tokenEscapado = htmlspecialchars($token, ENT_QUOTES, 'UTF-8');
+	return "<input type=\"hidden\" name=\"csrf_token\" value=\"{$tokenEscapado}\">";
+}
+
+function validar_csrf()
+{
+	// Validamos CSRF para asegurarnos de que la petición viene de nuestro formulario
+	$tokenForm = $_POST['csrf_token'] ?? '';
+	$tokenSess = $_SESSION['csrf_token'] ?? '';
+	if (!hash_equals($tokenSess, $tokenForm)) {
+		http_response_code(403);
+		exit('Error: token CSRF inválido.');
+	}
 }
 

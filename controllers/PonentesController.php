@@ -64,6 +64,8 @@ class PonentesController
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+			validar_csrf();
+
 			// Comprobar que venga la imagen
 			if (!empty($_FILES['imagen']['tmp_name'])) {
 
@@ -172,6 +174,8 @@ class PonentesController
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+			validar_csrf();
+
 			if (!is_admin()) {
 				header('Location: /login');
 				exit;
@@ -264,6 +268,8 @@ class PonentesController
 
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+			validar_csrf();
 			$id = $_POST['id'];
 
 			$ponente = Ponente::find($id);

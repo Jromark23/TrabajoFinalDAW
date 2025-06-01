@@ -51,6 +51,8 @@ class RegistroController
 	{
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			validar_csrf();
+
 			if (!is_user()) {
 				header('Location: /login');
 				exit;
@@ -80,6 +82,7 @@ class RegistroController
 	{
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			validar_csrf();
 			if (!is_user()) {
 				header('Location: /login');
 				exit;
@@ -109,6 +112,7 @@ class RegistroController
 	{
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			validar_csrf();
 			if (!is_user()) {
 				header('Location: /login');
 				exit;
@@ -167,6 +171,7 @@ class RegistroController
 	{
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			validar_csrf();
 			if (!is_user()) {
 				header('Location: /login');
 				exit;
@@ -261,7 +266,8 @@ class RegistroController
 		$regalos = Regalo::all('ASC');
 
 		// Registro
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {validar_csrf();
+
 			if (!is_user()) {
 				header('Location: /login');
 				exit;

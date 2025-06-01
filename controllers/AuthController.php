@@ -15,14 +15,7 @@ class AuthController
 		$alertas = [];
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-			// Validamos CSRF para asegurarnos de que la petición viene de nuestro formulario
-			$tokenForm = $_POST['csrf_token'] ?? '';
-			$tokenSess = $_SESSION['csrf_token'] ?? '';
-			if (!hash_equals($tokenSess, $tokenForm)) {
-				http_response_code(403);
-				exit('Error: token CSRF inválido.');
-			}
+			validar_csrf();
 
 			// Creamos un objeto Usuario con los datos del formulario
 			$usuarioFormulario = new Usuario($_POST);
@@ -112,6 +105,7 @@ class AuthController
 	public static function logout()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			validar_csrf();
 			$_SESSION = [];
 			session_destroy();
 			header('Location: /');
@@ -125,7 +119,7 @@ class AuthController
 		$usuario = new Usuario;
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+			validar_csrf();
 			//debuguear($_POST);
 
 			$usuario->sincronizar($_POST);
@@ -182,6 +176,9 @@ class AuthController
 		$alertas = [];
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+			validar_csrf();
+
 			$usuario = new Usuario($_POST);
 			$alertas = $usuario->validarEmail();
 
@@ -262,6 +259,8 @@ class AuthController
 
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && $token_valido) {
+
+			validar_csrf();
 
 			$usuario->sincronizar($_POST);
 			$alertas = $usuario->validarPassword();

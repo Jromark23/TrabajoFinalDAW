@@ -2,10 +2,10 @@
 session_set_cookie_params([
 	'lifetime' => 0,
 	'path'     => '/',
-	//'secure'   => true,   // Solo se enviara si es HTTPS
-	'secure'   => false,   // ELIMINAR EN PROD
-	'httponly' => true,   // No permite entrar por JavaScript
-	'samesite' => 'Lax'
+	//'secure'   => true, // Solo se enviara si es HTTPS
+	'secure'   => false,  // ELIMINAR EN PROD
+	'httponly' => true,   // No permite entrar por JavaScript, preveniendo ataques XSS
+	'samesite' => 'Lax'	  // Se envia en navegaciones normales pero no en POST o scripts externos
 ]);
 
 // 		 ARRANCAR SESIÓN Y CREAR TOKEN CSRF, asegurarnos de no reiniciarla

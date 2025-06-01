@@ -70,6 +70,9 @@ class EventosController
 		$evento = new Evento;
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+			validar_csrf();
+
 			$evento->sincronizar($_POST);
 
 			$alertas = $evento->validar();
@@ -124,6 +127,8 @@ class EventosController
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+			validar_csrf();
+
 			if (!is_admin()) {
 				header('Location: /login');
 				exit;
@@ -160,6 +165,8 @@ class EventosController
 		$alertas = [];
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+			validar_csrf();
 			$id = $_POST['id'];
 
 			$evento = Evento::find($id);
