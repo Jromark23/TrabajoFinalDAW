@@ -94,6 +94,7 @@ $router->get('/eventos', [PaginasController::class, 'eventos']);
 $router->get('/talleres', [PaginasController::class, 'talleres']);   // aqui 
 $router->get('/404', [PaginasController::class, 'error']);
 $router->get('/politica-cookies', [PaginasController::class, 'politicaCookies']);
+$router->get('/politica-privacidad', [PaginasController::class, 'politicaPrivacidad']);
 
 // Registro usuarios
 $router->get('/finalizar', [RegistroController::class, 'crear']);

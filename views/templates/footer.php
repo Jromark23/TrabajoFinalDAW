@@ -28,5 +28,7 @@
 		<span class="footer__copyright--peque">
 			- Todos los derechos reservados &copy; <?= date('Y') ?>
 		</span>
+		<a class="footer__enlace" data-scroll="inicio" href="/politica-cookies">Política de Cookies</a>
+		<a class="footer__enlace" data-scroll="inicio" href="/politica-privacidad">Política de Privacidad</a>
 	</p>
 </footer>

@@ -165,4 +165,11 @@ class PaginasController
 			'titulo' => 'Política de Cookies'
 		]);
 	}
+
+	public static function politicaPrivacidad(Router $router)
+	{
+		$router->renderizar(('paginas/politica-privacidad'), [
+			'titulo' => 'Política de privacidad'
+		]);
+	}
 }

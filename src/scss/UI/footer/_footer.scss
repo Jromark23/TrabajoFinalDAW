@@ -36,9 +36,17 @@
 		text-align: center;
 		font-size: 1.4rem;
 		font-weight: v.$black;
+		display: flex;
+		justify-content: center;
+		gap: 2rem;
 
 		&--peque {
 			font-weight: v.$regular;
 		}
+	}
+
+	&__enlace {
+		@include m.enlace;
+		font-weight: v.$semibold;
 	}
 }

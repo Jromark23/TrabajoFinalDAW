@@ -45,22 +45,25 @@ class Email
 
 		$mail->setFrom($_ENV['EMAIL_USER'], 'Trabajo Final');
 		$mail->addAddress($this->email, $this->nombre);
-		$mail->Subject = 'Confirma tu Cuenta';
+		$mail->Subject = 'Confirma tu cuenta';
 
 		$mail->isHTML(true);
 		$mail->CharSet = 'UTF-8';
-		$mail->Body = "
-            <html>
-                <p><strong>Hola {$this->nombre}</strong>, tu cuenta ha sido creada, pero es necesario confirmarla.</p>
-                <p><a href='{$_ENV['HOST']}/confirmar-cuenta?token={$this->token}'>Confirmar Cuenta</a></p>
-            </html>
-        ";
 
+		// Variables para la plantilla
+		$nombre       = $this->nombre;
+		$enlace       = $_ENV['HOST'] . '/confirmar-cuenta?token=' . $this->token;
+		$logoUrl      = $_ENV['HOST'] . '/img/logo-email.png';
+		$polCookies   = $_ENV['HOST'] . '/politica-cookies';
+		$polPrivacy   = $_ENV['HOST'] . '/politica-privacidad';
+		$darseBaja    = $_ENV['HOST'] . '/desuscribirse';
 
+		// Cargar la plantilla HTML en un buffer y limpiarlo despues
+		ob_start();
+		require __DIR__ . '/../views/emails/confirmar.php';
+		$htmlBody = ob_get_clean();
 
-
-		// $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
-
+		$mail->Body    = $htmlBody;
 		$mail->send();
 	}
 
@@ -75,15 +78,20 @@ class Email
 
 		$mail->isHTML(true);
 		$mail->CharSet = 'UTF-8';
-		$mail->Body = "
-            <html>
-                <p><strong>Hola {$this->nombre}</strong>, has solicitado reestablecer tu contraseña.</p>
-                <p><a href='{$_ENV['HOST']}/reestablecer?token={$this->token}'>Reestablecer contraseña</a></p>
-            </html>
-        ";
+		// Variables para la plantilla
+		$nombre       = $this->nombre;
+		$enlace       = $_ENV['HOST'] . '/reestablecer?token=' . $this->token;
+		$logoUrl      = $_ENV['HOST'] . '/img/logo-email.png';
+		$polCookies   = $_ENV['HOST'] . '/politica-cookies';
+		$polPrivacy   = $_ENV['HOST'] . '/politica-privacidad';
+		$darseBaja    = $_ENV['HOST'] . '/desuscribirse';
 
-		// $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
+		// Cargar plantilla HTML en buffer y limpiuar despues 
+		ob_start();
+		require __DIR__ . '/../views/emails/reestablecer.php';
+		$htmlBody = ob_get_clean();
 
+		$mail->Body    = $htmlBody;
 		$mail->send();
 	}
 }
