@@ -218,10 +218,25 @@ class RegistroController
 		// Comprobar que tiene entrada presencial 
 		$usuario_id = $_SESSION['id'];
 		$registro = Registro::where('usuario_id', $usuario_id);
-		
+		$eventoRegistro = EventosRegistros::where('registro_id', $registro->id);
+
+		// Si no tiene registro no permitir el acceso a la web
 		if(!isset($registro)) {
 			header('Location: /');
 		}
+		
+		// Si ya tiene evento asociado, mandarle a su entrada
+		if($eventoRegistro) {
+			header('Location: /entrada?id=' . urlencode($registro->token));
+		}
+		
+
+		// if ($registro->paquete_id) { 
+		// 	header('Location: /entrada?id=' . urlencode($registro->token));
+		// 	exit;
+		// }
+		
+
 
 		// Si ya existe el registro y su paquete es virtual le mandamos a su entrada
 		if ($registro->paquete_id === 2) {
@@ -235,11 +250,11 @@ class RegistroController
 			exit;
 		}
 
-		// Si ya tiene el registro, redirigir a la entrada
-		if ($registro->paquete_id === 1) {
-			header('Location: /entrada?id=' . urlencode($registro->token));
-			exit;
-		}
+		// // Si ya tiene el registro, redirigir a la entrada        REVISAR
+		// if ($registro->paquete_id === 1) {
+		// 	header('Location: /entrada?id=' . urlencode($registro->token));
+		// 	exit;
+		// }
 
 
 		$eventos = Evento::whereOrden('hora_id', 'ASC');

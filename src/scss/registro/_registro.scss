@@ -4,10 +4,30 @@
 .eventos-registro {
 	@include m.contenedor;
 
+	display: flex;
+	flex-direction: column; // por defecto: columna
+
+	> main {
+		order: 2; // listado abajo
+	}
+
+	> aside {
+		order: 1; // aside arriba
+	}
+
+		
 	@include m.tablet {
 		display: flex;
 		gap: 2rem;
 		align-items: flex-start; // necesario para el sticky de registro 
+
+		> :first-child {
+			flex-basis: 70%;
+		}
+
+		> :last-child {
+			flex-basis: 30%;
+		}
 	}
 
 
@@ -25,9 +45,9 @@
 		@include m.tablet {
 			@include m.grid(2, 3rem);
 		}
-		// @include m.desktop {
-		// 	@include m.grid(3, 5rem);
-		// }
+		@include m.desktop {
+			@include m.grid(3, 5rem);
+		}
 	}
 
 	&__heading {
