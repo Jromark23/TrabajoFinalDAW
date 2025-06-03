@@ -3,6 +3,8 @@
 (function () {
 
 	const ctx = document.getElementById('myChart');
+	if (!ctx) return; // si no existe canvas, salir
+
 
 	obtenerDatos();
 	async function obtenerDatos() {
@@ -54,14 +56,6 @@
 			}
 		});
 	}
-
-
-
-
-
-
-
-
 })();
 
 

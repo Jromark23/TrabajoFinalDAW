@@ -20,9 +20,9 @@
 		</div>
 		<p class="registro__disponibles"><?= $evento->disponibles  . " Asientos disponibles" ?></p>
 		<button type="button" data-id="<?= $evento->id ?>" class="evento__boton"
-			<?= ($evento->disponibles === "0") ? 'disabled' : '' ?>
+			<?= ($evento->disponibles === 0) ? 'disabled' : '' ?>
 		>
-			<?= ($evento->disponibles !== "0") ? 'Agregar' : 'Agotado' ?>
+			<?= ($evento->disponibles !== 0) ? 'Agregar' : 'Agotado' ?>
 		</button>
 	</div>
 </div>

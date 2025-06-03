@@ -31,20 +31,20 @@
 		background-color: lighten(v.$gris-oscuro, 20);
 	}
 
-	// &__logo {
-	// 	@include m.logo;
-	// 	@include m.texto-fluido(2rem, 4rem);
-	// }
+	&__logo {
+		@include m.logo;
+		@include m.texto-fluido(2rem, 4rem);
+	}
 
-	// &__plan, &__nombre {
-	// 	font-size: 2rem;
-	// 	font-weight: v.$regular;
-	// }
+	&__plan, &__nombre {
+		font-size: 2rem;
+		font-weight: v.$regular;
+	}
 
-	// &__codigo {
-	// 	font-size: 3rem;
-	// 	font-weight: v.$semibold;
-	// }
+	&__codigo {
+		font-size: 3rem;
+		font-weight: v.$semibold;
+	}
 
 	&--acceso {
 		width: 30rem;

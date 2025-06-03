@@ -55,7 +55,7 @@
 </main>
 
 <script>
-	// Boton de presencial 
+	// Boton de paypal pago presencial 
 	paypal.Buttons({
 		createOrder: function(data, actions) {
 			return actions.order.create({
@@ -69,6 +69,7 @@
 			});
 		},
 		onApprove: function(data, actions) {
+			//alert("script linea 73 ");
 			return actions.order.capture().then(function(details) {
 				const datos = new FormData();
 				// Recogemos el array que nos devuelve paypal con la informacion y cogemos descripcion y el pago_id
@@ -94,7 +95,7 @@
 		}
 	}).render('#paypal-button-container-presencial');
 
-
+	//boton de virtual
 	paypal.Buttons({
 		createOrder: function(data, actions) {
 			return actions.order.create({
@@ -121,9 +122,10 @@
 					.then(respuesta => respuesta.json())
 					.then(resultado => {
 						if (resultado.resultado) {
-							actions.redirect('http://localhost:3000/finalizar/conferencias');
+							actions.redirect('http://localhost:3000/finalizar');
 						}
 					})
+
 			});
 		},
 		onError: function(err) {

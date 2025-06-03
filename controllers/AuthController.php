@@ -11,6 +11,12 @@ class AuthController
 {
 	public static function login(Router $router)
 	{
+		// si ya esta logado, no puede volver a login 
+		if (is_user()) {
+			header('Location: /');
+			exit;
+		}
+
 		// Reiniciar las alertas al iniciar la petición
 		$alertas = [];
 
@@ -39,7 +45,7 @@ class AuthController
 					$minutosDif  = $ultimo ? ($ahora->getTimestamp() - $ultimo->getTimestamp()) / 60 : null;
 
 					// Si "esta bloqueado", calculamos cuánto queda para desbloquear y mandamos el mensaje sin dejarle acceder
-					if ($usuario->intentos_fallidos >= 5 && $minutosDif !== null && $minutosDif < 30) {
+					if ($usuario->intentos_fallidos >= 5 && $minutosDif != null && $minutosDif < 30) {
 						$minutosRestantes = max(0, 30 - floor($minutosDif));
 						Usuario::setAlerta(
 							'error',
@@ -48,7 +54,7 @@ class AuthController
 						$alertas = Usuario::getAlertas();
 					} else {
 						// Si han pasado más de 30 minutos desde el último intento, reseteamos el contador
-						if ($ultimo && $minutosDif !== null && $minutosDif >= 30) {
+						if ($ultimo && $minutosDif != null && $minutosDif >= 30) {
 							$usuario->intentos_fallidos = 0;
 							$usuario->ultimo_intento    = null;
 							$usuario->guardar();
@@ -115,6 +121,11 @@ class AuthController
 
 	public static function registro(Router $router)
 	{
+		// si ya esta logado, le mandamos a la pagina de comprar o a su entrada
+		if (is_user()) {
+			header('Location: /finalizar');
+			exit;
+		}
 		$alertas = [];
 		$usuario = new Usuario;
 

@@ -169,9 +169,10 @@ class RegistroController
 
 	public static function pagar(Router $router)
 	{
+		//debuguear("Registro controler PAGAR");
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			validar_csrf();
+
 			if (!is_user()) {
 				header('Location: /login');
 				exit;
@@ -217,25 +218,28 @@ class RegistroController
 		// Comprobar que tiene entrada presencial 
 		$usuario_id = $_SESSION['id'];
 		$registro = Registro::where('usuario_id', $usuario_id);
+		
+		if(!isset($registro)) {
+			header('Location: /');
+		}
 
 		// Si ya existe el registro y su paquete es virtual le mandamos a su entrada
-		if (isset($registro) && $registro->paquete_id === '2') {
+		if ($registro->paquete_id === 2) {
 			header('Location: /entrada?id=' . urlencode($registro->token));
 			exit;
 		}
 
 		// Si el paquete no es presencial, le mandamos a inicio
-		if ($registro->paquete_id !== "1") {
-			header('Location: /');
+		if ($registro->paquete_id === 3) {
+			header('Location: /entrada?id=' . urlencode($registro->token));
 			exit;
 		}
 
-		// // Si ya tiene el registro, redirigir a la entrada
-
-		// if (isset($registro->regalo_id) && $registro->paquete_id === "1") {
-		// 	header('Location: /entrada?id=' . urlencode($registro->token));
-		// 	exit;
-		// }
+		// Si ya tiene el registro, redirigir a la entrada
+		if ($registro->paquete_id === 1) {
+			header('Location: /entrada?id=' . urlencode($registro->token));
+			exit;
+		}
 
 
 		$eventos = Evento::whereOrden('hora_id', 'ASC');
@@ -245,20 +249,22 @@ class RegistroController
 		foreach ($eventos as $evento) {
 
 			$evento->categoria = Categoria::find($evento->categoria_id);
-			$evento->dia = Dia::find($evento->dia_id);
+			$evento->dia_objeto = Dia::find($evento->dia_id);
 			$evento->hora = Hora::find($evento->hora_id);
 			$evento->ponente = Ponente::find($evento->ponente_id);
 
-			if ($evento->dia_id === '1' && $evento->categoria_id === '1') {
+			//debuguear($evento);
+
+			if ($evento->dia_id === 1 && $evento->categoria_id === 1) {
 				$eventos_formateados['conferencia_v'][] = $evento;
 			}
-			if ($evento->dia_id === '2' && $evento->categoria_id === '1') {
+			if ($evento->dia_id === 2 && $evento->categoria_id === 1) {
 				$eventos_formateados['conferencia_s'][] = $evento;
 			}
-			if ($evento->dia_id === '1' && $evento->categoria_id === '2') {
+			if ($evento->dia_id === 1 && $evento->categoria_id === 2) {
 				$eventos_formateados['taller_v'][] = $evento;
 			}
-			if ($evento->dia_id === '2' && $evento->categoria_id === '2') {
+			if ($evento->dia_id === 2 && $evento->categoria_id === 2) {
 				$eventos_formateados['taller_s'][] = $evento;
 			}
 		}
@@ -266,7 +272,8 @@ class RegistroController
 		$regalos = Regalo::all('ASC');
 
 		// Registro
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {validar_csrf();
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			//validar_csrf();
 
 			if (!is_user()) {
 				header('Location: /login');
@@ -282,7 +289,8 @@ class RegistroController
 			// Obtener el usuario
 			$usuario = Registro::where('usuario_id', $_SESSION['id']);
 			// Si no existe el usuario, o el usuario no tiene comprado presencial, lo echamos
-			if (!isset($usuario) || $usuario->paquete_id !== "1") {
+			//debuguear($usuario->paquete_id);
+			if (!isset($usuario) || $usuario->paquete_id !== 1) {
 				echo json_encode(['resultado' => false]);
 				exit;
 			}
@@ -291,8 +299,8 @@ class RegistroController
 			// Validar que quedan entradas 
 			foreach ($eventos as $evento_id) {
 				$evento = Evento::find($evento_id);
-
-				if (!isset($evento) || $evento->disponibles === "0") {
+				
+				if (!isset($evento) || $evento->disponibles === 0) {
 					echo json_encode(['resultado' => false]);
 					exit;
 				}
