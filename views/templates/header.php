@@ -20,15 +20,18 @@
 
 		<div class="header__contenido">
 			<a href="/" data-scroll="inicio">
-				<h1 class="header__logo">
-					&#60;ProyectoFinal />
-				</h1>
-
+				<picture>
+					<source srcset="/public/build/img/logol.webp" type="image/webp">
+					<source srcset="/public/build/img/logol.png" type="image/png">
+					<img class="header__img" src="/public/build/img/logol.png" alt="Imagen ponente">
+				</picture>
+			</a>
+			<div class="header__div">
 				<p class="header__texto">14 - 15 junio 2025</p>
-				<p class="header__texto header__texto--modalidad">On line - Presencial</p>
+				<p class="header__texto">On line - Presencial</p>
 
 				<a href="/registro" data-scroll="inicio" class="header__boton">Comprar entradas</a>
-			</a>
+			</div>
 		</div>
 	</div>
 </header>
@@ -41,19 +44,19 @@
 		</a>
 		<nav class="nav">
 			<a href="/nosotros" data-scroll="inicio" class="nav__enlace <?= pagina_actual('/nosotros') ?
-																	'nav__enlace--actual' : '' ?>">Evento</a>
+																			'nav__enlace--actual' : '' ?>">Evento</a>
 
 			<a href="/entradas" data-scroll="inicio" class="nav__enlace <?= pagina_actual('/entradas') ?
-																	'nav__enlace--actual' : '' ?>">Entradas</a>
+																			'nav__enlace--actual' : '' ?>">Entradas</a>
 
 			<a href="/talleres" data-scroll="inicio" class="nav__enlace <?= pagina_actual('/talleres') ?
-																	'nav__enlace--actual' : '' ?>">Talleres</a>
-																	
+																			'nav__enlace--actual' : '' ?>">Talleres</a>
+
 			<a href="/eventos" data-scroll="inicio" class="nav__enlace <?= pagina_actual('/eventos') ?
-																	'nav__enlace--actual' : '' ?>">Conferencias</a>
+																			'nav__enlace--actual' : '' ?>">Conferencias</a>
 
 			<a href="/registro" data-scroll="inicio" class="nav__enlace <?= pagina_actual('/registro') ?
-																	'nav__enlace--actual' : '' ?>">Comprar Entrada</a>
+																			'nav__enlace--actual' : '' ?>">Comprar Entrada</a>
 		</nav>
 	</div>
 </div>

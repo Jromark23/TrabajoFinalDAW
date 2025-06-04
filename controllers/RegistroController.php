@@ -13,6 +13,8 @@ use Model\Ponente;
 use Model\Regalo;
 use Model\Evento;
 use Model\EventosRegistros;
+require_once __DIR__ . '/../libs/phpqrcode/qrlib.php';
+
 
 class RegistroController
 {
@@ -140,15 +142,26 @@ class RegistroController
 
 	public static function entrada(Router $router)
 	{
-		$id = $_GET['id'];
-		//debuguear($id);
+		$tokenEntrada = $_GET['id'] ?? null;
+		//$session_id = $_SESSION['id'];
+		
+		// // Si hay un usuario logado, que tiene un registro le mandamos a la entrada 
+		// $user = Usuario::find($session_id);
+		// if($user) {
+		// 	$registro = Registro::where('usuario_id', $user->id);	
+		// 	if($registro->token) {
+		// 		//debuguear($registro->token);
+		// 		header('Location: /entrada?id=' . urlencode($registro->token));
+		// 		exit;
+		// 	}
+		// }
 
-		if (!$id || strlen($id) !== 8) {
+		if (!$tokenEntrada || strlen($tokenEntrada) !== 8) {
 			header('Location: /');
 			exit;
 		}
 
-		$registro = Registro::where('token', $id);
+		$registro = Registro::where('token', $tokenEntrada);
 
 		//debuguear($registro);
 
@@ -157,14 +170,47 @@ class RegistroController
 			exit;
 		}
 		
+		
 		$registro->usuario = Usuario::find($registro->usuario_id);
 		$registro->paquete = Paquete::find($registro->paquete_id);
 
+        $urlVerificar = "https://joelroman.site/registro/validar?token={$tokenEntrada}";
 
-		$router->renderizar('registro/entrada', [
-			'titulo' => 'Asistencia al evento',
-			'registro' => $registro
-		]);
+
+
+        // Donde ira el PNG temporal
+        $directorioSalida = __DIR__ . '/../public/qrtemp/';
+		
+        if (!is_dir($directorioSalida)) {
+            mkdir($directorioSalida, 0755, true);
+        }
+
+        $nombreArchivo = 'qr_' . $tokenEntrada . '.png';
+        $rutaCompleta   = $directorioSalida . $nombreArchivo;
+
+		
+        // Necesita: ($data, $outfile, $level, $size, $margin)
+        \QRcode::png(
+			$urlVerificar,  // texto que hay que codificar
+            $rutaCompleta,  // ruta donde guardar la imagen
+            QR_ECLEVEL_L,   // nivel de corrección (L, M, Q, H)
+            7,              // tamaño del QR
+            2               // margen
+        );
+		
+        // Convertir la imagen a datos Uri 
+        $datosPng = file_get_contents($rutaCompleta);
+        $qrDataUri = 'data:image/png;base64,' . base64_encode($datosPng);
+		
+        // Borrar el archivo temporal
+        unlink($rutaCompleta);
+		
+		//debuguear($urlVerificar);
+        $router->renderizar('registro/entrada', [
+            'titulo'    => 'Asistencia al evento',
+            'registro'  => $registro,
+            'qrDataUri' => $qrDataUri
+        ]);
 	}
 
 	public static function pagar(Router $router)
@@ -361,4 +407,36 @@ class RegistroController
 			'regalos' => $regalos
 		]);
 	}
+
+	public static function validar()
+    {
+        // 1) Leer el token que viene por GET
+        $token = $_GET['token'] ?? null;
+        if (!$token || strlen($token) !== 8) {
+            // Token inválido o ausente
+            echo "Token de validación inválido.";
+            exit;
+        }
+
+        // 2) Buscar en BD el registro con ese token
+        $registro = Registro::where('token', $token);
+        if (!$registro) {
+            echo "No existe ninguna entrada con ese código.";
+            exit;
+        }
+
+        // 3) (Opcional) Comprobar si ya fue validado antes
+        if ($registro->validado ?? false) {
+            echo "Esta entrada ya ha sido validada previamente.";
+            exit;
+        }
+
+        // // REVISAR añadir a la tabla para marcar como validado
+        // $registro->validado = 1;
+        // $registro->guardar(); hacer el update del registro para confirmar que ya esta dentro
+
+        // //Redirigir a la vista con el mensaje de OK 
+        // mensaje de todo OK 
+        //
+    }
 }

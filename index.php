@@ -102,6 +102,8 @@ $router->get('/entrada', [RegistroController::class, 'entrada']);
 $router->post('/finalizar/basico', [RegistroController::class, 'basico']);
 $router->post('/finalizar/virtual', [RegistroController::class, 'virtual']);
 $router->post('/finalizar/presencial', [RegistroController::class, 'presencial']);
+$router->get('/registro/validar',  [RegistroController::class, 'validar']);
+
 
 $router->post('/finalizar/pagar', [RegistroController::class, 'pagar']);
 $router->get('/finalizar/conferencias', [RegistroController::class, 'conferencias']);

@@ -1,6 +1,10 @@
 @use 'base/mixins' as m;
 @use 'base/variables' as v;
 
+// .tickets {
+// 	background-color: aqua;
+// }
+
 
 .ticket {
 	width: min(100% - 5rem, 65rem);
@@ -8,18 +12,41 @@
 	border-radius: 3rem;
 	color: v.$blanco;
 
-	background-image:  url('/build/img/codigoBarras.avif'), 
-		image-set(url('/build/img/codigoBarras.avif'), url('/build/img/codigoBarras.webp'));
-	background-repeat: no-repeat;
-	background-position: center bottom -4rem;
-	background-size: 80% auto;
+	// background-image:  url('/build/img/codigoBarras.avif'), 
+	// 	image-set(url('/build/img/codigoBarras.avif'), url('/build/img/codigoBarras.webp'));
+	// background-repeat: no-repeat;
+	// background-position: center bottom -4rem;
+	// background-size: 80% auto;
 
 	@include m.tablet {
 		width: 60rem;
-		height: 30rem;
-		background-position: right bottom 4rem;
+		//height: 30rem;
+		//background-position: right bottom 4rem;
 	}
 
+	&__grid{
+
+		
+		@include m.tablet {
+			@include m.grid(2, 3rem);
+		}
+	}
+
+	.ticket__qr {
+		text-align: center;
+		margin-top: 1rem;
+	}
+
+	img {
+		align-items: end;
+		width: 150px;
+		height: 150px;
+	}
+
+	.ticket__qr p {
+		font-size: 1.5rem;
+		margin-top: 0.5rem;
+	}
 
 	&--presencial{
 		background-color:v.$azul;
@@ -39,6 +66,7 @@
 	&__plan, &__nombre {
 		font-size: 2rem;
 		font-weight: v.$regular;
+		text-align: center;
 	}
 
 	&__codigo {
@@ -48,13 +76,15 @@
 
 	&--acceso {
 		width: 30rem;
-		height: 50rem;
-		padding: 6rem 3rem;
-	@include m.tablet {
-		width: 60rem;
-		height: 30rem;
-		//background-position: right bottom 4rem;
-	}
+		//height: 50rem;
+		padding: 4rem 3rem;
+
+		@include m.tablet {
+			width: 60rem;
+			//height: 30rem;
+			//background-position: right bottom 4rem;
+		}
+	
 		.ticket__logo {
 			@include m.texto-fluido(2rem, 3rem);
 		}
@@ -72,4 +102,6 @@
 		}
 	}
 
+
+	
 }

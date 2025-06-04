@@ -3,16 +3,34 @@
 
 .header {
 
-	min-height: 28rem;
+	min-height: 20rem;
 
 	@include m.tablet {
-		min-height: 35rem;
+		min-height: 28rem;
 	}
 	
 	@include m.desktop {
-		min-height: 42rem;
+		min-height: 32rem;
 	}
 	
+	&__img{
+		width: 20rem;
+		height: min-content;
+
+		@include m.tablet {
+			width: 30rem;
+		}
+	
+		@include m.desktop {
+			width: 40rem;
+		}
+	}
+
+	&__contenido {
+		display: flex;
+		justify-content: space-between;
+	}
+
 	// Hay que poner la relativa desde public/build/css que es donde compila
 	background-image: url(../img/grafico.svg), url(../img/grafico.svg), 
 	linear-gradient(to right, rgba(v.$negro, 1),rgba(v.$negro, 0.5)), 
@@ -64,20 +82,19 @@
 		}
 	}
 	&__texto {
-		font-size: 3rem;
+		font-size: 2rem;
 		font-weight: v.$bold;
 		color: v.$blanco;
-		margin: 2rem;
+		margin: 1.5rem;
 		text-align: center;
 		text-transform: uppercase;
 
 		@include m.tablet {
 			text-align: left;
+			font-size: 3rem;
 		}
 
-		&--modalidad {
-			font-size: 2rem;
-		}
+
 	}
 
 	&__boton {

@@ -9,6 +9,7 @@
 	margin: 4rem;
 
 	@include m.tablet {
-		justify-content: flex-end;
+		justify-content: center;
+		align-items: flex-end;
 	}
 }

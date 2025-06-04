@@ -7,11 +7,44 @@
 	padding-top: 3rem;
 	color: v.$blanco;
 
+	&__img{
+		width: 25rem;
+		height: min-content;
+	}
+	
+	&__contenido {
+		text-align: center;
+
+		@include m.tablet {
+			text-align: left;
+		}
+	}
+
 	&__grid {
 		@include m.contenedor;
 
 		@include m.tablet{
-			@include m.grid(2, 3rem)
+			@include m.grid(2, 3rem);
+					> *:nth-child(3) {
+				grid-column: 1 / -1;
+				grid-row: 2;
+			}
+
+		}
+
+		@include m.desktop{
+			@include m.grid(3, 3rem);
+		
+			> *:nth-child(3) {
+				grid-column: 3 / 3;
+				grid-row: 1;
+			}
+			
+		}
+
+		picture {
+			display: flex;
+			justify-content: center;
 		}
 	}
 
@@ -21,11 +54,12 @@
 	}
 
 	&__texto {
+		font-size: 1.4rem;
 		line-height: 2;
 		text-align: center;
 
 		@include m.tablet {
-			text-align: left;
+			// text-align: left;
 		}
 	}
 
