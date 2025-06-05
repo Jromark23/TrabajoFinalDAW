@@ -13,6 +13,7 @@ use Model\Ponente;
 use Model\Regalo;
 use Model\Evento;
 use Model\EventosRegistros;
+use Classes\Email;
 
 require_once __DIR__ . '/../libs/phpqrcode/qrlib.php';
 
@@ -177,7 +178,7 @@ class RegistroController
 
 		// REVISAR para pro"
 		//$urlVerificar = "https://joelroman.site/registro/validar?token={$tokenEntrada}";
-		$urlVerificar = "http://localhost:3000/registro/validar?token={$tokenEntrada}";
+		$urlVerificar = $_ENV['HOST'] . "/registro/validar?token={$tokenEntrada}";
 
 		// Donde ira el PNG temporal
 		$directorioSalida = __DIR__ . '/../public/qrtemp/';
@@ -204,7 +205,7 @@ class RegistroController
 		$qrDataUri = 'data:image/png;base64,' . base64_encode($datosPng);
 
 		// Borrar el archivo temporal
-		unlink($rutaCompleta);
+		//unlink($rutaCompleta);
 
 		//debuguear($urlVerificar);
 		$router->renderizar('registro/entrada', [
@@ -216,44 +217,87 @@ class RegistroController
 
 	public static function pagar(Router $router)
 	{
-		//debuguear("Registro controler PAGAR");
-
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-			if (!is_user()) {
-				header('Location: /login');
-				exit;
-			}
-		}
-		//debuguear($_POST);
-		// validar que no viene vacio post 
-		if (empty($_POST)) {
-			echo json_encode([]);
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+			echo json_encode(['resultado' => false]);
 			return;
 		}
 
-		//debuguear("aqui estoy");
+		if (!is_user()) {
+			// Devolvemos false para que JS no de fallo, y redirigimos desde alli.
+			echo json_encode(['resultado' => false]);
+			return;
+		}
 
-		// Guardamos la respuesta de paypal
+		if (empty($_POST)) {
+			echo json_encode(['resultado' => false]);
+			return;
+		}
+
+		// Datos para registrar el pago 
 		$datos = $_POST;
-		$datos['token'] = substr(md5(uniqid(rand(), true)), 0, 8);
+		$datos['token']      = substr(md5(uniqid(rand(), true)), 0, 8);
 		$datos['usuario_id'] = $_SESSION['id'];
 
-		//debuguear($datos);
 		try {
-			// si viene, crear el registro en la bbdd
-			$registro = new Registro($datos);
-			$resultado = $registro->guardar();
+			// Crear y guardar el registro
+			$registro  = new Registro($datos);
+			$resultado = $registro->guardar(); // true o false
 
-			echo json_encode([
-				'resultado' => $resultado
-			]);
+			if ($resultado) {
+				// Generamos el QR y guardamos la imagen
+				$tokenEntrada = $registro->token;
+
+				$urlVerificar = $_ENV['HOST'] . "/registro/validar?token={$tokenEntrada}";
+				//$urlVerificar = "http://localhost:3000/registro/validar?token={$tokenEntrada}";
+
+				$directorioQR = __DIR__ . '/../public/qrtemp/';
+				if (!is_dir($directorioQR)) {
+					mkdir($directorioQR, 0777, true);
+				}
+
+				$nombreArchivo = "qr_{$tokenEntrada}.png";
+				$rutaCompleta  = $directorioQR . $nombreArchivo;
+
+				\QRcode::png(
+					$urlVerificar,  // Texto a codificar en el QR
+					$rutaCompleta,  // Ruta donde se guarda el PNG
+					QR_ECLEVEL_L,   // Nivel de corrección
+					7,              // Tamaño del módulo
+					2               // Margen
+				);
+
+				// Enviar el correo confirmando y con el QR 
+				$usuario = Usuario::find($registro->usuario_id);
+				if ($usuario) {
+
+					$urlQrPublica = $_ENV['HOST'] . '/public/qrtemp/' . $nombreArchivo;
+
+					$email = new \Classes\Email(
+						$usuario->email,
+						$usuario->nombre . ' ' . $usuario->apellido,
+						$tokenEntrada 
+					);
+					$email->enviarEntrada($urlQrPublica);
+				} else {
+					error_log("Pago registrado (token={$tokenEntrada}) pero no se encontró usuario ID {$registro->usuario_id} para mandar el correo.");
+				}
+
+				// mandamos el token y el true para evitar fallo de redireccion
+				echo json_encode([
+					'resultado' => true,
+					'token'     => $tokenEntrada
+				]);
+				return;
+			}
+
+			// Si guardar falle, false
+			echo json_encode(['resultado' => false]);
 		} catch (\Throwable $th) {
-			echo json_encode([
-				'resultado' => 'error'
-			]);
+			// Si falla la bbdd error 
+			echo json_encode(['resultado' => 'error']);
 		}
 	}
+
 
 	public static function conferencias(Router $router)
 	{
@@ -453,7 +497,7 @@ class RegistroController
 
 		// Marcar como validado y guardar en base de datos
 		$registro->validado = 1;
-		$registro->guardar(); 
+		$registro->guardar();
 
 		// Mostrar mensaje de exito
 		$mensaje = "¡Entrada validada con éxito! Bienvenido al evento.";

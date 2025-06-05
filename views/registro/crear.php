@@ -69,7 +69,6 @@
 			});
 		},
 		onApprove: function(data, actions) {
-			//alert("script linea 73 ");
 			return actions.order.capture().then(function(details) {
 				const datos = new FormData();
 				// Recogemos el array que nos devuelve paypal con la informacion y cogemos descripcion y el pago_id
@@ -82,11 +81,27 @@
 						body: datos
 					})
 					.then(respuesta => respuesta.json())
-					.then(resultado => {
-						if (resultado.resultado) {
+					.then(json => {
+						if (json.resultado === true) {
 							actions.redirect('http://localhost:3000/finalizar/conferencias');
+							//actions.redirect('https://joelroman.site/finalizar/conferencias');
+							return;
 						}
+						if (json.resultado === false) {
+							window.location.href = 'http://localhost:3000';
+							//window.location.href = 'https://joelroman.site';
+							return;
+						}
+						if (json.resultado === 'error') {
+							alert('Ha habido un error. Por favor, inténtalo de nuevo.');
+							return;
+						}
+						alert('Respuesta inesperada. Vuelve a intentarlo.');
 					})
+					.catch(error => {
+						console.error('Error en fetch o al parsear JSON:', error);
+						alert('Ha ocurrido un error. Por favor, inténtalo más tarde.');
+					});
 			});
 		},
 		onError: function(err) {
@@ -120,11 +135,30 @@
 						body: datos
 					})
 					.then(respuesta => respuesta.json())
-					.then(resultado => {
-						if (resultado.resultado) {
+					.then(json => {
+						if (json.resultado === true) {
 							actions.redirect('http://localhost:3000/finalizar');
+							//actions.redirect('https://joelroman.site/finalizar');
+
+							return;
 						}
+
+						if (json.resultado === false) {
+							// Recomendable por paypal para interrumpir si hay eror
+							window.location.href = 'http://localhost:3000'; 
+							//window.location.href = 'https://joelroman.site';
+							return;
+						}
+						if (json.resultado === 'error') {
+							alert('Ha habido un error. Por favor, inténtalo de nuevo.');
+							return;
+						}
+						alert('Respuesta inesperada. Vuelve a intentarlo.');
 					})
+					.catch(error => {
+						console.error('Error en fetch o al parsear JSON:', error);
+						alert('Ha ocurrido un error. Por favor, inténtalo más tarde.');
+					});
 
 			});
 		},

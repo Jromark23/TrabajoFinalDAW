@@ -2,6 +2,7 @@
 
 namespace Classes;
 
+use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
@@ -64,7 +65,11 @@ class Email
 		$htmlBody = ob_get_clean();
 
 		$mail->Body    = $htmlBody;
-		$mail->send();
+		try {
+            $mail->send();
+        } catch (Exception $e) {
+            error_log("Error al enviar correo de entrada a {$this->email}: {$mail->ErrorInfo}");
+        }
 	}
 
 	public function enviarInstrucciones()
@@ -72,7 +77,7 @@ class Email
 		$mail = new PHPMailer();
 		$this->configurarSMTP($mail);
 
-		$mail->setFrom($_ENV['EMAIL_USER'], 'Trabajo Final');
+		$mail->setFrom($_ENV['EMAIL_USER'], 'Congrexia Events');
 		$mail->addAddress($this->email, $this->nombre);
 		$mail->Subject = 'Reestablece tu contraseña';
 
@@ -92,6 +97,47 @@ class Email
 		$htmlBody = ob_get_clean();
 
 		$mail->Body    = $htmlBody;
-		$mail->send();
+		try {
+            $mail->send();
+        } catch (Exception $e) {
+            error_log("Error al enviar correo de entrada a {$this->email}: {$mail->ErrorInfo}");
+        }
+	}
+
+	public function enviarEntrada(string $urlQrPublica)
+	{
+		$mail = new PHPMailer();
+		$this->configurarSMTP($mail);
+
+		$mail->setFrom($_ENV['EMAIL_USER'], 'Congrexia Events');
+		$mail->addAddress($this->email, $this->nombre);
+		//$mail->Subject = 'Tu entrada para el evento «' . $nombrePaquete . '»';
+		$mail->Subject = 'Tu entrada para el evento';
+
+		$mail->isHTML(true);
+		$mail->CharSet = 'UTF-8';
+
+		// Variables para la plantilla 
+        $nombre        = $this->nombre;
+        $urlQrPublica  = $urlQrPublica;
+        $enlaceEntrada = $_ENV['HOST'] . '/entrada?id=' . $this->token;
+        $logoUrl       = $_ENV['HOST'] . '/public/build/img/logomd.webp';
+        $polCookies    = $_ENV['HOST'] . '/politica-cookies';
+        $polPrivacy    = $_ENV['HOST'] . '/politica-privacidad';
+        $darseBaja     = $_ENV['HOST'] . '/desuscribirse';
+
+
+        // Cargar la plantilla HTML en un buffer
+        ob_start();
+        require __DIR__ . '/../views/emails/entrada.php';
+        $htmlBody = ob_get_clean();
+
+        $mail->Body = $htmlBody;
+
+        try {
+            $mail->send();
+        } catch (Exception $e) {
+            error_log("Error al enviar correo de entrada a {$this->email}: {$mail->ErrorInfo}");
+        }
 	}
 }

@@ -10,6 +10,8 @@ img\speakers\
 build/
 build\
 
+qrtemp/
+
 # Ignorar variables de entorno
 .env
 
