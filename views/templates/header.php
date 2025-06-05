@@ -1,3 +1,9 @@
+<?php
+// Obtenemos la ruta para que si es validar, añada una clase extra
+$rutaActual = $_SERVER['REQUEST_URI'];
+$esValidar = strpos($rutaActual, '/registro/validar') !== false;
+$validado_hide = $esValidar ? ' validado__hide' : '';
+?>
 <header class="header">
 	<div class="header__contenedor">
 		<nav class="header__navegacion">
@@ -26,7 +32,7 @@
 					<img class="header__img" src="/public/build/img/logol.png" alt="Imagen ponente">
 				</picture>
 			</a>
-			<div class="header__div">
+			<div class="header__div <?= $validado_hide ?>">
 				<p class="header__texto">14 - 15 junio 2025</p>
 				<p class="header__texto">On line - Presencial</p>
 
@@ -35,7 +41,8 @@
 		</div>
 	</div>
 </header>
-<div class="barra">
+
+<div class="barra <?= $validado_hide ?>">
 	<div class="barra__contenido">
 		<a href="/" data-scroll="inicio">
 			<h2 class="barra__logo nav__enlace" id="inicio">

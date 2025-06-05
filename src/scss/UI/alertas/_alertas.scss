@@ -22,3 +22,17 @@
 		
 	}
 }
+
+.validado {
+	@include m.contenedor-md;
+	text-align: center;
+
+	&__hide {
+		display: none;
+
+
+	}
+	p {
+		font-size: 3rem;
+	}
+}

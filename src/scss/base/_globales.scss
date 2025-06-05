@@ -12,6 +12,16 @@ html {
 body {
     font-family: v.$fuente_principal;
     font-size: 1.8rem;
+	height: 100%;
+}
+.layout {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+main {
+	flex: 1; // main se expande y asi no se ve nada debajo de footer
 }
 a {
     text-decoration: none;

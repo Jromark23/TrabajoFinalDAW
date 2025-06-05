@@ -13,6 +13,7 @@ use Model\Ponente;
 use Model\Regalo;
 use Model\Evento;
 use Model\EventosRegistros;
+
 require_once __DIR__ . '/../libs/phpqrcode/qrlib.php';
 
 
@@ -144,7 +145,7 @@ class RegistroController
 	{
 		$tokenEntrada = $_GET['id'] ?? null;
 		//$session_id = $_SESSION['id'];
-		
+
 		// // Si hay un usuario logado, que tiene un registro le mandamos a la entrada 
 		// $user = Usuario::find($session_id);
 		// if($user) {
@@ -169,48 +170,48 @@ class RegistroController
 			header('Location: /');
 			exit;
 		}
-		
-		
+
+
 		$registro->usuario = Usuario::find($registro->usuario_id);
 		$registro->paquete = Paquete::find($registro->paquete_id);
 
-        $urlVerificar = "https://joelroman.site/registro/validar?token={$tokenEntrada}";
+		// REVISAR para pro"
+		//$urlVerificar = "https://joelroman.site/registro/validar?token={$tokenEntrada}";
+		$urlVerificar = "http://localhost:3000/registro/validar?token={$tokenEntrada}";
+
+		// Donde ira el PNG temporal
+		$directorioSalida = __DIR__ . '/../public/qrtemp/';
+
+		if (!is_dir($directorioSalida)) {
+			mkdir($directorioSalida, 0755, true);
+		}
+
+		$nombreArchivo = 'qr_' . $tokenEntrada . '.png';
+		$rutaCompleta   = $directorioSalida . $nombreArchivo;
 
 
-
-        // Donde ira el PNG temporal
-        $directorioSalida = __DIR__ . '/../public/qrtemp/';
-		
-        if (!is_dir($directorioSalida)) {
-            mkdir($directorioSalida, 0755, true);
-        }
-
-        $nombreArchivo = 'qr_' . $tokenEntrada . '.png';
-        $rutaCompleta   = $directorioSalida . $nombreArchivo;
-
-		
-        // Necesita: ($data, $outfile, $level, $size, $margin)
-        \QRcode::png(
+		// Necesita: ($data, $outfile, $level, $size, $margin)
+		\QRcode::png(
 			$urlVerificar,  // texto que hay que codificar
-            $rutaCompleta,  // ruta donde guardar la imagen
-            QR_ECLEVEL_L,   // nivel de corrección (L, M, Q, H)
-            7,              // tamaño del QR
-            2               // margen
-        );
-		
-        // Convertir la imagen a datos Uri 
-        $datosPng = file_get_contents($rutaCompleta);
-        $qrDataUri = 'data:image/png;base64,' . base64_encode($datosPng);
-		
-        // Borrar el archivo temporal
-        unlink($rutaCompleta);
-		
+			$rutaCompleta,  // ruta donde guardar la imagen
+			QR_ECLEVEL_L,   // nivel de corrección (L, M, Q, H)
+			7,              // tamaño del QR
+			2               // margen
+		);
+
+		// Convertir la imagen a datos Uri 
+		$datosPng = file_get_contents($rutaCompleta);
+		$qrDataUri = 'data:image/png;base64,' . base64_encode($datosPng);
+
+		// Borrar el archivo temporal
+		unlink($rutaCompleta);
+
 		//debuguear($urlVerificar);
-        $router->renderizar('registro/entrada', [
-            'titulo'    => 'Asistencia al evento',
-            'registro'  => $registro,
-            'qrDataUri' => $qrDataUri
-        ]);
+		$router->renderizar('registro/entrada', [
+			'titulo'    => 'Asistencia al evento',
+			'registro'  => $registro,
+			'qrDataUri' => $qrDataUri
+		]);
 	}
 
 	public static function pagar(Router $router)
@@ -267,21 +268,21 @@ class RegistroController
 		$eventoRegistro = EventosRegistros::where('registro_id', $registro->id);
 
 		// Si no tiene registro no permitir el acceso a la web
-		if(!isset($registro)) {
+		if (!isset($registro)) {
 			header('Location: /');
 		}
-		
+
 		// Si ya tiene evento asociado, mandarle a su entrada
-		if($eventoRegistro) {
+		if ($eventoRegistro) {
 			header('Location: /entrada?id=' . urlencode($registro->token));
 		}
-		
+
 
 		// if ($registro->paquete_id) { 
 		// 	header('Location: /entrada?id=' . urlencode($registro->token));
 		// 	exit;
 		// }
-		
+
 
 
 		// Si ya existe el registro y su paquete es virtual le mandamos a su entrada
@@ -360,7 +361,7 @@ class RegistroController
 			// Validar que quedan entradas 
 			foreach ($eventos as $evento_id) {
 				$evento = Evento::find($evento_id);
-				
+
 				if (!isset($evento) || $evento->disponibles === 0) {
 					echo json_encode(['resultado' => false]);
 					exit;
@@ -408,35 +409,58 @@ class RegistroController
 		]);
 	}
 
-	public static function validar()
-    {
-        // 1) Leer el token que viene por GET
-        $token = $_GET['token'] ?? null;
-        if (!$token || strlen($token) !== 8) {
-            // Token inválido o ausente
-            echo "Token de validación inválido.";
-            exit;
-        }
+	public static function validar(Router $router)
+	{
+		// Obtenemos el tokek de la entrada
+		$token = $_GET['token'] ?? null;
 
-        // 2) Buscar en BD el registro con ese token
-        $registro = Registro::where('token', $token);
-        if (!$registro) {
-            echo "No existe ninguna entrada con ese código.";
-            exit;
-        }
+		// validamos formato
+		if (!$token || strlen($token) !== 8) {
+			$mensaje = "Token no válido o vacio.";
+			// Renderizamos la vista con mensaje de error
+			$router->renderizar('registro/validado', [
+				'titulo'  => 'Validación de entrada',
+				'mensaje' => $mensaje,
+				'tipo'    => 'error'
+			]);
+			return;
+		}
 
-        // 3) (Opcional) Comprobar si ya fue validado antes
-        if ($registro->validado ?? false) {
-            echo "Esta entrada ya ha sido validada previamente.";
-            exit;
-        }
+		// Si va bien, buscamos el registro con ese token 
+		$registro = Registro::where('token', $token);
 
-        // // REVISAR añadir a la tabla para marcar como validado
-        // $registro->validado = 1;
-        // $registro->guardar(); hacer el update del registro para confirmar que ya esta dentro
+		if (!$registro) {
+			// No existe entrada con ese token
+			$mensaje = "No se encontró ningún ticket con ese código.";
+			$router->renderizar('registro/validado', [
+				'titulo'  => 'Validación de entrada',
+				'mensaje' => $mensaje,
+				'tipo'    => 'error'
+			]);
+			return;
+		}
 
-        // //Redirigir a la vista con el mensaje de OK 
-        // mensaje de todo OK 
-        //
-    }
+		// Comprobamos si ha sido validada previamente
+		if ($registro->validado) {
+			$mensaje = "Esta entrada ya ha sido validada.";
+			$router->renderizar('registro/validado', [
+				'titulo'  => 'Validación de entrada',
+				'mensaje' => $mensaje,
+				'tipo'    => 'error'
+			]);
+			return;
+		}
+
+		// Marcar como validado y guardar en base de datos
+		$registro->validado = 1;
+		$registro->guardar(); 
+
+		// Mostrar mensaje de exito
+		$mensaje = "¡Entrada validada con éxito! Bienvenido al evento.";
+		$router->renderizar('registro/validado', [
+			'titulo'  => 'Validación de entrada',
+			'mensaje' => $mensaje,
+			'tipo'    => 'success'
+		]);
+	}
 }

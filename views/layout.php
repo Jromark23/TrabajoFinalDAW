@@ -29,7 +29,7 @@
 
 </head>
 
-<body>
+<body class="layout">
 	<?php
 	include_once __DIR__ . '/templates/header.php';
 
