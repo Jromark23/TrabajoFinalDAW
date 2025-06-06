@@ -1,4 +1,3 @@
-<!-- views/emails/entrada.php -->
 <!DOCTYPE html>
 <html lang="es">
 

@@ -54,7 +54,7 @@ class Email
 		// Variables para la plantilla
 		$nombre       = $this->nombre;
 		$enlace       = $_ENV['HOST'] . '/confirmar-cuenta?token=' . $this->token;
-		$logoUrl      = $_ENV['HOST'] . '/img/logo-email.png';
+		$logoUrl       = $_ENV['HOST'] . '/public/build/img/logomd.webp';
 		$polCookies   = $_ENV['HOST'] . '/politica-cookies';
 		$polPrivacy   = $_ENV['HOST'] . '/politica-privacidad';
 		$darseBaja    = $_ENV['HOST'] . '/desuscribirse';
@@ -86,7 +86,7 @@ class Email
 		// Variables para la plantilla
 		$nombre       = $this->nombre;
 		$enlace       = $_ENV['HOST'] . '/reestablecer?token=' . $this->token;
-		$logoUrl      = $_ENV['HOST'] . '/img/logo-email.png';
+		$logoUrl       = $_ENV['HOST'] . '/public/build/img/logomd.webp';
 		$polCookies   = $_ENV['HOST'] . '/politica-cookies';
 		$polPrivacy   = $_ENV['HOST'] . '/politica-privacidad';
 		$darseBaja    = $_ENV['HOST'] . '/desuscribirse';

@@ -37,10 +37,16 @@
 		margin-top: 1rem;
 	}
 
-	img {
+	&__img {
 		align-items: end;
 		width: 150px;
 		height: 150px;
+	}
+
+	&__izq {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	.ticket__qr p {
@@ -59,8 +65,10 @@
 	}
 
 	&__logo {
-		@include m.logo;
-		@include m.texto-fluido(2rem, 4rem);
+		// @include m.logo;
+		// @include m.texto-fluido(.5rem, 2rem);
+		width: 15rem;
+		height: min-content;
 	}
 
 	&__plan, &__nombre {
@@ -102,6 +110,15 @@
 		}
 	}
 
+	&__pdf {
+		text-align:center; 
+		margin-top: 2rem;
+	}
 
+	&__descargar {
+		@include m.boton(v.$azul, v.$blanco);
+		width: auto;
+		border-radius: 1.5rem; 
+	}
 	
 }

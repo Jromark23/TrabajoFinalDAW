@@ -14,6 +14,8 @@ use Model\Regalo;
 use Model\Evento;
 use Model\EventosRegistros;
 use Classes\Email;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 require_once __DIR__ . '/../libs/phpqrcode/qrlib.php';
 
@@ -275,7 +277,7 @@ class RegistroController
 					$email = new \Classes\Email(
 						$usuario->email,
 						$usuario->nombre . ' ' . $usuario->apellido,
-						$tokenEntrada 
+						$tokenEntrada
 					);
 					$email->enviarEntrada($urlQrPublica);
 				} else {
@@ -297,7 +299,6 @@ class RegistroController
 			echo json_encode(['resultado' => 'error']);
 		}
 	}
-
 
 	public static function conferencias(Router $router)
 	{
@@ -506,5 +507,84 @@ class RegistroController
 			'mensaje' => $mensaje,
 			'tipo'    => 'success'
 		]);
+	}
+
+
+
+	public static function descargarPDF(Router $router)
+	{
+		// Obtenemos el token
+		$token = $_GET['id'] ?? null;
+		if (!$token || strlen($token) !== 8) {
+			header('Location: /');
+			exit;
+		}
+
+		// Buscamos el registro asociado
+		$registro = Registro::where('token', $token);
+		if (!$registro) {
+			header('Location: /');
+			exit;
+		}
+
+		// Buscamos el usuario 
+		$registro->usuario = Usuario::find($registro->usuario_id);
+		$registro->paquete = Paquete::find($registro->paquete_id);
+
+		// Buscamos el QR, si no, lo generamos de nuevo 
+		$nombreArchivo = "qr_{$token}.png";
+		$rutaQR        = __DIR__ . '/../public/qrtemp/' . $nombreArchivo;
+		if (!file_exists($rutaQR)) {
+			$urlVerificar = $_ENV['HOST'] . "/registro/validar?token={$token}";
+			\QRcode::png($urlVerificar, $rutaQR, QR_ECLEVEL_L, 7, 2);
+		}
+
+		$imgData   = base64_encode(file_get_contents($rutaQR));
+		$qrDataUri = 'data:image/png;base64,' . $imgData;
+
+		$html = '
+				<html>
+				<head>
+					<meta charset="UTF-8" />
+					<style>
+					body { font-family: DejaVu Sans, sans-serif; }
+					.contenedor { text-align: center; margin-top: 50px; }
+					.titulo { font-size: 24px; margin-bottom: 20px; }
+					.detalle { font-size: 18px; margin-bottom: 40px; }
+					.qr img { width: 200px; height: 200px; }
+					</style>
+				</head>
+				<body>
+					<div class="contenedor">
+					<div class="titulo">Entrada al evento</div>
+					<div class="detalle">
+						<strong>Nombre:</strong><br>
+						' . htmlspecialchars($registro->usuario->nombre . ' ' . $registro->usuario->apellido) . '<br><br>
+						<strong>Paquete:</strong><br>
+						' . htmlspecialchars($registro->paquete->nombre) . '<br><br>
+						<strong>Código:</strong><br>
+						#' . htmlspecialchars($registro->token) . '
+					</div>
+					<div class="qr">
+						<img src="' . $qrDataUri . '" alt="Código QR">
+					</div>
+					</div>
+				</body>
+				</html>';
+
+		$options = new \Dompdf\Options();
+		$options->set('defaultFont', 'DejaVu Sans');
+		$options->set('isRemoteEnabled', true); 
+
+		$dompdf = new \Dompdf\Dompdf($options);
+		$dompdf->loadHtml($html);
+		$dompdf->setPaper('A4', 'portrait');
+		$dompdf->render();
+
+		$nombrePDF = 'entrada_' . $registro->token . '.pdf';
+		header('Content-Type: application/pdf');
+		header('Content-Disposition: attachment; filename="' . $nombrePDF . '"');
+		echo $dompdf->output();
+		exit;
 	}
 }
