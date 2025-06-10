@@ -142,10 +142,10 @@ class Usuario extends ActiveRecord
 	public function nuevo_password(): array
 	{
 		if (!$this->password_actual) {
-			self::$alertas['error'][] = 'Contraseña actual no puede estar vacía';
+			self::$alertas['error'][] = 'Contraseña actual no puede estar vacío';
 		}
 		if (!$this->password_nuevo) {
-			self::$alertas['error'][] = 'Contraseña nueva no puede ir vacía';
+			self::$alertas['error'][] = 'Contraseña nueva no puede ir vacío';
 		} elseif (!$this->validarPassword()) {
 			self::$alertas['error'][] = 'La nueva contraseña debe tener al menos 6 caracteres, una mayúscula, una minúscula, un número y un símbolo';
 		}

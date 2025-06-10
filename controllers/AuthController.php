@@ -147,7 +147,7 @@ class AuthController
 					// Hashear el password
 					$usuario->hashPassword();
 
-					// Eliminar password2
+					// Eliminar password2 para evitar problemas al guardar en BD
 					unset($usuario->password2);
 
 					// Generar el Token
@@ -204,6 +204,7 @@ class AuthController
 					// Ponemos al token 30 minutos mas que la hora actual
 					$usuario->token_expiracion = date('Y-m-d H:i:s', strtotime('+30 minutes'));
 
+					// Eliminar password2 para evitar problemas al guardar en BD
 					unset($usuario->password2);
 
 					// Actualizar el usuario
