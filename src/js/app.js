@@ -7,6 +7,7 @@ import './registro.js';
 import './regalos.js';
 import './cookies.js';
 import './hamburguesa.js';
+import './ponentes_busqueda.js';
 
 
 // Evita el envío de los formulario con Enter

@@ -2,7 +2,7 @@
 	<h2 class="pagina__heading">
 		<?= $titulo; ?>
 	</h2>
-	<p class="pagina__descripcion"> Aquí tienes tu entrada. Guardala bien, o compartela por RRSS </p>
+	<p class="pagina__descripcion"> Aquí tienes tu entrada. Guardala bien, y comparte el evento en RRSS </p>
 
 
 	<div class="tickets">

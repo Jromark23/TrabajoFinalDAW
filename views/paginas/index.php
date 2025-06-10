@@ -109,31 +109,3 @@ include_once __DIR__ . '/talleres.php';
 <h2 class="pases__heading">Donde estamos ubicados</h2>
 <div id="map" class="mapa"></div>
 
-<!-- <section class="pases">
-	<h2 class="pases__heading">Entradas y precios</h2>
-	<p class="pases__descripcion">Precios</p>
-
-	<div class="pases__grid">
-		<div <?= animacion_aos(); ?> class="pase pase--presencial">
-			<h4 class="pase__logo">&#60Congrexia /></h4>
-			<p class="pase__tipo">Presencial</p>
-			<p class="pase__precio">120€</p>
-		</div>
-
-		<div <?= animacion_aos(); ?> class="pase pase--virtual">
-			<h4 class="pase__logo">&#60Congrexia /></h4>
-			<p class="pase__tipo">Virtual</p>
-			<p class="pase__precio">50€</p>
-		</div>
-
-		<div <?= animacion_aos(); ?> class="pase pase--básico">
-			<h4 class="pase__logo">&#60Congrexia /></h4>
-			<p class="pase__tipo">Básico</p>
-			<p class="pase__precio">0€</p>
-		</div>
-	</div>
-
-	<div class="pase__contenedor">
-		<a class="pase__enlace" href="/entradas">Ver entradas</a>
-	</div>
-</section> -->

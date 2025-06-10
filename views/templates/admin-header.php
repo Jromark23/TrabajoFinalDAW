@@ -7,9 +7,10 @@
 		</a>
 
 		<nav class="dashboard__nav">
+			<a href="/" class="dashboard__nav-texto">Inicio</a>
 			<form action="/logout" class="dashboard__form" method="POST">
 				<?= csrf() ?>
-				<input type="submit" class="dashboard__submit--salir" value="Cerrar sesión">
+				<input type="submit" class="dashboard__nav-texto" value="Cerrar sesión">
 			</form>
 		</nav>
 	</div>

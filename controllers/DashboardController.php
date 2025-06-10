@@ -26,10 +26,10 @@ class DashboardController {
 		}
 
 		// bloque para calcular el dinero recaudado 
-		$virtuales = Registro::count('paquete_id', 2);
+		$premium = Registro::count('paquete_id', 2);
 		$presenciales = Registro::count('paquete_id', 1);
 
-		$total = ($virtuales * 50) + ($presenciales * 120);
+		$total = ($premium * 200) + ($presenciales * 70);
 
 		// datos para recuperar los eventos mas llenos y mas vacios
 		$disponibles = Evento::whereOrdenLimit('disponibles', 'ASC', 5);

@@ -32,7 +32,7 @@
 			</ul>
 
 			<p class="entrada__precio">200€</p>
-			<div id="paypal-button-container-virtual"></div>
+			<div id="paypal-button-container-premium"></div>
 		</div>
 
 
@@ -109,7 +109,7 @@
 		}
 	}).render('#paypal-button-container-presencial');
 
-	//boton de virtual
+	//boton de premium
 	paypal.Buttons({
 		createOrder: function(data, actions) {
 			return actions.order.create({
@@ -165,5 +165,5 @@
 			console.error(err);
 			alert('Error al procesar el pago.');
 		}
-	}).render('#paypal-button-container-virtual');
+	}).render('#paypal-button-container-premium');
 </script>

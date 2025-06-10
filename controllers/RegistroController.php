@@ -66,6 +66,7 @@ class RegistroController
 		}
 
 		$token = substr(md5(uniqid(rand(), true)), 0, 8);
+		//debuguear($token);
 
 		$datos = [
 			'paquete_id' => 3,
@@ -77,14 +78,51 @@ class RegistroController
 		$registro = new Registro($datos);
 		$resultado = $registro->guardar();
 
+
+		$urlVerificar = $_ENV['HOST'] . "/registro/validar?token={$token}";
+		//$urlVerificar = "http://localhost:3000/registro/validar?token={$token}";
+
+		$directorioQR = __DIR__ . '/../public/qrtemp/';
+		if (!is_dir($directorioQR)) {
+			mkdir($directorioQR, 0777, true);
+		}
+
+		$nombreArchivo = "qr_{$token}.png";
+		$rutaCompleta  = $directorioQR . $nombreArchivo;
+
+		\QRcode::png(
+			$urlVerificar,  // Texto a codificar en el QR
+			$rutaCompleta,  // Ruta donde se guarda el PNG
+			QR_ECLEVEL_L,   // Nivel de corrección
+			7,              // Tamaño del módulo
+			2               // Margen
+		);
+
+		// Enviar el correo confirmando y con el QR 
+		$usuario = Usuario::find($registro->usuario_id);
+		if ($usuario) {
+
+			$urlQrPublica = $_ENV['HOST'] . '/public/qrtemp/' . $nombreArchivo;
+
+			$email = new \Classes\Email(
+				$usuario->email,
+				$usuario->nombre . ' ' . $usuario->apellido,
+				$token
+			);
+			$email->enviarEntrada($urlQrPublica);
+		} else {
+			error_log("token={$token} ERROR en la compra basica");
+		}
+
 		if ($resultado) {
+
 			// urlencode evita caracteres especiales
 			header('Location: /entrada?id=' . urlencode($registro->token));
 			exit;
 		}
 	}
 
-	public static function virtual(Router $router)
+	public static function premium(Router $router)
 	{
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -106,7 +144,7 @@ class RegistroController
 
 		$registro = new Registro($datos);
 		$resultado = $registro->guardar();
-
+		
 		if ($resultado) {
 			// urlencode evita caracteres especiales
 			header('Location: /entrada?id=' . urlencode($registro->token));
@@ -572,7 +610,7 @@ class RegistroController
 
 		$options = new \Dompdf\Options();
 		$options->set('defaultFont', 'DejaVu Sans');
-		$options->set('isRemoteEnabled', true); 
+		$options->set('isRemoteEnabled', true);
 
 		$dompdf = new \Dompdf\Dompdf($options);
 		$dompdf->loadHtml($html);

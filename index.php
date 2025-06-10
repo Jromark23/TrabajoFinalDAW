@@ -100,7 +100,7 @@ $router->get('/politica-privacidad', [PaginasController::class, 'politicaPrivaci
 $router->get('/finalizar', [RegistroController::class, 'crear']);
 $router->get('/entrada', [RegistroController::class, 'entrada']);
 $router->post('/finalizar/basico', [RegistroController::class, 'basico']);
-$router->post('/finalizar/virtual', [RegistroController::class, 'virtual']);
+$router->post('/finalizar/premium', [RegistroController::class, 'premium']);
 $router->post('/finalizar/presencial', [RegistroController::class, 'presencial']);
 $router->get('/registro/validar',  [RegistroController::class, 'validar']);
 $router->get('/registro/descargar',  [RegistroController::class, 'descargarPDF']);

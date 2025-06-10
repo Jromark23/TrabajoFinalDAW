@@ -35,14 +35,16 @@
 	}
 
 	&__nav {
-		
+		display: flex;
+		gap: 2rem;
+
 	}
 
 	&__form {
 		display: flex;
 		justify-content: center;
 	}
-	&__submit--salir {
+	&__nav-texto {
 		@include m.enlace;
 	}
 
@@ -116,8 +118,22 @@
 			flex-direction: row-reverse;
 
 			display: flex;
-			justify-content: flex-start;
+			justify-content: space-between;
 			margin-bottom: 5rem;
+		}
+	}
+
+	&__input{
+		display: flex;
+		width: 70%;
+		margin: 0 auto;
+		margin-top: 1rem;
+		padding: 1rem;
+		border: 1px solid darken(v.$gris-claro, 20);
+		border-radius: .5rem; 
+
+		@include m.tablet {
+			width: 100%;
 		}
 	}
 
@@ -125,7 +141,7 @@
 		@include m.boton(v.$azul, v.$blanco);
 		text-transform: uppercase;
 		font-size: 1.4rem;
-
+		padding: 2rem;
 		@include m.tablet {
 			width: auto;
 		}
