@@ -486,7 +486,7 @@ class RegistroController
 
 
 		$router->renderizar('registro/conferencias', [
-			'titulo' => 'Elija las 5 conferencias a las que quiere asistir',
+			'titulo' => 'Eventos disponibles',
 			'eventos' => $eventos_formateados,
 			'regalos' => $regalos
 		]);
