@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8" />
-	<title>Confirma tu Cuenta en Proyecto Joel</title>
+	<title>Confirma tu cuenta en Congrexia Events</title>
 </head>
 
 <body style="margin:0; padding:0; background-color:#f4f4f4; font-family: Arial, sans-serif;">
@@ -14,7 +14,7 @@
 
 					<tr>
 						<td align="center" style="background-color:#0073e6; padding:20px 0;">
-							<p>Nombre del proyecto cuando sepa</p>
+							<p>Congrexia Events</p>
 						</td>
 					</tr>
 
@@ -22,7 +22,7 @@
 						<td style="padding:20px; color:#333333;">
 							<h2 style="margin-top:0; color:#0073e6;">Hola, <?= htmlspecialchars($nombre) ?>:</h2>
 							<p style="font-size:16px; line-height:1.5; margin-bottom:20px;">
-								Tu cuenta ha sido creada en <strong>Proyecto Joel</strong>, pero es necesario que la confirmes.
+								Tu cuenta ha sido creada en <strong>Congrexia Events</strong>, pero es necesario que la confirmes.
 								Para activar tu usuario, haz clic en el botón de abajo:
 							</p>
 							<p style="font-size:16px; margin-bottom:20px;">

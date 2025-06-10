@@ -2,8 +2,10 @@
 @use 'base/variables' as v;
 
 .mapa {
-	height: 45rem;
-	margin-top: 5rem;
+	width: 80%;
+	margin: 5rem auto;
+	height: 40rem;
+	border-radius: 2rem !important;
 
 	&__h{
 		margin: 0;
@@ -14,4 +16,18 @@
 		font-size: 1.8rem;
 		margin: 0;
 	}
+
+	flex-shrink: 0;
+
+	box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.3), 0 1rem 1rem rgba(0, 0, 0, 0.3);;
+    
+    &:hover {
+        box-shadow: 0 4rem 4rem rgba(0, 0, 0, 0.3), 0 2rem 2rem rgba(0, 0, 0, 0.3);
+    }
+}
+
+.ponente {
+	&:hover {
+        box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.3), 0 2rem 2rem rgba(0, 0, 0, 0.3);
+    }
 }

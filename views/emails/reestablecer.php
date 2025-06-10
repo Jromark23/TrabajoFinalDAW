@@ -14,7 +14,7 @@
 
 					<tr>
 						<td align="center" style="background-color:#0073e6; padding:20px 0;">
-							<p>Nombre del proyecto cuando sepa</p>
+							<p>Congrexia Events</p>
 						</td>
 					</tr>
 
@@ -22,7 +22,7 @@
 						<td style="padding:20px; color:#333333;">
 							<h2 style="margin-top:0; color:#0073e6;">Hola, <?= htmlspecialchars($nombre) ?>:</h2>
 							<p style="font-size:16px; line-height:1.5; margin-bottom:20px;">
-								Hemos recibido una solicitud para restablecer tu contraseña en <strong>Proyecto Joel</strong>.
+								Hemos recibido una solicitud para restablecer tu contraseña en <strong>Congrexia Events</strong>.
 								Para continuar con el cambio, haz clic en el botón de abajo:
 							</p>
 							<p style="font-size:16px; margin-bottom:20px;">

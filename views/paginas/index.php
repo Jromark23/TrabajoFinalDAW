@@ -1,6 +1,6 @@
 <?php
-	include_once __DIR__ . '/eventos.php';
-	include_once __DIR__ . '/talleres.php';
+include_once __DIR__ . '/eventos.php';
+include_once __DIR__ . '/talleres.php';
 ?>
 
 <section class="resumen">
@@ -106,9 +106,10 @@
 </section>
 
 <!-- Mapa de localización -->
+<h2 class="pases__heading">Donde estamos ubicados</h2>
 <div id="map" class="mapa"></div>
 
-<section class="pases">
+<!-- <section class="pases">
 	<h2 class="pases__heading">Entradas y precios</h2>
 	<p class="pases__descripcion">Precios</p>
 
@@ -135,4 +136,4 @@
 	<div class="pase__contenedor">
 		<a class="pase__enlace" href="/entradas">Ver entradas</a>
 	</div>
-</section>
+</section> -->

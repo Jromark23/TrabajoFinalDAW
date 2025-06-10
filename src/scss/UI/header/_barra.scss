@@ -4,6 +4,20 @@
 .barra {
 	background-color: v.$azul;
 	border: 1px solid v.$azul;
+	display: block;
+	height: 0;
+	overflow: hidden;
+	transition: height 0.3s ease;
+	max-height: 100vh;
+
+	&__visible {
+		height: auto;
+		overflow: visible;
+	}
+
+	&__oculto {
+		background-color: v.$azul;
+	}
 
 	@include m.desktop {
 		border: none
@@ -25,4 +39,34 @@
 		@include m.logo;
 		@include m.texto-fluido(1.5rem, 2.7rem);	}
 	
+}
+
+
+.hamburguesa {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 3rem;
+	height: 3rem;
+	cursor: pointer;
+	gap: 0.5rem;
+	background: transparent;
+	border: none;
+	margin: 1rem;
+}
+
+.hamburguesa i {
+	color: white;
+}
+
+@include m.desktop {
+	.barra {
+		display: block !important;
+		height: auto !important;
+		overflow: visible !important;
+	}
+	.hamburguesa {
+		display: none;
+	}
 }

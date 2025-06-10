@@ -2,7 +2,6 @@
 @use 'base/mixins' as m;
 
 .header {
-
 	min-height: 20rem;
 
 	@include m.tablet {
@@ -81,6 +80,7 @@
 			text-align: left;
 		}
 	}
+
 	&__texto {
 		font-size: 2rem;
 		font-weight: v.$bold;
@@ -104,10 +104,10 @@
 		margin: 2rem 0;
 		display: none;
 
-		@include m.desktop {
+		@include m.tablet {
 			display: inline-block;
 			width: auto;
 		}
 	}
-	
 }
+

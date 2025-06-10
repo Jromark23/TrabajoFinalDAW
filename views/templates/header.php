@@ -34,7 +34,7 @@ $validado_hide = $esValidar ? ' validado__hide' : '';
 			</a>
 			<div class="header__div <?= $validado_hide ?>">
 				<p class="header__texto">14 - 15 junio 2025</p>
-				<p class="header__texto">On line - Presencial</p>
+				<!-- <p class="header__texto">On line - Presencial</p> -->
 
 				<a href="/registro" data-scroll="inicio" class="header__boton">Comprar entradas</a>
 			</div>
@@ -42,7 +42,12 @@ $validado_hide = $esValidar ? ' validado__hide' : '';
 	</div>
 </header>
 
-<div class="barra <?= $validado_hide ?>">
+<div class="barra__oculto">
+<button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" type="button">
+	<i class="fas fa-bars"></i>
+</button>
+</div>
+<div class="barra <?= $validado_hide ?>" id="barraMenu">
 	<div class="barra__contenido">
 		<a href="/" data-scroll="inicio">
 			<h2 class="barra__logo nav__enlace" id="inicio">

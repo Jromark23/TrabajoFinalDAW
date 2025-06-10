@@ -509,8 +509,6 @@ class RegistroController
 		]);
 	}
 
-
-
 	public static function descargarPDF(Router $router)
 	{
 		// Obtenemos el token

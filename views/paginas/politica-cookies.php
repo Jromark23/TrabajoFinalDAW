@@ -2,7 +2,7 @@
 	<h1 class="politica__heading">Política de Cookies</h1>
 
 	<p class="politica__texto">
-		En <strong>Proyecto Joel</strong> (en adelante, “<em>nosotros</em>” o “<em>nuestro sitio</em>”), utilizamos
+		En <strong>Congrexia Events</strong> (en adelante, “<em>nosotros</em>” o “<em>nuestro sitio</em>”), utilizamos
 		cookies y tecnologías similares para que este sitio web funcione correctamente, mejore tu experiencia
 		como usuario y nos permita analizar el tráfico y uso de la página. Esta política de cookies explica
 		qué son las cookies, cómo las utilizamos, qué tipos empleamos y cómo puedes configurar o

@@ -2,12 +2,12 @@
 	<h1 class="politica__heading">Política de Privacidad</h1>
 
 	<p class="politica__texto">
-		En <strong>Proyecto Joel</strong> (en adelante, “<em>nosotros</em>” o “<em>nuestro sitio</em>”), estamos comprometidos con la protección de la privacidad y los datos personales de nuestros usuarios. Esta <strong>Política de Privacidad</strong> describe qué datos recopilamos, cómo los utilizamos, con quién los compartimos y cuáles son tus derechos según la normativa vigente (Reglamento General de Protección de Datos – RGPD, y la Ley Orgánica de Protección de Datos Personales y Garantía de los Derechos Digitales – LOPDGDD).
+		En <strong>Congrexia Events</strong> (en adelante, “<em>nosotros</em>” o “<em>nuestro sitio</em>”), estamos comprometidos con la protección de la privacidad y los datos personales de nuestros usuarios. Esta <strong>Política de Privacidad</strong> describe qué datos recopilamos, cómo los utilizamos, con quién los compartimos y cuáles son tus derechos según la normativa vigente (Reglamento General de Protección de Datos – RGPD, y la Ley Orgánica de Protección de Datos Personales y Garantía de los Derechos Digitales – LOPDGDD).
 	</p>
 
 	<h2 class="politica__subtitulo">1. Responsable del Tratamiento</h2>
 	<p class="politica__texto">
-		<strong>Proyecto Joel</strong><br>
+		<strong>Congrexia Events</strong><br>
 		CIF: A-12345678<br>
 		Domicilio social: Av. del Oeste, s/n, 28922 Alcorcón, Madrid<br>
 		Correo electrónico de contacto: <a href="mailto:noresponder@joelroman.site" class="politica__enlace">noresponder@joelroman.site</a><br>
