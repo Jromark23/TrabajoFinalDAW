@@ -7,40 +7,39 @@
 
 	<div class="entradas__grid">
 		<div class="entrada">
-			<h3 class="entrada__nombre">Acceso virtual</h3>
-			<ul class="entrada__lista">
-				<li class="entrada__li">Acceso virtual</li>
-				<li class="entrada__li">Acceso a los dos días del evento</li>
-				<li class="entrada__li">Acceso a los talleres y conferencias</li>
-				<li class="entrada__li">Acceso ilimitado a las grabaciones</li>
-			</ul>
-
-			<p class="entrada__precio">50€</p>
-			<div id="paypal-button-container-virtual"></div>
-		</div>
-
-		<div class="entrada">
-			<h3 class="entrada__nombre">Acceso presencial</h3>
+			<h3 class="entrada__nombre">Paquete presencial</h3>
 			<ul class="entrada__lista">
 				<li class="entrada__li">Acceso presencial al evento</li>
-				<li class="entrada__li">Acceso a los dos días del evento</li>
-				<li class="entrada__li">Acceso a los talleres y conferencias</li>
+				<li class="entrada__li">Acceso hasta 5 conferencias o talleres</li>
 				<li class="entrada__li">Acceso a ilimitado a las grabaciones</li>
 				<li class="entrada__li">Camiseta del evento</li>
 				<li class="entrada__li">Comida y bebida</li>
 			</ul>
 
-			<p class="entrada__precio">120€</p>
+			<p class="entrada__precio">70€</p>
 			<div id="paypal-button-container-presencial"></div>
-
-
-
 		</div>
 
 		<div class="entrada">
-			<h3 class="entrada__nombre">Acceso básico</h3>
+			<h3 class="entrada__nombre">Paquete premium</h3>
 			<ul class="entrada__lista">
-				<li class="entrada__li">Acceso virtual limitado</li>
+				<li class="entrada__li">Acceso presencial al evento</li>
+				<li class="entrada__li">Acceso ilimitado los dos días del evento</li>
+				<li class="entrada__li">Acceso a todos los talleres y conferencias</li>
+				<li class="entrada__li">Acceso ilimitado a las grabaciones</li>
+				<li class="entrada__li">Regalo especial y acceso preferente</li>
+				<li class="entrada__li">Comida y bebida</li>
+			</ul>
+
+			<p class="entrada__precio">200€</p>
+			<div id="paypal-button-container-virtual"></div>
+		</div>
+
+
+		<div class="entrada">
+			<h3 class="entrada__nombre">Paquete básico</h3>
+			<ul class="entrada__lista">
+				<li class="entrada__li">Acceso al streaming del evento</li>
 			</ul>
 
 			<p class="entrada__precio">0€</p>
@@ -63,7 +62,7 @@
 					description: "1",
 					amount: {
 						currency_code: "EUR",
-						value: "120.00"
+						value: "70.00"
 					}
 				}]
 			});
@@ -118,7 +117,7 @@
 					description: "2",
 					amount: {
 						currency_code: "EUR",
-						value: "50.00"
+						value: "200.00"
 					}
 				}]
 			});

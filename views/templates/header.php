@@ -67,7 +67,7 @@ $validado_hide = $esValidar ? ' validado__hide' : '';
 			<a href="/eventos" data-scroll="inicio" class="nav__enlace <?= pagina_actual('/eventos') ?
 																			'nav__enlace--actual' : '' ?>">Conferencias</a>
 
-			<a href="/registro" data-scroll="inicio" class="nav__enlace <?= pagina_actual('/registro') ?
+			<a href="<?= !is_user() ? '/login' : '/registro' ?>" data-scroll="inicio" class="nav__enlace <?= pagina_actual('/registro') ?
 																			'nav__enlace--actual' : '' ?>">Comprar Entrada</a>
 		</nav>
 	</div>

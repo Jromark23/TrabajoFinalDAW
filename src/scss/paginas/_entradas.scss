@@ -25,6 +25,18 @@
 		margin-top: 3rem;
 		@include m.boton(v.$azul, v.$blanco);
 	}
+
+	&__boton {
+		margin-top: 3rem;
+		text-align: center;
+		width: auto !important;
+		@include m.boton(v.$azul, v.$blanco);
+	}
+
+	&_ppp{
+		display: flex;
+		justify-content: center;
+	}
 }
 
 .entrada {

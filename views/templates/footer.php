@@ -23,9 +23,6 @@
 			<a class="rrss__enlace" href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 		</nav>
 
-		<!-- <p class="footer__texto">
-			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi est voluptates iste, recusandae ut cupiditate earum necessitatibus.
-		</p> -->
 		<div class="footer__contacto">
 			<p class="footer__texto"><strong>Dirección:</strong> Av. del Oeste, s/n, 28922 Alcorcón, Madrid</p>
 			<p class="footer__texto"><strong>Correo: </strong> jroman@joelroman.site</a></li>

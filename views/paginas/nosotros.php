@@ -14,15 +14,46 @@
 		</div>
 
 		<div class="nosotros__contenido">
-			<p <?= animacion_aos(); ?> class="nosotros__texto">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis possimus fugit inventore molestias et animi, voluptatum ab nemo amet? Laudantium totam expedita omnis repudiandae optio nisi quo, sapiente neque voluptatem.
-			</p>
+			<h3>¡VIVE EL EVENTO ECONÓMICO DEL AÑO!</h3>
+			<div <?= animacion_aos(); ?>>
 
-			<p <?= animacion_aos(); ?> class="nosotros__texto">
-				Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit quod labore, eaque, tenetur aperiam commodi voluptas ullam rem alias molestias repudiandae expedita incidunt blanditiis est necessitatibus neque laboriosam? Quisquam, deleniti.
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione cupiditate tenetur ipsa, unde quam neque fugit. Maxime autem voluptates incidunt libero placeat modi quasi numquam. Tempore dolorem illo eum deleniti.
-			</p>
+				<h4>🌟 ¿Estás listo para transformar tu visión del mercado?</h4>
+				<p>No te pierdas el Fin de Semana Económico 2024, el encuentro imperdible que reunirá a los mejores ponentes,
+					analistas y líderes globales del sector financiero, emprendimiento y estrategia empresarial. </p>
+				<p>Durante dos días intensivos, vivirás conferencias magistrales,
+					talleres prácticos y networking de alto nivel diseñados para impulsar tu carrera, negocio o inversiones.</p>
+			</div>
+
+			<div <?= animacion_aos(); ?>>
+				<h4>✨ ¿Por qué es EL EVENTO DEL AÑO?</h4>
+
+				<li><strong>Ponentes de élite:</strong> Expertos con experiencia en Wall Street, organismos internacionales y empresas Fortune 500 compartirán estrategias probadas y tendencias exclusivas.</li>
+
+				<li><strong>Contenido revolucionario:</strong> Desde criptoeconomía hasta mercados emergentes, pasando por innovación disruptiva. ¡Aprende lo que no enseñan en ninguna universidad!</li>
+
+				<li><strong>Talleres interactivos:</strong> Sesiones prácticas donde aplicarás conocimientos en tiempo real junto a mentores.</li>
+
+				<li><strong>Networking premium:</strong> Conecta con inversores, CEOs y emprendedores clave en un ambiente exclusivo.</li>
+			</div>
+
+			<div <?= animacion_aos(); ?>>
+				<h4>🔥 ¿Qué lograrás en este fin de semana?</h4>
+
+				<li>Dominar herramientas para tomar decisiones financieras más inteligentes.</li>
+				<li>Descubrir oportunidades en mercados volátiles.</li>
+				<li>Acceder a casos de éxito reales de quienes están transformando la economía global.</li>
+				<li>Salir con un plan de acción claro para multiplicar tu impacto profesional.</li>
+			</div>
+
+			<div <?= animacion_aos(); ?>>
+
+				<h4>🚀 No es solo un evento… ¡Es tu ventaja competitiva!</h4>
+				Este encuentro está diseñado para profesionales, emprendedores e inversores que no se conforman con lo convencional. Si buscas diferenciarte, crecer y conectar con la vanguardia económica, este es tu momento.
+
+				⏳ <strong>¿Te lo vas a perder?</strong> Las plazas vuelan. ¡Reserva ahora y sé parte de la revolución económica!
+			</div>
 		</div>
+
 
 
 	</div>

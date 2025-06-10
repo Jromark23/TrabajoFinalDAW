@@ -6,9 +6,6 @@
 		<i class="fa-solid fa-circle-plus"></i>
 		Añadir ponente
 	</a>
-		<!--  iNPUTS PARA LA BUSQUEDA-->
-		<p>  <---- ZONA DE BUSQUEDA</p>
-	<!--  -->
 </div>
 
 <div class="dashboard__contenedor">

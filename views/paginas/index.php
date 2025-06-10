@@ -48,42 +48,42 @@ include_once __DIR__ . '/talleres.php';
 						<?php $redes = json_decode($ponente->rrss); ?>
 
 						<?php if (!empty($redes->facebook)) { ?>
-							<a class="ponente__enlace" href="<?= $redes->facebook; ?>" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+							<a class="ponente__enlace" href="https://www.facebook.com/<?= $redes->facebook; ?>" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
 								<div class="ponente__icono">
 									<i class="fa-brands fa-facebook"></i>
 								</div>
 							</a>
 						<?php } ?>
 						<?php if (!empty($redes->twitter)) { ?>
-							<a class="ponente__enlace" href="<?= $redes->x; ?>" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+							<a class="ponente__enlace" href="https://x.com/<?= $redes->x; ?>" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
 								<div class="ponente__icono">
 									<i class="fa-brands fa-x-twitter"></i>
 								</div>
 							</a>
 						<?php } ?>
 						<?php if (!empty($redes->youtube)) { ?>
-							<a class="ponente__enlace" href="<?= $redes->youtube; ?>" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+							<a class="ponente__enlace" href="https://www.youtube.com/@<?= $redes->youtube; ?>" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
 								<div class="ponente__icono">
 									<i class="fa-brands fa-youtube"></i>
 								</div>
 							</a>
 						<?php } ?>
 						<?php if (!empty($redes->instagram)) { ?>
-							<a class="ponente__enlace" href="<?= $redes->instagram; ?>" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+							<a class="ponente__enlace" href="https://www.instagram.com/<?= $redes->instagram; ?>" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
 								<div class="ponente__icono">
 									<i class="fa-brands fa-instagram"></i>
 								</div>
 							</a>
 						<?php } ?>
 						<?php if (!empty($redes->tiktok)) { ?>
-							<a class="ponente__enlace" href="<?= $redes->tiktok; ?>" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+							<a class="ponente__enlace" href="https://www.tiktok.com/@<?= $redes->tiktok; ?>" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
 								<div class="ponente__icono">
 									<i class="fa-brands fa-tiktok"></i>
 								</div>
 							</a>
 						<?php } ?>
 						<?php if (!empty($redes->github)) { ?>
-							<a class="ponente__enlace" href="<?= $redes->github; ?>" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+							<a class="ponente__enlace" href="https://github.com/<?= $redes->github; ?>" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
 								<div class="ponente__icono">
 									<i class="fa-brands fa-github"></i>
 								</div>

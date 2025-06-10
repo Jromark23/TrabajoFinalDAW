@@ -2,9 +2,6 @@
 	<h2 class="auth__heading" id="reg">
 		<?= $titulo; ?>
 	</h2>
-	<p class="auth__texto">
-		Regístrate en el campus
-	</p>
 
 	<?php
 		require_once __DIR__ . '/../templates/alertas.php';

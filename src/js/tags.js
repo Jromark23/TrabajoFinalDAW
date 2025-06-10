@@ -23,7 +23,7 @@
 
 		function guardarTag(event) {
 
-			if (event.key === 'Enter') {
+			if (event.key === ' ') {
 				event.preventDefault();
 
 				if (event.target.value.trim() == '' || event.target.value < 1)
@@ -73,5 +73,3 @@
 
 	}
 })();
-
-

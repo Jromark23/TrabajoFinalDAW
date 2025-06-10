@@ -52,7 +52,7 @@
 
 
 	<div class="formulario__campo">
-		<label for="tags_input" class="formulario__label">Conocimientos (pulsa enter para guardar)</label>
+		<label for="tags_input" class="formulario__label">Conocimientos (pulsa la tecla espacio para añadir)</label>
 
 		<input type="text" name="tags_input" id="tags_input"
 			class="formulario__input" placeholder="Ej. Node.js, PHP, Js">
