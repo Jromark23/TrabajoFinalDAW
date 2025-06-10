@@ -35,16 +35,16 @@
 
 		<div class="formulario__campo">
 			<label for="password" class="formulario__label">
-				Password
+				Contraseña
 			</label>
-			<input class="formulario__input" type="password" name="password" id="password" placeholder="Password">
+			<input class="formulario__input" type="password" name="password" id="password" placeholder="Contraseña">
 		</div>
 
 		<div class="formulario__campo">
 			<label for="password2" class="formulario__label">
-				Password
+				Contraseña
 			</label>
-			<input class="formulario__input" type="password" name="password2" id="password2" placeholder="Password">
+			<input class="formulario__input" type="password" name="password2" id="password2" placeholder="Repite tu contraseña">
 		</div>
 
 		<input type="submit" class="formulario__submit" value="Crear cuenta">
