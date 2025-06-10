@@ -6,7 +6,7 @@
 	&__grid{
 		@include m.contenedor;
 		@include m.grid(1, 3rem);
-		padding: 3rem;
+		padding: 2rem;
 
 		@include m.tablet {
 			align-items: center;
@@ -26,5 +26,11 @@
 
 	&__contenido {
 		line-height: 3rem;
+	}
+
+	&__imagenes {
+		display: flex;
+		flex-direction: column;
+		gap: 5rem;
 	}
 }
