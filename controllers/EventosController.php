@@ -10,8 +10,17 @@ use Model\Hora;
 use MVC\Router;
 use Classes\Paginacion;
 
+/**
+ * Controlador para la gestión de eventos en el panel de administración.
+ */
 class EventosController
 {
+    /**
+     * Muestra la lista de eventos de manera paginada.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function index(Router $router)
 	{
 		if (!is_admin()) {
@@ -19,11 +28,11 @@ class EventosController
 			exit;
 		}
 
-		// obtenemos numero de pagina y validamos
+		// Obtenemos número de página y validamos
 		$pagina_actual = $_GET['page'];
 		$pagina_actual = filter_var($pagina_actual, FILTER_VALIDATE_INT);
 
-		// si no es valido, dirigimos a la 1 
+		// si no es válido, dirigimos a la 1 
 		if (!$pagina_actual || $pagina_actual < 1) {
 			header('Location: /admin/eventos?page=1');
 		}
@@ -53,6 +62,12 @@ class EventosController
 		]);
 	}
 
+    /**
+     * Muestra el formulario para crear un nuevo evento y también gestiona su registro.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function crear(Router $router)
 	{
 		if (!is_admin()) {
@@ -95,6 +110,12 @@ class EventosController
 		]);
 	}
 
+    /**
+     * Muestra el formulario para editar un evento y gestiona su actualización.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function editar(Router $router)
 	{
 		if (!is_admin()) {
@@ -154,6 +175,12 @@ class EventosController
 		]);
 	}
 
+    /**
+     * Elimina el evento seleccionado.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function eliminar(Router $router)
 	{
 		if (!is_admin()) {

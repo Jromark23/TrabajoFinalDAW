@@ -5,9 +5,17 @@ namespace Controllers;
 use Model\Regalo;
 use Model\Registro;
 
+/**
+ * API para obtener los regalos elegidos por los usuarios.
+ */
 class APIregalos
 {
-	// Api para traer los regalos elegidos para la grafica
+    /**
+     * Devuelve un listado de regalos y la cantidad elegida por los usuarios para 
+	 * poder prepararlos con tiempo.
+     *
+     * @return void
+     */
 	public static function index()
 	{
 

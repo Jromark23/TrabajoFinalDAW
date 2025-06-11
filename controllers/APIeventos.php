@@ -4,8 +4,15 @@ namespace Controllers;
 
 use Model\HorarioEvento; 
 
+/**
+ * API para obtener eventos según día y categoría.
+ */
 class APIeventos {
-	// Api para encontrar un evento segun dia y categoria para poder anular las horas ya usadas.
+    /**
+     * Devuelve los eventos filtrados por día y categoría.
+     *
+     * @return void
+     */
 	public static function index() {
 		$dia_id = $_GET['dia_id'] ?? '';
 		$categoria_id = $_GET['categoria_id'] ?? '';

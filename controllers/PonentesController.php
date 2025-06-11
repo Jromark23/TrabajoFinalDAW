@@ -7,9 +7,17 @@ use Model\Ponente;
 use MVC\Router;
 use Intervention\Image\ImageManagerStatic as Image;
 
+/**
+ * Controlador para la gestión de ponentes en el panel de administración.
+ */
 class PonentesController
 {
-
+    /**
+     * Muestra la lista paginada de ponentes.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function index(Router $router)
 	{
 		if (!is_admin()) {
@@ -44,6 +52,12 @@ class PonentesController
 		]);
 	}
 
+    /**
+     * Muestra el formulario para crear un nuevo ponente y procesa su registro.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function crear(Router $router)
 	{
 		if (!is_admin()) {
@@ -146,6 +160,12 @@ class PonentesController
 		]);
 	}
 
+    /**
+     * Muestra el formulario para editar un ponente y procesa la actualización.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function editar(Router $router)
 	{
 		if (!is_admin()) {
@@ -258,6 +278,12 @@ class PonentesController
 		]);
 	}
 
+    /**
+     * Elimina un ponente seleccionado.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function eliminar(Router $router)
 	{
 		if (!is_admin()) {

@@ -8,8 +8,17 @@ use Model\Registro;
 use Model\Evento;
 use MVC\Router;
 
+/**
+ * Controlador para el dashboard de admin.
+ */
 class DashboardController {
 
+    /**
+     * Muestra el panel principal.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function index(Router $router) {
 
 		if (!is_admin()) {
@@ -25,13 +34,13 @@ class DashboardController {
 			$registro->paquete = Paquete::find($registro->paquete_id);
 		}
 
-		// bloque para calcular el dinero recaudado 
+		// Bloque para calcular el dinero recaudado 
 		$premium = Registro::count('paquete_id', 2);
 		$presenciales = Registro::count('paquete_id', 1);
 
 		$total = ($premium * 200) + ($presenciales * 70);
 
-		// datos para recuperar los eventos mas llenos y mas vacios
+		// Datos para recuperar los eventos mas y menos solicitados. 
 		$disponibles = Evento::whereOrdenLimit('disponibles', 'ASC', 5);
 		$ocupados = Evento::whereOrdenLimit('disponibles', 'DESC', 5);
 

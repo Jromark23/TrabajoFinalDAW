@@ -8,15 +8,25 @@ use Model\Paquete;
 use Model\Usuario;
 use Classes\Paginacion;
 
+/**
+ * Controlador para la gestión de usuarios en admin.
+ */
 class UsuariosController {
 
+    /**
+     * Muestra la lista paginada de usuarios registrados.
+     * Solo accesible para admin.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function index(Router $router) {
 		if (!is_admin()) {
 			header('Location: /login');
 			exit;
 		}
 
-		// obtenemos numero de pagina y validamos
+		// Obtenemos numero de pagina y validamos
 		$pagina_actual = $_GET['page'];
 		$pagina_actual = filter_var($pagina_actual, FILTER_VALIDATE_INT);
 
