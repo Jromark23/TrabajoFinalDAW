@@ -44,7 +44,7 @@ class Email
 		$mail = new PHPMailer();
 		$this->configurarSMTP($mail);
 
-		$mail->setFrom($_ENV['EMAIL_USER'], 'Trabajo Final');
+		$mail->setFrom($_ENV['EMAIL_USER'], 'Congrexia Events');
 		$mail->addAddress($this->email, $this->nombre);
 		$mail->Subject = 'Confirma tu cuenta';
 

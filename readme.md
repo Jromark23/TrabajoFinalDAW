@@ -1,4 +1,4 @@
-# Trabajo Final
+# Congrexia Events
 
 Proyecto de desarrollo web.
 

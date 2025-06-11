@@ -63,7 +63,7 @@
 <body>
 	<div class="contenedor">
 		<div class="logo">
-			<img src="<?= $logoUrl ?>" alt="Logo Trabajo Final" style="max-width:150px;">
+			<img src="<?= $logoUrl ?>" alt="Logo Congrexia Events" style="max-width:150px;">
 		</div>
 		<div class="contenido">
 			<h2>¡Hola <?= $nombre ?>!</h2>
