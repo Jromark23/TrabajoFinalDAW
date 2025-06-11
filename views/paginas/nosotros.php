@@ -5,21 +5,12 @@
 	</p>
 
 	<div class="nosotros__grid">
-		<div class="nosotros__imagenes">
-			<div <?= animacion_aos(); ?> class="nosotros__imagen">
-				<picture>
-					<source srcset="build/img/conferencia.avif">
-					<source srcset="build/img/conferencia.webp">
-					<img src="build/img/conferencia.jpg" alt="imagen de fondo" width="200" height="300">
-				</picture>
-			</div>
-			<div <?= animacion_aos(); ?> class="nosotros__imagen">
-				<picture>
-					<source srcset="build/img/conferencia2.avif">
-					<source srcset="build/img/conferencia2.webp">
-					<img src="build/img/conferencia2.jpg" alt="imagen de fondo" width="200" height="300">
-				</picture>
-			</div>
+		<div class="nosotros__imagen nosotros__imagen--1" <?= animacion_aos(); ?>>
+			<picture>
+				<source srcset="build/img/conferencia.avif">
+				<source srcset="build/img/conferencia.webp">
+				<img src="build/img/conferencia.jpg" alt="imagen de fondo" width="200" height="300">
+			</picture>
 		</div>
 		<div class="nosotros__contenido">
 			<h3>¡VIVE EL EVENTO ECONÓMICO DEL AÑO!</h3>
@@ -61,8 +52,12 @@
 				⏳ <strong>¿Te lo vas a perder?</strong> Las plazas vuelan. ¡Reserva ahora y sé parte de la revolución económica!
 			</div>
 		</div>
-
-
-
+		<div class="nosotros__imagen nosotros__imagen--2" <?= animacion_aos(); ?>>
+			<picture>
+				<source srcset="build/img/conferencia2.avif">
+				<source srcset="build/img/conferencia2.webp">
+				<img src="build/img/conferencia2.jpg" alt="imagen de fondo" width="200" height="300">
+			</picture>
+		</div>
 	</div>
 </main>

@@ -7,10 +7,5 @@ document.addEventListener('DOMContentLoaded', function() {
 		e.stopPropagation();
 		barra.classList.toggle('barra__visible');
 	});
-	document.addEventListener('click', function(e) {
-		if (!barra.contains(e.target) && !btn.contains(e.target)) {
-			barra.classList.remove('barra--visible');
-		}
-	});
 });
 

@@ -153,7 +153,7 @@ class AuthController
 					// Generar el Token
 					$usuario->crearToken();
 					// Ponemos al token 30 minutos mas que la hora actual
-					$usuario->token_expiracion = date('Y-m-d H:i:s', strtotime('+30 minutes'));
+					$usuario->token_expiracion = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
 					// Crear un nuevo usuario
 					$resultado =  $usuario->guardar();

@@ -288,8 +288,6 @@ class RegistroController
 				$tokenEntrada = $registro->token;
 
 				$urlVerificar = $_ENV['HOST'] . "/registro/validar?token={$tokenEntrada}";
-				//$urlVerificar = "http://localhost:3000/registro/validar?token={$tokenEntrada}";
-
 				$directorioQR = __DIR__ . '/../public/qrtemp/';
 				if (!is_dir($directorioQR)) {
 					mkdir($directorioQR, 0777, true);
@@ -299,27 +297,27 @@ class RegistroController
 				$rutaCompleta  = $directorioQR . $nombreArchivo;
 
 				\QRcode::png(
-					$urlVerificar,  // Texto a codificar en el QR
-					$rutaCompleta,  // Ruta donde se guarda el PNG
-					QR_ECLEVEL_L,   // Nivel de corrección
-					7,              // Tamaño del módulo
-					2               // Margen
+					$urlVerificar,
+					$rutaCompleta,
+					QR_ECLEVEL_L,
+					7,
+					2
 				);
 
-				// Enviar el correo confirmando y con el QR 
-				$usuario = Usuario::find($registro->usuario_id);
-				if ($usuario) {
-
-					$urlQrPublica = $_ENV['HOST'] . '/public/qrtemp/' . $nombreArchivo;
-
-					$email = new \Classes\Email(
-						$usuario->email,
-						$usuario->nombre . ' ' . $usuario->apellido,
-						$tokenEntrada
-					);
-					$email->enviarEntrada($urlQrPublica);
-				} else {
-					error_log("Pago registrado (token={$tokenEntrada}) pero no se encontró usuario ID {$registro->usuario_id} para mandar el correo.");
+				// Enviar el correo solo si el paquete es 2 (premium)
+				if (isset($registro->paquete_id) && $registro->paquete_id == 2) {
+					$usuario = Usuario::find($registro->usuario_id);
+					if ($usuario) {
+						$urlQrPublica = $_ENV['HOST'] . '/public/qrtemp/' . $nombreArchivo;
+						$email = new \Classes\Email(
+							$usuario->email,
+							$usuario->nombre . ' ' . $usuario->apellido,
+							$tokenEntrada
+						);
+						$email->enviarEntrada($urlQrPublica);
+					} else {
+						error_log("Pago registrado (token={$tokenEntrada}) pero no se encontró usuario ID {$registro->usuario_id} para mandar el correo.");
+					}
 				}
 
 				// mandamos el token y el true para evitar fallo de redireccion
@@ -471,6 +469,21 @@ class RegistroController
 			// guardart el regalo 
 			$registro->sincronizar(['regalo_id' => $_POST['regalo_id']]);
 			$resultado = $registro->guardar();
+
+			// Enviar correo solo si el paquete es 1 (presencial) y el registro fue exitoso
+			if ($resultado && $registro->paquete_id == 1) {
+				$nombreArchivo = "qr_{$registro->token}.png";
+				$urlQrPublica = $_ENV['HOST'] . '/public/qrtemp/' . $nombreArchivo;
+				$usuario = Usuario::find($registro->usuario_id);
+				if ($usuario) {
+					$email = new \Classes\Email(
+						$usuario->email,
+						$usuario->nombre . ' ' . $usuario->apellido,
+						$registro->token
+					);
+					$email->enviarEntrada($urlQrPublica);
+				}
+			}
 
 			if ($resultado) {
 				echo json_encode([
