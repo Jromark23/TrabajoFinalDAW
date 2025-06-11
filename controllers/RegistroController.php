@@ -144,7 +144,7 @@ class RegistroController
 
 		$registro = new Registro($datos);
 		$resultado = $registro->guardar();
-		
+
 		if ($resultado) {
 			// urlencode evita caracteres especiales
 			header('Location: /entrada?id=' . urlencode($registro->token));
@@ -184,6 +184,10 @@ class RegistroController
 
 	public static function entrada(Router $router)
 	{
+		if (!is_user()) {
+			header('Location: /login');
+			exit;
+		}
 		$tokenEntrada = $_GET['id'] ?? null;
 		//$session_id = $_SESSION['id'];
 
