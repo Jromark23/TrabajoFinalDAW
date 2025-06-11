@@ -106,6 +106,6 @@ include_once __DIR__ . '/talleres.php';
 </section>
 
 <!-- Mapa de localización -->
-<h2 class="pases__heading">Donde estamos ubicados</h2>
+<h2 class="pases__heading">Donde estamos</h2>
 <div id="map" class="mapa"></div>
 

@@ -62,10 +62,10 @@
 
 <body>
 	<div class="contenedor">
-		<div class="logo" style="text-align:center; margin-bottom:20px;">
+		<div class="logo">
 			<img src="<?= $logoUrl ?>" alt="Logo Trabajo Final" style="max-width:150px;">
 		</div>
-		<div class="contenido" style="background:#f9f9f9; border-radius:8px; padding:20px; text-align:center;">
+		<div class="contenido">
 			<h2>¡Hola <?= $nombre ?>!</h2>
 			<p>Gracias por adquirir tu entrada para el evento.</p>
 			<p>Te enviamos a continuación tu código QR, el cual podrás escanear al llegar al evento:</p>
@@ -77,7 +77,7 @@
 			<p>También puedes ver tu entrada online en este enlace:</p>
 			<p><a href="<?= $enlaceEntrada ?>"><?= $enlaceEntrada ?></a></p>
 		</div>
-		<div class="footer" style="margin-top:30px; font-size:0.8rem; color:#777; text-align:center;">
+		<div class="footer">
 			<p>Si no solicitaste esta entrada, ignora este mensaje.</p>
 			<p style="margin-top:10px;">
 				<a href="<?= $polCookies ?>">Política de Cookies</a> |

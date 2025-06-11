@@ -59,9 +59,8 @@ class Usuario extends ActiveRecord
 			self::$alertas['error'][] = 'Rellene el email';
 		}
 
-		if (!$this->validarEmail()) {
-			self::$alertas['error'][] = 'Email no válido. Debe tener un formato correcto (ejemplo: usuario@dominio.com)';
-		}
+		$this->validarEmail(); // Solo llama, no uses if
+
 		if (!$this->password) {
 			self::$alertas['error'][] = 'La contraseña no puede estar vacía';
 		}
@@ -86,9 +85,8 @@ class Usuario extends ActiveRecord
 
 		if (!$this->email) {
 			self::$alertas['error'][] = 'El email es obligatorio';
-		} elseif (!$this->validarEmail()) {
-			self::$alertas['error'][] = 'Email no válido. ejemplo: usuario@dominio.com';
 		}
+		$this->validarEmail(); // Solo llama, no uses if
 
 		if (!$this->password) {
 			self::$alertas['error'][] = 'La contraseña no puede estar vacía';
@@ -101,42 +99,42 @@ class Usuario extends ActiveRecord
 		return self::$alertas;
 	}
 
-	public function validarEmail(): array
+	public function validarEmail()
 	{
 		if (empty($this->email)) {
 			self::$alertas['error'][] = 'El email es obligatorio';
-		}
-		elseif (
+		} elseif (
 			!filter_var($this->email, FILTER_VALIDATE_EMAIL)
-			|| !preg_match('/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/', $this->email)
 		) {
-			self::$alertas['error'][] =
-				'Email no válido. Debe tener un formato correcto (ejemplo: usuario@dominio.com)';
+			self::$alertas['error'][] = 'Email no válido. Debe tener un formato correcto (ejemplo: usuario@dominio.com)';
 		}
-
-		return self::$alertas;
+		return self::$alertas; // Siempre devuelve un array
 	}
+
 
 
 	public function validarPassword()
 	{
 		if (empty($this->password)) {
 			self::$alertas['error'][] = 'La contraseña no puede estar vacía';
-		}
-		// al menos 6 caracteres, mayuscula, minúscula, dígito y símbolo
-		elseif (
-			strlen($this->password) < 6
-			|| !preg_match('/[A-Z]/', $this->password)
-			|| !preg_match('/[a-z]/', $this->password)
-			|| !preg_match('/[0-9]/', $this->password)
-			|| !preg_match('/[\W_]/', $this->password)
-		) {
-			self::$alertas['error'][] = 'La contraseña debe tener al menos 6 caracteres, ' .
-				'una mayúscula, una minúscula, un número y un símbolo';
+			return false;
 		}
 
-		return self::$alertas;
+		if (
+			strlen($this->password) < 6 ||
+			!preg_match('/[A-Z]/', $this->password) ||
+			!preg_match('/[a-z]/', $this->password) ||
+			!preg_match('/[0-9]/', $this->password) ||
+			!preg_match('/[\W_]/', $this->password)
+		) {
+			self::$alertas['error'][] =
+				'La contraseña debe tener al menos 6 caracteres, una mayúscula, una minúscula, un número y un símbolo';
+			return false;
+		}
+
+		return true;
 	}
+
 
 
 	public function nuevo_password(): array

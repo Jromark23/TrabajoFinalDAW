@@ -2,70 +2,110 @@
 <html lang="es">
 
 <head>
-	<meta charset="UTF-8" />
-	<title>Reestablece tu Contraseña</title>
+	<meta charset="UTF-8">
+	<title>Restablece tu Contraseña</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			color: #333;
+			background: #f9f9f9;
+			margin: 0;
+			padding: 20px 0;
+		}
+
+		.contenedor {
+			max-width: 600px;
+			margin: 0 auto;
+			background: #ffffff;
+			border-radius: 8px;
+			overflow: hidden;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+
+		.logo {
+			text-align: center;
+			margin-bottom: 20px;
+			padding: 20px 0;
+		}
+
+		.logo img {
+			max-width: 150px;
+		}
+
+		.contenido {
+			padding: 20px;
+			text-align: center;
+		}
+
+		.contenido h2 {
+			margin-top: 0;
+			color: #0066cc;
+		}
+
+		.contenido p {
+			margin: 1rem 0;
+		}
+
+		.btn {
+			display: inline-block;
+			background: #0066cc;
+			color: #fff;
+			padding: 12px 24px;
+			border-radius: 4px;
+			text-decoration: none;
+			font-size: 16px;
+			margin: 1rem 0;
+		}
+
+		.footer {
+			padding: 20px;
+			font-size: 0.8rem;
+			text-align: center;
+			color: #777;
+		}
+
+		.footer a {
+			color: #0066cc;
+			text-decoration: none;
+		}
+	</style>
 </head>
 
-<body style="margin:0; padding:0; background-color:#f4f4f4; font-family: Arial, sans-serif;">
-	<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4; padding: 20px 0;">
-		<tr>
-			<td align="center">
-				<table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:8px; overflow:hidden;">
+<body>
+	<div class="contenedor">
+		<div class="logo">
+			<img src="<?= $logoUrl ?>" alt="Logo Trabajo Final">
+		</div>
+		<div class="contenido">
+			<h2>¡Hola <?= htmlspecialchars($nombre) ?>!</h2>
+			<p>Hemos recibido una solicitud para restablecer tu contraseña.</p>
+			<p>Para continuar, haz clic en el botón de abajo:</p>
+			<a
+				href="<?= $enlace ?>"
+				class="btn"
+				style="
+					display: inline-block;
+					background-color: #0066cc;
+					color: #ffffff !important;
+					text-decoration: none !important;
+					padding: 12px 24px;
+					border-radius: 4px;
+					font-size: 16px;
+				">
+				Reestablecer contraseña
+			</a>
 
-					<tr>
-						<td align="center" style="background-color:#0073e6; padding:20px 0;">
-							<p>Congrexia Events</p>
-						</td>
-					</tr>
-
-					<tr>
-						<td style="padding:20px; color:#333333;">
-							<h2 style="margin-top:0; color:#0073e6;">Hola, <?= htmlspecialchars($nombre) ?>:</h2>
-							<p style="font-size:16px; line-height:1.5; margin-bottom:20px;">
-								Hemos recibido una solicitud para restablecer tu contraseña en <strong>Congrexia Events</strong>.
-								Para continuar con el cambio, haz clic en el botón de abajo:
-							</p>
-							<p style="font-size:16px; margin-bottom:20px;">
-								<strong>Este enlace caduca en 1 hora.</strong>
-							</p>
-						</td>
-					</tr>
-
-					<tr>
-						<td align="center" style="padding:20px;">
-							<a href="<?= $enlace ?>"
-								style="background-color:#0073e6; color:#ffffff; text-decoration:none; padding:12px 24px; border-radius:4px; font-size:16px; display:inline-block;">
-								Reestablecer Contraseña
-							</a>
-						</td>
-					</tr>
-
-					<tr>
-						<td style="background-color:#f9f9f9; padding:20px; color:#666666; font-size:12px; text-align:center;">
-							<p style="margin:0;">
-								Este mensaje puede contener cookies de seguimiento para mejorar nuestros servicios.
-								Para más información, consulta nuestra
-								<a href="<?= $polCookies ?>" style="color:#0073e6; text-decoration:none;">
-									Política de Cookies
-								</a>
-								y
-								<a href="<?= $polPrivacy ?>" style="color:#0073e6; text-decoration:none;">
-									Política de Privacidad
-								</a>.
-							</p>
-							<p style="margin:10px 0 0;">
-								Si prefieres no recibir estos correos, pulsa
-								<a href="<?= $darseBaja ?>" style="color:#0073e6; text-decoration:none;">
-									aquí para darte de baja
-								</a>.
-							</p>
-						</td>
-					</tr>
-
-				</table>
-			</td>
-		</tr>
-	</table>
+			<p><strong>Este enlace caduca en 30 minutos.</strong></p>
+			<p>Si no solicitaste este cambio, ignora este correo.</p>
+		</div>
+		<div class="footer">
+			<p>
+				<a href="<?= $polCookies ?>">Política de Cookies</a> |
+				<a href="<?= $polPrivacy ?>">Política de Privacidad</a> |
+				<a href="<?= $darseBaja ?>">Darse de baja</a>
+			</p>
+		</div>
+	</div>
 </body>
 
 </html>
