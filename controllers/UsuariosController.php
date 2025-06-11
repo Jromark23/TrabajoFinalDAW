@@ -42,10 +42,6 @@ class UsuariosController {
 			$registro->paquete = Paquete::find($registro->paquete_id);
 		}
 
-		
-		//debuguear($registros);
-
-
 		$router-> renderizar('admin/usuarios/index', [
 			'titulo' => 'Usuarios',
 			'registros' => $registros,

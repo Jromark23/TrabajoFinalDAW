@@ -33,8 +33,6 @@ class RegistroController
 		// Ver si ya esta registrado 
 		$registro = Registro::where('usuario_id', $_SESSION['id']);
 
-		//debuguear($registro);
-
 		// Si ya esta registrado con el paquete basico, le mostramos su entrada para 
 		if (isset($registro) && ($registro->paquete_id == '3' || $registro->paquete_id == '2')) {
 			// urlencode evita caracteres especiales
@@ -66,7 +64,6 @@ class RegistroController
 		}
 
 		$token = substr(md5(uniqid(rand(), true)), 0, 8);
-		//debuguear($token);
 
 		$datos = [
 			'paquete_id' => 3,
@@ -189,18 +186,6 @@ class RegistroController
 			exit;
 		}
 		$tokenEntrada = $_GET['id'] ?? null;
-		//$session_id = $_SESSION['id'];
-
-		// // Si hay un usuario logado, que tiene un registro le mandamos a la entrada 
-		// $user = Usuario::find($session_id);
-		// if($user) {
-		// 	$registro = Registro::where('usuario_id', $user->id);	
-		// 	if($registro->token) {
-		// 		//debuguear($registro->token);
-		// 		header('Location: /entrada?id=' . urlencode($registro->token));
-		// 		exit;
-		// 	}
-		// }
 
 		if (!$tokenEntrada || strlen($tokenEntrada) !== 8) {
 			header('Location: /');
@@ -208,8 +193,6 @@ class RegistroController
 		}
 
 		$registro = Registro::where('token', $tokenEntrada);
-
-		//debuguear($registro);
 
 		if (!$registro) {
 			header('Location: /');
@@ -220,8 +203,6 @@ class RegistroController
 		$registro->usuario = Usuario::find($registro->usuario_id);
 		$registro->paquete = Paquete::find($registro->paquete_id);
 
-		// REVISAR para pro"
-		//$urlVerificar = "https://joelroman.site/registro/validar?token={$tokenEntrada}";
 		$urlVerificar = $_ENV['HOST'] . "/registro/validar?token={$tokenEntrada}";
 
 		// Donde ira el PNG temporal
@@ -248,10 +229,6 @@ class RegistroController
 		$datosPng = file_get_contents($rutaCompleta);
 		$qrDataUri = 'data:image/png;base64,' . base64_encode($datosPng);
 
-		// Borrar el archivo temporal
-		//unlink($rutaCompleta);
-
-		//debuguear($urlVerificar);
 		$router->renderizar('registro/entrada', [
 			'titulo'    => 'Asistencia al evento',
 			'registro'  => $registro,
@@ -400,8 +377,6 @@ class RegistroController
 			$evento->hora = Hora::find($evento->hora_id);
 			$evento->ponente = Ponente::find($evento->ponente_id);
 
-			//debuguear($evento);
-
 			if ($evento->dia_id === 1 && $evento->categoria_id === 1) {
 				$eventos_formateados['conferencia_v'][] = $evento;
 			}
@@ -436,7 +411,6 @@ class RegistroController
 			// Obtener el usuario
 			$usuario = Registro::where('usuario_id', $_SESSION['id']);
 			// Si no existe el usuario, o el usuario no tiene comprado presencial, lo echamos
-			//debuguear($usuario->paquete_id);
 			if (!isset($usuario) || $usuario->paquete_id !== 1) {
 				echo json_encode(['resultado' => false]);
 				exit;

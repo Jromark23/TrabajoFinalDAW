@@ -43,8 +43,6 @@ class EventosController
 			$evento->ponente = Ponente::find($evento->ponente_id);
 			$evento->dia = Dia::find($evento->dia_id);
 			$evento->hora = Hora::find($evento->hora_id);
-
-			//debuguear($evento);
 		}
 
 

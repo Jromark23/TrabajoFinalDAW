@@ -2,18 +2,22 @@
 
 namespace MVC;
 /**
- * 
+ * Clase Router para gestionar las rutas de la aplicación
  */
 class Router
 {
+    // Array para almacenar rutas GET
     public array $getRoutes = [];
+    // Array para almacenar rutas POST
     public array $postRoutes = [];
 
+    // Método para registrar una ruta GET
     public function get($url, $callback)
     {
         $this->getRoutes[$url] = $callback;
     }
 
+    // Método para registrar una ruta POST
     public function post($url, $callback)
     {
         $this->postRoutes[$url] = $callback;
@@ -22,19 +26,20 @@ class Router
 	// Comprueba la ruta actual y ejecuta el callback correspondiente
     public function comprobarRutas()
     {
-		// Recupera la URL y el METHOD por el que llega 
+		// Recupera la URL actual de la petición o '/' si no existe
         $url_actual = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
+        // Recupera el método HTTP (GET o POST)
         $method = $_SERVER['REQUEST_METHOD'];
 
-		// Añade el callback que corresponda si existe
+		// Selecciona el callback correspondiente según el método
         if ($method === 'GET') {
             $callback = $this->getRoutes[$url_actual] ?? null;
         } else {
             $callback = $this->postRoutes[$url_actual] ?? null;
         }
 
-		// Eb caso de encontrarlo, lo ejecuta si no nos avisa de que no es valido
-		// callback es la funcion que viene desde el index y this, el controlador que le pasamos
+		// Si existe un callback, lo ejecuta. Si no, redirige a la página 404
+		// callback es la función que se asocia a la ruta
 		// $router->get('/login', [AuthController::class, 'login']);
         if ( $callback ) {
             call_user_func($callback, $this);
@@ -48,28 +53,28 @@ class Router
 	// Recibe la vista y todos los datos que necesitemos pasarle
 	public function renderizar($view, $datos = [])
     {
+        // Extrae cada elemento del Array $datos como una variable
         foreach ($datos as $key => $value) {
             $$key = $value; 
         }
 
-		// Guarda todo lo que se va a renderizar en un buffer temporal y lo almacena para enviar despues al navegador
+		// Inicia el almacenamiento en buffer de la salida
         ob_start(); 
 
+        // Incluye la vista correspondiente
         include_once __DIR__ . "/views/$view.php";
 
-		//Obtiene todo lo capturado y limpia el buffer. 
-		//El contenido capturado se guarda en una variable y permite que todo quede en el orden que deseamos.
-		// Permite construit primero la vista y luego insertarla en orden
+		// Obtiene el contenido del buffer y lo limpia
         $contenido = ob_get_clean(); 
 
-		// Si no hay info (estas en la raiz, añade /)
+		// Recupera la URL actual
 		$url_actual = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
-		//debuguear($url_actual);
 
-		// Si la URL contiene admin, pasamos al layout de administradores
+		// Si la URL contiene 'admin', usa el layout de administradores
 		if(str_contains($url_actual, '/admin')) {
 			include_once __DIR__ . '/views/admin_layout.php';
 		} else {
+			// Si no, usa el layout general
 			include_once __DIR__ . '/views/layout.php';
 		}
 

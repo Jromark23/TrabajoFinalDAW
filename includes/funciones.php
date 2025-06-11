@@ -2,7 +2,12 @@
 
 use Model\Usuario;
 
-// funcion que me ayuda a debuguear facilmente simplemente indicando la variable, y dandole formato con PRE
+/**
+ * Debuguea con formato legible la variable proporcionada
+ *
+ * @param mixed $variable
+ * @return string
+ */
 function debuguear($variable): string
 {
 	echo "<pre>";
@@ -11,63 +16,67 @@ function debuguear($variable): string
 	exit;
 }
 
-// funcion que me ayuda a evitar la insercion de codigo malicioso convirtiendo caracteres especiales 
-function sanitizeHtml($html): string
-{
-	$string = htmlspecialchars($html);
-	return $string;
-}
-
-// Compara si la pagina actual es igual o contiene lo que le pasamos (se usará para admin y para resaltar en la princiapl )
+/**
+ * Comprueba si la página actual contiene el path indicado.
+ *
+ * @param string $path Trozo de ruta a buscar en la URL actual.
+ * @return bool
+ */
 function pagina_actual($path)
 {
 	return str_contains($_SERVER['PATH_INFO'] ?? '/', $path) ? true : false;
 }
 
-// Devuelve si hay usuario logado 
+/**
+ * Verifica si hay un usuario logado.
+ *
+ * @return bool
+ */
 function is_user(): bool
 {
-	// Verificamos que la sesion tiene ID
 	$userId = $_SESSION['id'] ?? null;
 
 	if (!$userId) {
 		return false;
 	}
 
-	// Comprobamos si corresponde a un usuario real
 	$usuario = Usuario::find($userId);
 	if (!$usuario) {
 		return false;
 	}
-
 
 	return true;
 }
 
-// Devuelve si el usuario logado actual es admin
+/**
+ * Verifica si el usuario logado es admin.
+ *
+ * @return bool
+ */
 function is_admin(): bool
 {
-	// Comprobamos que hay usuario logado
 	$userId = $_SESSION['id'] ?? null;
 	if (!$userId) {
 		return false;
 	}
 
-	// Si lo hay, lo buscamos en la base de datos 
 	$usuario = Usuario::find($userId);
 
 	if (!$usuario) {
 		return false;
 	}
 
-	// Si en BD es admin devuelve true
 	return ($usuario->admin == 1) ? true : false;
 }
 
-// Funcion para la libreria AOS que ayuda a que haya animaciones random para usar
+/**
+ * Devuelve una funcion aleatoria de la libreria AOS de efectos.
+ *
+ * @return string Atributo "data-aos" con el efecto seleccionado.
+ */
 function animacion_aos()
 {
-
+	// Lista de efectos a usar
 	$efectos = [
 		'fade-up',
 		'fade-down',
@@ -85,6 +94,11 @@ function animacion_aos()
 	return ' data-aos="' . $efectos[$efecto] . '" ';
 }
 
+/**
+ * Genera un input hidden con el token CSRF de la sesión.
+ *
+ * @return string HTML del input con el token CSRF.
+ */
 function csrf(): string
 {
 	$token = $_SESSION['csrf_token'] ?? '';
@@ -93,9 +107,16 @@ function csrf(): string
 	return "<input type=\"hidden\" name=\"csrf_token\" value=\"{$tokenEscapado}\">";
 }
 
+/**
+ * Valida el token CSRF enviado por el formulario con el de la sesión.
+ *
+ * Usada cuando mandemos solicitudes POST.
+ * Si el token no coincide devuelve un error 403 y para la ejecución.
+ *
+ * @return void
+ */
 function validar_csrf()
 {
-	// Validamos CSRF para asegurarnos de que la petición viene de nuestro formulario
 	$tokenForm = $_POST['csrf_token'] ?? '';
 	$tokenSess = $_SESSION['csrf_token'] ?? '';
 	if (!hash_equals($tokenSess, $tokenForm)) {

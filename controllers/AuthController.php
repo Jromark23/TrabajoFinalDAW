@@ -7,8 +7,18 @@ use Model\Usuario;
 use MVC\Router;
 use DateTime;
 
+/**
+ * Controlador para la autenticación de usuarios.
+ * Incluye login, logout, registro, recuperación y confirmación de cuenta.
+ */
 class AuthController
 {
+    /**
+     * Muestra y procesa el formulario de login.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function login(Router $router)
 	{
 		// si ya esta logado, no puede volver a login 
@@ -108,6 +118,11 @@ class AuthController
 
 
 
+    /**
+     * Cierra la sesión del usuario.
+     *
+     * @return void
+     */
 	public static function logout()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -119,9 +134,15 @@ class AuthController
 		}
 	}
 
+    /**
+     * Muestra y procesa el formulario de registro de usuario.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function registro(Router $router)
 	{
-		// si ya esta logado, le mandamos a la pagina de comprar o a su entrada
+		// Si ya esta logado, le mandamos a la pagina de comprar o a su entrada
 		if (is_user()) {
 			header('Location: /finalizar');
 			exit;
@@ -131,7 +152,6 @@ class AuthController
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			validar_csrf();
-			//debuguear($_POST);
 
 			$usuario->sincronizar($_POST);
 
@@ -182,6 +202,12 @@ class AuthController
 		]);
 	}
 
+    /**
+     * Muestra y procesa el formulario para recuperar contraseña.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function olvide(Router $router)
 	{
 		$alertas = [];
@@ -238,14 +264,20 @@ class AuthController
 		]);
 	}
 
+    /**
+     * Permite al usuario reestablecer su contraseña usando un token con tiempo límite.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function reestablecer(Router $router)
 	{
 		// Recogemos el token y lo sanitizamos
-		$token = sanitizeHtml($_GET['token'] ?? '');
+		$token = htmlspecialchars($_GET['token'] ?? '');
 
 		$token_valido = true;
 
-		// Si no llega ninguno, vamos a inicio
+		// Si no llega token, vamos a inicio
 		if (!$token) {
 			header('Location: /');
 			exit;
@@ -282,7 +314,7 @@ class AuthController
 
 			// Si no hay errores de validacion reestablecemos la contraseña 
 			if (empty($alertas['error'])) {
-				// Hasheamos la nueva contraseña para guardarla hasehada
+				// Hasheamos la nueva contraseña para guardarla haseada
 				$usuario->hashPassword();
 
 				// Limpiamos el token y la fecha, asi como los intentos fallidos y nuevo intento
@@ -312,6 +344,12 @@ class AuthController
 	}
 
 
+    /**
+     * Muestra una vista con un mensaje de éxito tras crear una cuenta.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function mensaje(Router $router)
 	{
 
@@ -320,10 +358,16 @@ class AuthController
 		]);
 	}
 
+    /**
+     * Confirma la cuenta de usuario a través de un token con tiempo máximo.
+     *
+     * @param Router $router
+     * @return void
+     */
 	public static function confirmar(Router $router)
 	{
 
-		$token = sanitizeHtml($_GET['token']) ?? null;
+		$token = htmlspecialchars($_GET['token']) ?? null;
 
 		if (!$token) {
 			header('Location: /');

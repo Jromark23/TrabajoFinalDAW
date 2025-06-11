@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
 
-// Cargar variables de entorno (ya lo haces en app.php)
 $host     = $_ENV['DB_HOST'] ?? 'localhost';
 $dbname   = $_ENV['DB_NAME'] ?? '';
 $user     = $_ENV['DB_USER'] ?? '';
 $password = $_ENV['DB_PASS'] ?? '';
 $charset  = 'utf8mb4';
 
-// Crea el DSN (Data Source Name), sting de conexion con MYSQL 
+// Crea el DSN (Data Source Name) de conexión con MySQL
 $dsn = "mysql:host={$host};dbname={$dbname};charset={$charset}";
 
 try {
@@ -16,13 +15,13 @@ try {
         $dsn,
         $user,
         $password,
-		// Opciones de configuracion del PDO 
+        // Opciones de configuración del PDO 
         [
-			// Lanza excepciones si hay errores
+            // Lanza excepciones si hay errores
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-			// Los resultados los devuelve como array asociativo [clave = columna => dato]
+            // Los resultados los devuelve como array asociativo [clave = columna => dato]
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-			// Usa sentencias preparadas reales del servidor 
+            // Usa sentencias preparadas reales del servidor 
             PDO::ATTR_EMULATE_PREPARES   => false,
         ]
     );
