@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="google-site-verification" content="googleeab73fe2b2803bba"/>
 	<title>Congrexia - <?= $titulo; ?></title>
 	<link rel="icon" href="/build/img/favicon.png">
 	<link rel="preconnect" href="https://fonts.googleapis.com">

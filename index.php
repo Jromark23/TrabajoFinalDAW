@@ -3,7 +3,7 @@ session_set_cookie_params([
 	'lifetime' => 0,
 	'path'     => '/',
 	//'secure'   => true, // Solo se enviara si es HTTPS
-	'secure'   => false,  // ELIMINAR EN PROD
+	'secure'   => false,  // ELIMINAR EN PROD REVISAR
 	'httponly' => true,   // No permite entrar por JavaScript, preveniendo ataques XSS
 	'samesite' => 'Lax'	  // Se envia en navegaciones normales pero no en POST o scripts
 ]);

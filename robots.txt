@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# No rastrear carpetas de dependencias
+Disallow: /vendor/
+Disallow: /node_modules/
+
+# Enlace a tu sitemap
+Sitemap: https://joelroman.site/sitemap.xml

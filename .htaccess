@@ -5,6 +5,11 @@
     AcceptPathInfo On
 
     RewriteEngine On
+
+	# SERVIR sitemap.xml DIRECTAMENTE
+    RewriteRule ^sitemap\.xml$ - [L]
+
+
     # Si no es un fichero ni un directorio real, redirige todo a index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
