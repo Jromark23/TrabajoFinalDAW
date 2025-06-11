@@ -54,14 +54,15 @@ document.addEventListener('DOMContentLoaded', function () {
                             ${ponente.nombre} ${ponente.apellido}
                         </td>
                         <td class="table__td">
-                            ${ponente.ciudad || ''}${ponente.ciudad && ponente.pais ? ', ' : ''}${ponente.pais || ''}
+                            ${ponente.ciudad}, ${ponente.pais}
                         </td>
                         <td class="table__td--acciones">
                             <a class="table__accion table__accion--editar" href="/admin/ponentes/editar?id=${ponente.id}">
                                 <i class="fa-solid fa-pen-to-square"></i>
                                 Editar
                             </a>
-                            <form action="/admin/ponentes/eliminar" method="post" class="table__formulario">
+                            <form action="/admin/ponentes/eliminar" method="POST" class="table__formulario">
+                                <input type="hidden" name="csrf_token" value="${window.csrf_token}">
                                 <input type="hidden" name="id" value="${ponente.id}">
                                 <button class="table__accion table__accion--eliminar" type="submit">
                                     <i class="fa-solid fa-trash"></i>

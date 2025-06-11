@@ -7,7 +7,7 @@ class APIponentes {
 	// Api para traer los ponentes a los eventos
 	public static function index() {
 		
-		$ponentes = Ponente::allArray(["id","nombre","apellido"] );
+		$ponentes = Ponente::allArray(["id","nombre","apellido","ciudad","pais"] );
 		echo json_encode($ponentes);
 	}
 

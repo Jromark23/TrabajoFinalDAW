@@ -42,7 +42,6 @@
 								</a>
 
 								<form action="/admin/ponentes/eliminar" method="post" class="table__formulario">
-									<?= csrf() ?>
 									<input type="hidden" name="id" value="<?= $ponente->id; ?>">
 									<button class="table__accion table__accion--eliminar" type="submit">
 										<i class="fa-solid fa-trash"></i>
@@ -60,4 +59,7 @@
 	<?php }  ?>
 </div>
 
-<!-- <?= $paginacion; ?> -->
+<script>
+    window.csrf_token = "<?= $_SESSION['csrf_token'] ?? '' ?>";
+</script>
+
