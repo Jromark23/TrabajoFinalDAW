@@ -3,7 +3,9 @@
 namespace Model;
 
 /**
- * Creadas en tiempo de ejecucion, poniendolas aqui no muestra error. 
+ * Clase base ActiveRecord.
+ * Crea métodos para que los usen los modelos en la base de datos.
+ *
  * @property Categoria $categoria
  * @property Categoria $categoria_id
  * @property Ponente $ponente
@@ -13,44 +15,66 @@ namespace Model;
  * @property Hora $hora
  * @property Hora $hora_id
  */
-
 abstract class ActiveRecord
 {
 
-	// Base DE DATOS
+	// BBDD
 	protected static \PDO $db;
 	protected static $tabla = '';
 	protected static $columnasDB = [];
-
-	// Alertas y Mensajes
 	protected static $alertas = [];
 
-	// Definir la conexión a la BD - includes/database.php
+	/**
+	 * Crea la conexion a la BBDD.
+	 *
+	 * @param \PDO $database
+	 * @return void
+	 */
 	public static function setDB(\PDO $database): void
 	{
 		self::$db = $database;
 	}
 
-	// Setear un tipo de Alerta
+	/**
+	 * Registra una alerta en las validaciones.
+	 *
+	 * @param string $tipo Tipo de alerta
+	 * @param string $mensaje
+	 * @return void
+	 */
 	public static function setAlerta($tipo, $mensaje)
 	{
 		static::$alertas[$tipo][] = $mensaje;
 	}
 
-	// Obtener las alertas
+	/**
+	 * Devuelve todas las alertas.
+	 *
+	 * @return array
+	 */
 	public static function getAlertas()
 	{
 		return static::$alertas;
 	}
 
-	// Validación que se hereda en modelos
+	/**
+	 * Método de validación. Limpia y devuelve las alertas del modelo
+	 *
+	 * @return array
+	 */
 	public function validar()
 	{
 		static::$alertas = [];
 		return static::$alertas;
 	}
 
-	// Consulta SQL para crearUsuario un objeto en Memoria (Active Record)
+	/**
+	 * Ejecuta una consulta SQL y devuelve los resultados como objetos del modelo.
+	 *
+	 * @param string $query Consulta personalizada
+	 * @param array $params Parametros para la consulta
+	 * @return array Devuelve un array de objetos en base a la BBDD
+	 */
 	public static function consultarSQL($query, $params = [])
 	{
 		$stmt = self::$db->prepare($query);
@@ -63,12 +87,18 @@ abstract class ActiveRecord
 		return $array;
 	}
 
-	// Crea el objeto en memoria que es igual al de la BD
+	/**
+	 * Crea un objeto del modelo a partir de un array de datos.
+	 *
+	 * @param array $registro
+	 * @return static
+	 */
 	protected static function crearObjeto($registro)
 	{
 		$objeto = new static;
 
 		foreach ($registro as $key => $value) {
+			// Si la clase del objeto tiene la propiedad dada, asigna el valor a esa propiedad
 			if (property_exists($objeto, $key)) {
 				$objeto->$key = $value;
 			}
@@ -76,20 +106,27 @@ abstract class ActiveRecord
 		return $objeto;
 	}
 
-
 	/** 
 	 * Actualiza el objeto con los valores del array que le das.
+	 *
+	 * @param array $args
+	 * @return void
 	 */
 	public function sincronizar($args = [])
 	{
 		foreach ($args as $key => $value) {
+			// Si la propiedad existe en la clase el objeto, y el valor no es nulo, lo asigna
 			if (property_exists($this, $key) && !is_null($value)) {
 				$this->$key = $value;
 			}
 		}
 	}
 
-	// Si tiene ID, actualizamos y si no, creamos. 
+	/**
+	 * Crea o actualiza un registro en la base de datos.
+	 *
+	 * @return mixed
+	 */
 	public function guardar()
 	{
 		if (!is_null($this->id)) {
@@ -99,7 +136,12 @@ abstract class ActiveRecord
 		}
 	}
 
-	// Obtener todos los Registros
+	/**
+	 * Obtiene todos los registros de la tabla ordenados ASC o DESC.
+	 *
+	 * @param string $orden ASC o DESC
+	 * @return array
+	 */
 	public static function all($orden = 'DESC')
 	{
 		$orden = strtoupper($orden) === 'ASC' ? 'ASC' : 'DESC';
@@ -107,16 +149,29 @@ abstract class ActiveRecord
 		return self::consultarSQL($query);
 	}
 
+	/**
+	 * Obtiene registros seleccionando las columnas a extraer.
+	 *
+	 * @param array $array Columnas que quieres extraer
+	 * @return array
+	 */
 	public static function allArray($array = [])
 	{
+		// Crea un nuevo array con los elementos entre ' '
 		$cols = array_map(function ($col) {
 			return "`$col`";
 		}, $array);
-		$query = "SELECT " . implode(', ', $cols) . " FROM " . static::$tabla . " ORDER BY id DESC";
+		// Separa cada elemento de las columnas por ","
+		$query = "SELECT " . join(', ', $cols) . " FROM " . static::$tabla . " ORDER BY id DESC";
 		return self::consultarSQL($query);
 	}
 
-	// Busca un registro por su id
+	/**
+	 * Busca un registro por ID.
+	 *
+	 * @param int $id
+	 * @return static|null
+	 */
 	public static function find(int $id)
 	{
 		$query = "SELECT * FROM " . static::$tabla . " WHERE id = :id LIMIT 1";
@@ -127,7 +182,12 @@ abstract class ActiveRecord
 		return $registro ? static::crearObjeto($registro) : null;
 	}
 
-	// Obtener Registros con cierta cantidad
+	/**
+	 * Busca los N registros que indiquemos en el límite.
+	 *
+	 * @param int $limite de registros a obtener
+	 * @return array
+	 */
 	public static function get($limite)
 	{
 		$query = "SELECT * FROM " . static::$tabla . " ORDER BY id DESC LIMIT :limite";
@@ -141,7 +201,13 @@ abstract class ActiveRecord
 		return $array;
 	}
 
-	// Busqueda Where con columna y valor 
+	/**
+	 * Busca un registro por columna y valor.
+	 *
+	 * @param string $columna
+	 * @param mixed $valor
+	 * @return static|null
+	 */
 	public static function where($columna, $valor)
 	{
 		if (!in_array($columna, static::$columnasDB)) {
@@ -155,7 +221,13 @@ abstract class ActiveRecord
 		return $registro ? static::crearObjeto($registro) : null;
 	}
 
-	// Busqueda Where con un orden
+	/**
+	 * Busca registros ordenados por columna ASC o DESC.
+	 *
+	 * @param string $columna
+	 * @param string $orden
+	 * @return array
+	 */
 	public static function whereOrden($columna, $orden)
 	{
 		if (!in_array($columna, static::$columnasDB)) {
@@ -166,7 +238,14 @@ abstract class ActiveRecord
 		return self::consultarSQL($query);
 	}
 
-	// Busqueda Where con un orden y un limite
+	/**
+	 * Busca registros ordenados por una columna ASC o DESC y con limite.
+	 *
+	 * @param string $columna
+	 * @param string $orden
+	 * @param int $limit
+	 * @return array
+	 */
 	public static function whereOrdenLimit($columna, $orden, $limit)
 	{
 		if (!in_array($columna, static::$columnasDB)) {
@@ -184,12 +263,18 @@ abstract class ActiveRecord
 		return $array;
 	}
 
-	// Busqueda where con varias opciones mediante array
+	/**
+	 * Busca registros usando un array de condiciones.
+	 *
+	 * @param array $array
+	 * @return array
+	 */
 	public static function whereArray($array = [])
 	{
-		$where = [];
-		$params = [];
+		$where = [];	// Elementos del where
+		$params = [];	// Los elementos que necesitan BIND
 		foreach ($array as $clave => $valor) {
+			// Si la clave no existe en las columbas del objeto, lanzamos error.
 			if (!in_array($clave, static::$columnasDB)) {
 				throw new \Exception('Columna no válida');
 			}
@@ -197,13 +282,18 @@ abstract class ActiveRecord
 			$params[":$clave"] = $valor;
 		}
 		$query = "SELECT * FROM " . static::$tabla;
+		// si existe un where, se añaden los que haya a la consulta
 		if ($where) {
-			$query .= " WHERE " . implode(' AND ', $where);
+			$query .= " WHERE " . join(' AND ', $where);
 		}
 		return self::consultarSQL($query, $params);
 	}
 
-	// Identificar y unir los atributos de la BD (excepto el ID)
+	/**
+	 * Devuelve todos los atributos del objeto excepto el ID.
+	 *
+	 * @return array
+	 */
 	public function atributos()
 	{
 		$atributos = [];
@@ -214,16 +304,23 @@ abstract class ActiveRecord
 		return $atributos;
 	}
 
-	// crea un nuevo usuario
+	/**
+	 * Crea un nuevo registro en la base de datos.
+	 *
+	 * @return array
+	 */
 	public function crearUsuario()
 	{
+		// Atributos sin ID
 		$atributos = $this->atributos();
+		// Crea un array solo con las claves (columnas)
 		$columns = array_keys($atributos);
+		// Crea un array en el que cada elemento col pasa a ser :col para bind
 		$placeholders = array_map(function ($col) {
 			return ":$col";
 		}, $columns);
 
-		$sql  = "INSERT INTO " . static::$tabla . " (" . implode(', ', $columns) . ") VALUES (" . implode(', ', $placeholders) . ")";
+		$sql  = "INSERT INTO " . static::$tabla . " (" . join(', ', $columns) . ") VALUES (" . join(', ', $placeholders) . ")";
 		$stmt = self::$db->prepare($sql);
 
 		foreach ($atributos as $key => $value) {
@@ -237,9 +334,14 @@ abstract class ActiveRecord
 		];
 	}
 
-	// Actualizar el registro
+	/**
+	 * Actualiza el registro en la base de datos.
+	 *
+	 * @return bool
+	 */
 	public function actualizar()
 	{
+		// Atributos sin ID 
 		$atributos = $this->atributos();
 		$valores = [];
 		foreach ($atributos as $key => $value) {
@@ -256,7 +358,11 @@ abstract class ActiveRecord
 		return $stmt->execute();
 	}
 
-	// Eliminar registro por ID 
+	/**
+	 * Elimina el registro de la base de datos.
+	 *
+	 * @return bool
+	 */
 	public function eliminar()
 	{
 		$query = "DELETE FROM "  . static::$tabla . " WHERE id = :id";
@@ -265,7 +371,13 @@ abstract class ActiveRecord
 		return $stmt->execute();
 	}
 
-	// Total registros con posibilidad de filtrar
+	/**
+	 * Cuenta el total de registros, puedes filtrar por columna dando columna y valor.
+	 *
+	 * @param string $columna
+	 * @param mixed $valor
+	 * @return int
+	 */
 	public static function count($columna = '', $valor = '')
 	{
 		$query = "SELECT COUNT(*) as total FROM " . static::$tabla;
@@ -283,12 +395,18 @@ abstract class ActiveRecord
 		return $fila['total'] ?? 0;
 	}
 
-	// Total registros con array where 
+	/**
+	 * Cuenta el total de registros usando un array de condiciones.
+	 *
+	 * @param array $array
+	 * @return int
+	 */
 	public static function totalArray($array = [])
 	{
-		$where = [];
-		$params = [];
+		$where = [];	// Elementos del where
+		$params = [];	// Los elementos que necesitan BIND
 		foreach ($array as $clave => $valor) {
+			// Si la clave no existe en las columbas del objeto, lanzamos error.
 			if (!in_array($clave, static::$columnasDB)) {
 				throw new \Exception('Columna no válida');
 			}
@@ -296,8 +414,9 @@ abstract class ActiveRecord
 			$params[":$clave"] = $valor;
 		}
 		$query = "SELECT COUNT(*) as total FROM " . static::$tabla;
+		// si existe un where, se añaden los que haya a la consulta
 		if ($where) {
-			$query .= " WHERE " . implode(' AND ', $where);
+			$query .= " WHERE " . join(' AND ', $where);
 		}
 		$stmt = self::$db->prepare($query);
 		$stmt->execute($params);
@@ -305,7 +424,13 @@ abstract class ActiveRecord
 		return $fila['total'] ?? 0;
 	}
 
-	// Paginar registros, numero de registros y desde donde
+	/**
+	 * Obtiene registros paginados.
+	 *
+	 * @param int $numero LIMITE
+	 * @param int $offset DESDE DONDE
+	 * @return array
+	 */
 	public static function paginar($numero, $offset)
 	{
 		$query = "SELECT * FROM " . static::$tabla . " ORDER BY 1 DESC LIMIT :numero OFFSET :offset";

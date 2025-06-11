@@ -27,6 +27,7 @@
 	// al ser asincrona lo metemos en una funcion y forzamos su ejecucion
 	if (!Object.values(busqueda).includes('')) {
 
+		// Busca los eventos y resalta la hora seleccionada al editar
 		async function forzarEjecucion() {
 			await buscarEventos();
 
@@ -43,7 +44,7 @@
 		forzarEjecucion();
 	}
 
-	// Asigna los campos para consultar horas segun dia y categoria
+	// Actualiza el objeto de búsqueda y reinicia los campos ocultos al cambiar día o categoría
 	function asignarBusqueda(e) {
 		busqueda[e.target.name] = e.target.value;
 
@@ -65,6 +66,7 @@
 	}
 
 
+	// Busca los eventos disponibles según el día y la categoría seleccionados
 	async function buscarEventos() {
 
 		const { dia, categoria_id } = busqueda;
@@ -78,6 +80,7 @@
 		obtenerHorarios(eventos);
 	}
 
+	// Habilita o deshabilita las horas según los eventos ocupados
 	function obtenerHorarios(eventos) {
 		// Seleccionamos todas las horas de la lista y las reiniciamos
 		const listaHoras = document.querySelectorAll('#horas li');
@@ -100,6 +103,7 @@
 		horas.forEach(hora => hora.addEventListener('click', seleccionarHora));
 	}
 
+	// Selecciona una hora disponible y actualiza los campos ocultos
 	function seleccionarHora(e) {
 		//Deshabilita la hora anterior si la hay 
 		const horaPrevia = document.querySelector('.horas__hora--selected');

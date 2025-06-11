@@ -2,6 +2,7 @@
 // Evita que se ejecute o falle en otra pagina
 (function () {
 	window.addEventListener("load", function () {
+		// Inicializa el aviso de cookies y gestiona el consentimiento
 		window.cookieconsent.initialise({
 			palette: {
 				popup: { background: "#000" },
@@ -32,6 +33,7 @@
 		});
 	});
 
+	// Carga scripts de terceros si hay consentimiento
 	function cargarScriptsDeTerceros() {
 		if (!window.gaScriptCargado) {
 			var gaScript = document.createElement("script");
@@ -49,6 +51,7 @@
 		}
 	}
 
+	// Elimina scripts de terceros si se retira el consentimiento
 	function bloquearScriptsDeTerceros() {
 		var gaTag = document.getElementById("ga-script");
 		if (gaTag) {

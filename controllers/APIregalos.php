@@ -26,8 +26,7 @@ class APIregalos
 		$regalos = Regalo::all();
 
 		foreach($regalos as $regalo) {
-			$regalo->total = Registro::totalArray(['regalo_id' => $regalo->id, 
-															'paquete_id' => "1"]);
+			$regalo->total = Registro::totalArray(['regalo_id' => $regalo->id, 'paquete_id' => "1"]);
 		}
 
 		echo json_encode($regalos);

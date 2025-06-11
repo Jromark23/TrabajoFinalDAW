@@ -6,6 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
+// Espera a que el DOM esté listo para inicializar el slider
 document.addEventListener('DOMContentLoaded', function () {
 	if (document.querySelector('.slider')) {
 
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 		};
 
+		// Inicializa Swiper con los módulos de navegación y paginación
 		Swiper.use([Navigation, Pagination]);
 		new Swiper('.slider', opciones);
 	}

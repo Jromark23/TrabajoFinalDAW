@@ -2,6 +2,9 @@
 
 namespace Model;
 
+/**
+ * Modelo para la entidad Usuario.
+ */
 class Usuario extends ActiveRecord
 {
 	protected static $tabla = 'usuarios';
@@ -35,7 +38,11 @@ class Usuario extends ActiveRecord
 	public $password_actual;
 	public $password_nuevo;
 
-
+	/**
+	 * Constructor del modelo Usuario.
+	 *
+	 * @param array $args Datos del usuario.
+	 */
 	public function __construct($args = [])
 	{
 		$this->id = $args['id'] ?? null;
@@ -52,7 +59,11 @@ class Usuario extends ActiveRecord
 		$this->ultimo_intento    = $args['ultimo_intento']    ?? null;
 	}
 
-	// Validar el Login de Usuarios
+	/**
+	 * Valida los datos para el login.
+	 *
+	 * @return array Alertas de validación.
+	 */
 	public function validarLogin()
 	{
 		if (!$this->email) {
@@ -67,6 +78,11 @@ class Usuario extends ActiveRecord
 		return self::$alertas;
 	}
 
+	/**
+	 * Valida los datos para crear una nueva cuenta.
+	 *
+	 * @return array Alertas de validación.
+	 */
 	// Validación para cuentas nuevas
 	public function validar_cuenta()
 	{
@@ -99,6 +115,11 @@ class Usuario extends ActiveRecord
 		return self::$alertas;
 	}
 
+	/**
+	 * Valida el formato del email.
+	 *
+	 * @return array Alertas de validación.
+	 */
 	public function validarEmail()
 	{
 		if (empty($this->email)) {
@@ -113,6 +134,11 @@ class Usuario extends ActiveRecord
 
 
 
+	/**
+	 * Valida la contraseña (6 caracteres, una mayúscula, una minúscula, un número y un símbolo).
+	 *
+	 * @return bool
+	 */
 	public function validarPassword()
 	{
 		if (empty($this->password)) {
@@ -137,6 +163,11 @@ class Usuario extends ActiveRecord
 
 
 
+	/**
+	 * Valida el cambio de contraseña.
+	 *
+	 * @return array Alertas de validación.
+	 */
 	public function nuevo_password(): array
 	{
 		if (!$this->password_actual) {
@@ -150,16 +181,31 @@ class Usuario extends ActiveRecord
 		return self::$alertas;
 	}
 
+	/**
+	 * Comprueba si la contraseña actual coincide con la guardada.
+	 *
+	 * @return bool
+	 */
 	public function comprobar_password(): bool
 	{
 		return password_verify($this->password_actual, $this->password);
 	}
 
+	/**
+	 * Hashea la contraseña.
+	 *
+	 * @return void
+	 */
 	public function hashPassword(): void
 	{
 		$this->password = password_hash($this->password, PASSWORD_BCRYPT);
 	}
 
+	/**
+	 * Genera un token único para el usuario.
+	 *
+	 * @return void
+	 */
 	public function crearToken(): void
 	{
 		$this->token = uniqid();

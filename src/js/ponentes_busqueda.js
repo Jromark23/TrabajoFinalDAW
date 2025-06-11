@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		filtrarPonentes(busqueda);
 	});
 
+	// Solicita todos los ponentes a la API y los muestra
 	async function cargarPonentes() {
 		try {
 			const respuesta = await fetch('/api/ponentes');
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
+	// Filtra los ponentes por nombre o ciudad/país según el término de búsqueda
 	function filtrarPonentes(termino) {
 		if (termino.length > 0) {
 			const ponentesFiltrados = todosPonentes.filter(ponente => {
@@ -40,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
+	// Muestra los ponentes en la tabla o un mensaje si no hay resultados
 	function mostrarPonentes(ponentes) {
 		if (ponentes.length > 0) {
 			if (divTabla) divTabla.style.display = 'block';

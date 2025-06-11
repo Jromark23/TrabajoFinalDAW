@@ -2,6 +2,9 @@
 
 namespace Model;
 
+/**
+ * Modelo para la entidad Ponente.
+ */
 class Ponente extends ActiveRecord
 {
 	protected static $tabla = 'ponentes';
@@ -17,7 +20,11 @@ class Ponente extends ActiveRecord
 	public $rrss;
 	public $img_actual;
 
-
+	/**
+	 * Constructor del modelo Ponente.
+	 *
+	 * @param array $args Datos iniciales.
+	 */
 	public function __construct($args = [])
 	{
 		$this->id = $args['id'] ?? null;
@@ -30,6 +37,11 @@ class Ponente extends ActiveRecord
 		$this->rrss = $args['rrss'] ?? '';
 	}
 
+	/**
+	 * Valida los datos del ponente.
+	 *
+	 * @return array Alertas de validación.
+	 */
 	public function validar()
 	{
 		if (!$this->nombre) {

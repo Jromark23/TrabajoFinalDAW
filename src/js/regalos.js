@@ -6,6 +6,7 @@
 	if (!ctx) return; // si no existe canvas, salir
 
 
+	// Obtiene los datos de regalos desde la API y genera la gráfica
 	obtenerDatos();
 	async function obtenerDatos() {
 		const url = '/api/regalos'
@@ -14,6 +15,7 @@
 
 
 
+		// Crea la gráfica de barras con los datos recibidos
 		new Chart(ctx, {
 			type: 'bar',
 			data: {

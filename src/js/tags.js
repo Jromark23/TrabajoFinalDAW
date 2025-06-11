@@ -21,6 +21,7 @@
 
 		// Funciones
 
+		// Guarda un tag cuando se pulsa espacio y lo añade al array de tags
 		function guardarTag(event) {
 
 			if (event.key === ' ') {
@@ -38,6 +39,7 @@
 
 		}
 
+		// Muestra los tags actuales en el DOM y actualiza el campo oculto
 		function mostrarTags() {
 			tagsDiv.textContent = "";
 
@@ -54,10 +56,12 @@
 			actualizarHidden();
 		}
 
+		// Actualiza el input hidden con la lista de tags actual
 		function actualizarHidden() {
 			tagsHidden.value = tags.toString();
 		}
 
+		// Elimina un tag del array y del DOM al hacer doble click
 		function eliminarTag(e) {
 			e.target.remove();			
 			// -1 si no lo encuentra 

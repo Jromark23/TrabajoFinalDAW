@@ -2,6 +2,9 @@
 
 namespace Model;
 
+/**
+ * Modelo para la entidad Evento.
+ */
 class Evento extends ActiveRecord
 {
 	protected static $tabla = 'eventos';
@@ -16,7 +19,11 @@ class Evento extends ActiveRecord
 	public $hora_id;
 	public $ponente_id;
 
-
+	/**
+	 * Constructor del modelo Evento.
+	 *
+	 * @param array $args Datos iniciales del evento.
+	 */
 	public function __construct($args = [])
 	{
 		$this->id = $args['id'] ?? null;
@@ -29,7 +36,11 @@ class Evento extends ActiveRecord
 		$this->ponente_id = $args['ponente_id'] ?? '';
 	}
 
-	// Mensajes de validación para la creación de un evento
+	/**
+	 * Valida los datos para la creación de un evento.
+	 *
+	 * @return array Alertas de validación.
+	 */
 	public function validar()
 	{
 		if (!$this->nombre) {
@@ -57,6 +68,11 @@ class Evento extends ActiveRecord
 		return self::$alertas;
 	}
 
+	/**
+	 * Carga las relaciones del evento (categoría, ponente, día, hora).
+	 *
+	 * @return void
+	 */
 	public function cargarRelaciones()
 	{
 		$this->categoria = Categoria::find($this->categoria_id);

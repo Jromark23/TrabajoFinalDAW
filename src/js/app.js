@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	// Enlaces que tengan data-scroll
 	const enlaces = document.querySelectorAll('a[data-scroll]');
 
+	// Añade scroll suave a los enlaces con data-scroll
 	enlaces.forEach(enlace => {
 		enlace.addEventListener('click', function (e) {
 			e.preventDefault();

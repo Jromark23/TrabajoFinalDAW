@@ -2,24 +2,41 @@
 
 namespace Classes;
 
+/**
+ * Clase para gestionar la paginación de listas de registros(eventos y ponentes).
+ */
 class Paginacion {
 	public $pagina_actual;
 	public $registros_pagina;
 	public $total_registros;
 
+	/**
+	 * Constructor de la clase de paginación.
+	 *
+	 * @param int $pagina_actual Página actual.
+	 * @param int $registros_pagina Número de registros por página.
+	 * @param int $total_registros Total de registros.
+	 */
 	public function __construct($pagina_actual = 1, $registros_pagina = 10, $total_registros = 0) {
-		
 		$this->pagina_actual = (int)$pagina_actual;
 		$this->registros_pagina = (int)$registros_pagina;
 		$this->total_registros = (int)$total_registros;
 	}
 
-	// Calcula el offset de la consulta. Comienzan en 0
+	/**
+	 * Calcula el offset para la consulta SQL.
+	 *
+	 * @return int
+	 */
 	public function offset() {
 		return $this->registros_pagina * ($this->pagina_actual - 1);
 	}
 
-	// Calcula el total de páginas necesarias, redondeando al alza
+	/**
+	 * Calcula el total de páginas redondeanzo al alza.
+	 *
+	 * @return int
+	 */
 	public function total_paginas() {
 		if ($this->registros_pagina <= 0) {
 			return 0; 
@@ -27,17 +44,31 @@ class Paginacion {
 		return ceil($this->total_registros / $this->registros_pagina);
 	}
 
+	/**
+	 * Devuelve el número de la página anterior o false si no existiese.
+	 *
+	 * @return int|false
+	 */
 	public function pagina_anterior() {	
 		$anterior = $this->pagina_actual - 1;
 		return ($anterior > 0) ? $anterior : false;
 	}
 
+	/**
+	 * Devuelve el número de la página siguiente o false si no existiese.
+	 *
+	 * @return int|false
+	 */
 	public function pagina_siguiente() {
 		$siguiente = $this->pagina_actual + 1;
 		return ($siguiente <=  $this->total_paginas()) ? $siguiente : false;
 	}
 
-	// Genera enlace anterior solo si es posible seguir volviendo
+	/**
+	 * Devuelve el enlace para la página anterior.
+	 *
+	 * @return string
+	 */
 	public function enlace_anterior() {
 		$html = '';
 
@@ -49,7 +80,11 @@ class Paginacion {
 		return $html;
 	}
 
-	// Genera enlace siguiente solo si es posible seguir avanzando
+	/**
+	 * Devuelve el enlace para la página siguiente.
+	 *
+	 * @return string
+	 */
 	public function enlace_siguiente() {
 		$html = '';
 
@@ -61,6 +96,11 @@ class Paginacion {
 		return $html;
 	}
 
+	/**
+	 * Devuelve los enlaces para los distintos números de página.
+	 *
+	 * @return string
+	 */
 	public function numeros_paginas() {
 		$html = '';
 		$actual = $this->pagina_actual;
@@ -80,6 +120,11 @@ class Paginacion {
 		return $html;
 	}
 
+	/**
+	 * Devuelve la estructura completa de la paginación.
+	 *
+	 * @return string
+	 */
 	public function paginacion() {
 		$html = '';
 

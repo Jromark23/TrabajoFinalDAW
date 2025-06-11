@@ -6,19 +6,35 @@ use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
+/**
+ * Clase para gestionar los correos a los usuarios.
+ */
 class Email
 {
-
 	public $email;
 	public $nombre;
 	public $token;
 
+	/**
+	 * Constructor de la clase Email.
+	 *
+	 * @param string $email   Correo del usuario.
+	 * @param string $nombre  Nombre del usuario.
+	 * @param string $token   Token único para confirmación, recuperación...
+	 */
 	public function __construct($email, $nombre, $token)
 	{
 		$this->email = $email;
 		$this->nombre = $nombre;
 		$this->token = $token;
 	}
+
+	/**
+	 * Configura los parámetros SMTP para PHPMailer.
+	 *
+	 * @param PHPMailer $mail Instancia de PHPMailer a configurar.
+	 * @return void
+	 */
 	private function configurarSMTP(PHPMailer $mail)
 	{
 		$mail->isSMTP();
@@ -29,7 +45,7 @@ class Email
 		$mail->SMTPSecure = $_ENV['EMAIL_ENCRYPTION']; // 'ssl'
 		$mail->Port       = (int) $_ENV['EMAIL_PORT'];
 
-		// Opcional: desactivar verificación de certificados (solo si tienes errores SSL)
+		// Opcional: desactivar verificación de certificados si tienes errores SSL
 		$mail->SMTPOptions = [
 			'ssl' => [
 				'verify_peer'       => false,
@@ -39,6 +55,11 @@ class Email
 		];
 	}
 
+	/**
+	 * Envía un correo para confirmar el registro.
+	 *
+	 * @return void
+	 */
 	public function enviarConfirmacion()
 	{
 		$mail = new PHPMailer();
@@ -72,6 +93,11 @@ class Email
         }
 	}
 
+	/**
+	 * Envía un correo para reestablecer la contraseña.
+	 *
+	 * @return void
+	 */
 	public function enviarInstrucciones()
 	{
 		$mail = new PHPMailer();
@@ -104,6 +130,12 @@ class Email
         }
 	}
 
+	/**
+	 * Envía la entrada del evento incluyendo el QR.
+	 *
+	 * @param string $urlQrPublica URL pública de la imagen QR.
+	 * @return void
+	 */
 	public function enviarEntrada(string $urlQrPublica)
 	{
 		$mail = new PHPMailer();

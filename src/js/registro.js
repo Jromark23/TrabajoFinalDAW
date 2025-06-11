@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 		const formularioRegistro = document.querySelector('#registro');
 		formularioRegistro.addEventListener('submit', enviarFormulario)
 
+		// Permite seleccionar un evento y añadirlo al carrito
 		function seleccionarEvento(e) {
 
 			if (eventos.length < maxEventos) {
@@ -41,6 +42,7 @@ import Swal from 'sweetalert2';
 		}
 
 
+		// Muestra los eventos seleccionados en el carrito
 		function mostrarEventos() {
 
 			carrito.innerHTML = '';
@@ -77,6 +79,7 @@ import Swal from 'sweetalert2';
 			}
 		}
 
+		// Elimina un evento del carrito y habilita su botón
 		function eliminarEvento(id) {
 			// Recogemos todos los que tienen el distinto ID
 			eventos = eventos.filter(evento => evento.id !== id);
@@ -87,6 +90,7 @@ import Swal from 'sweetalert2';
 			mostrarEventos();
 		}
 
+		// Envía el formulario de registro con los eventos y regalo seleccionados
 		async function enviarFormulario(e) {
 			e.preventDefault();
 

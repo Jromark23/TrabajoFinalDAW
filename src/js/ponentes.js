@@ -12,9 +12,11 @@
 	const listaPonentes = document.querySelector('#listaPonentes');
 	const ponenteHidden = document.querySelector('[name="ponente_id"]');
 
+	// Obtiene todos los ponentes de la API y los formatea
 	obtenerPonentes();
 	ponentesId.addEventListener('input', buscarPonentes);
 
+	// Si hay un ponente seleccionado al cargar, lo muestra
 	if (ponenteHidden.value) {
 		async function forzarEjecucion() {
 			const ponente = await obtenerPonente(ponenteHidden.value);
@@ -30,6 +32,7 @@
 		forzarEjecucion();
 	}
 
+	// Solicita la lista de ponentes a la API
 	async function obtenerPonentes() {
 		const url = `/api/ponentes`;
 
@@ -38,6 +41,7 @@
 		formatearPonentes(resultado);
 	}
 
+	// Solicita un ponente concreto por ID a la API
 	async function obtenerPonente(id) {
 		const url = `/api/ponente?id=${id}`;
 
@@ -46,6 +50,7 @@
 		return resultado;
 	}
 
+	// Formatea los ponentes para facilitar la búsqueda
 	// Convertimos para solo coger la info que queremos 
 	function formatearPonentes(arrayPonentes = []) {
 		ponentes = arrayPonentes.map(ponente => {
@@ -56,6 +61,7 @@
 		})
 	}
 
+	// Filtra los ponentes según el texto introducido
 	function buscarPonentes(e) {
 		ponenteHidden.value = '';
 		// Eliminamos las tildes para la busqueda
@@ -77,6 +83,7 @@
 		mostrarPonentes();
 	}
 
+	// Muestra los ponentes filtrados en la lista
 	function mostrarPonentes() {
 		//Limpiamos para evitar que se autoacumule
 		listaPonentes.innerHTML = '';
@@ -101,6 +108,7 @@
 		}
 	}
 
+	// Selecciona un ponente de la lista y lo marca como seleccionado
 	function seleccionarPonente(e) {
 		ponenteHidden.value = '';
 
