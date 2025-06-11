@@ -112,7 +112,7 @@ abstract class ActiveRecord
 		$cols = array_map(function ($col) {
 			return "`$col`";
 		}, $array);
-		$query = "SELECT " . implode(', ', $cols) . " FROM " . static::$tabla;
+		$query = "SELECT " . implode(', ', $cols) . " FROM " . static::$tabla . " ORDER BY id DESC";
 		return self::consultarSQL($query);
 	}
 

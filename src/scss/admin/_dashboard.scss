@@ -36,6 +36,7 @@
 
 	&__nav {
 		display: flex;
+		justify-content: center;
 		gap: 2rem;
 
 	}
@@ -56,14 +57,14 @@
 	
 	&__sidebar {
 		background-color: lighten(v.$gris-oscuro, 10);
-		width: 8rem;
+		width: 7rem;
 
 		@include m.tablet {
-			width: 11em;
+			width: 11rem;
 		}
 
-		@include m.tablet {
-			width: 11em;
+		@include m.desktop {
+			width: 13rem;
 		}
 	}
 

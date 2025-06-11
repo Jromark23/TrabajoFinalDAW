@@ -33,9 +33,9 @@ include_once __DIR__ . '/talleres.php';
 		<?php foreach ($ponentes as $ponente) { ?>
 			<div <?= animacion_aos(); ?> class="ponente">
 				<picture>
-					<source srcset="/src/img/speakers/<?= $ponente->imagen; ?>.webp" type="image/webp">
-					<source srcset="/src/img/speakers/<?= $ponente->imagen; ?>.png" type="image/png">
-					<img class="ponente__img" src="/src/img/speakers/<?= $ponente->imagen; ?>.png"
+					<source srcset="/public/build/img/speakers/<?= $ponente->imagen; ?>.webp" type="image/webp">
+					<source srcset="/public/build/img/speakers/<?= $ponente->imagen; ?>.png" type="image/png">
+					<img class="ponente__img" src="/public/build/img/speakers/<?= $ponente->imagen; ?>.png"
 						width="200" height="300" alt="Imagen ponente">
 				</picture>
 

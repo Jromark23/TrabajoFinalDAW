@@ -98,7 +98,7 @@ class PonentesController
 
 
 				// $img_folder = '../img/speakers';
-				$img_folder = __DIR__ . '/../src/img/speakers';
+				$img_folder = __DIR__ . '/../public/build/img/speakers';
 
 				// Si no existe, crea la carpeta
 				if (!is_dir($img_folder)) {
@@ -212,7 +212,7 @@ class PonentesController
 				}
 				
 				//$img_folder = '/img/speakers';
-				$img_folder = __DIR__ . '/../src/img/speakers';
+				$img_folder = __DIR__ . '/../public/build/img/speakers';
 
 
 				// Si no existe, crea la carpeta

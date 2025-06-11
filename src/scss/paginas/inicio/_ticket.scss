@@ -1,32 +1,17 @@
 @use 'base/mixins' as m;
 @use 'base/variables' as v;
 
-// .tickets {
-// 	background-color: aqua;
-// }
-
-
 .ticket {
 	width: min(100% - 5rem, 65rem);
 	margin: 0 auto;
 	border-radius: 3rem;
 	color: v.$blanco;
 
-	// background-image:  url('/build/img/codigoBarras.avif'), 
-	// 	image-set(url('/build/img/codigoBarras.avif'), url('/build/img/codigoBarras.webp'));
-	// background-repeat: no-repeat;
-	// background-position: center bottom -4rem;
-	// background-size: 80% auto;
-
 	@include m.tablet {
 		width: 60rem;
-		//height: 30rem;
-		//background-position: right bottom 4rem;
 	}
 
 	&__grid{
-
-		
 		@include m.tablet {
 			@include m.grid(2, 3rem);
 		}

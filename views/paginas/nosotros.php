@@ -7,9 +7,9 @@
 	<div class="nosotros__grid">
 		<div class="nosotros__imagen nosotros__imagen--1" <?= animacion_aos(); ?>>
 			<picture>
-				<source srcset="build/img/conferencia.avif">
-				<source srcset="build/img/conferencia.webp">
-				<img src="build/img/conferencia.jpg" alt="imagen de fondo" width="200" height="300">
+				<source srcset="/public/build/img/conferencia.avif">
+				<source srcset="/public/build/img/conferencia.webp">
+				<img src="/public/build/img/conferencia.jpg" alt="imagen de fondo" width="200" height="300">
 			</picture>
 		</div>
 		<div class="nosotros__contenido">
@@ -54,9 +54,9 @@
 		</div>
 		<div class="nosotros__imagen nosotros__imagen--2" <?= animacion_aos(); ?>>
 			<picture>
-				<source srcset="build/img/conferencia2.avif">
-				<source srcset="build/img/conferencia2.webp">
-				<img src="build/img/conferencia2.jpg" alt="imagen de fondo" width="200" height="300">
+				<source srcset="public/build/img/conferencia2.avif">
+				<source srcset="public/build/img/conferencia2.webp">
+				<img src="public/build/img/conferencia2.jpg" alt="imagen de fondo" width="200" height="300">
 			</picture>
 		</div>
 	</div>

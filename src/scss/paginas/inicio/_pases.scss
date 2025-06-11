@@ -22,8 +22,8 @@
 	border-radius: 3rem;
 	color: v.$blanco;
 
-	background-image:  url('/build/img/codigoBarras.avif'), 
-		image-set(url('/build/img/codigoBarras.avif'), url('/build/img/codigoBarras.webp'));
+	background-image:  url('/public/build/img/codigoBarras.avif'), 
+		image-set(url('/public/build/img/codigoBarras.avif'), url('/public/build/img/codigoBarras.webp'));
 	background-repeat: no-repeat;
 	background-position: right top;
 	//background-size: 50% ;

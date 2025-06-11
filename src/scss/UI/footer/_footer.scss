@@ -79,5 +79,19 @@
 	&__enlace {
 		@include m.enlace;
 		font-weight: v.$semibold;
+
+		&:hover {
+			color: inherit;
+		}
+
+		&--normal {
+			text-decoration: none;
+			color: v.$blanco;
+			font-weight: v.$regular;
+
+			&:hover {
+			color: inherit;
+			}
+		}
 	}
 }

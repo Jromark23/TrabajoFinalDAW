@@ -6,11 +6,11 @@
 		<p class="evento__descripcion"><?= $evento->descripcion ?></p>
 		<div class="evento__ponente">
 			<picture>
-				<source srcset="/src/img/speakers/<?= $evento->ponente->imagen; ?>.webp"
+				<source srcset="/public/build/img/speakers/<?= $evento->ponente->imagen; ?>.webp"
 					type="image/webp">
-				<source srcset="/src/img/speakers/<?= $evento->ponente->imagen; ?>.png"
+				<source srcset="/public/build/img/speakers/<?= $evento->ponente->imagen; ?>.png"
 					type="image/png">
-				<img class="evento__img" src="/src/img/speakers/<?= $evento->ponente->imagen; ?>.png"
+				<img class="evento__img" src="/public/build/img/speakers/<?= $evento->ponente->imagen; ?>.png"
 					width="200" height="300" alt="Imagen ponente">
 			</picture>
 

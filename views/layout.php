@@ -6,13 +6,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="google-site-verification" content="googleeab73fe2b2803bba"/>
 	<title>Congrexia - <?= $titulo; ?></title>
-	<link rel="icon" href="/build/img/favicon.png">
+	<link rel="icon" href="/public/build/img/favicon.png">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-	<link rel="stylesheet" href="/build/css/app.css">
+	<link rel="stylesheet" href="/public/build/css/app.css">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 	<!-- Banner de cookies  -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
@@ -44,7 +44,7 @@
 		AOS.init();
 	</script>
 
-	<script src="/build/js/main.min.js"></script>
+	<script src="/public/build/js/main.min.js"></script>
 </body>
 
 </html>

@@ -27,30 +27,8 @@ const webpack = require('webpack-stream');			// Permite usar webpack y empacquet
 function imagenes() {
 	return src(paths.imagenes)
 		.pipe(cache(imagemin({ optimizationLevel: 3 })))
-		.pipe(dest('build/img'))
+		.pipe(dest('public/build/img')) 
 }
-
-// // // convierte las imagenes a webp
-// // function versionWebp(done) {
-// // 	const opciones = {
-// // 		quality: 50
-// // 	};
-// // 	src('src/img/**/*.{png,jpg}')
-// // 		.pipe(webp(opciones))
-// // 		.pipe(dest('build/img'))
-// // 	done();
-// // }
-
-// // // convierte las imagenes a avif
-// // function versionAvif(done) {
-// // 	const opciones = {
-// // 		quality: 50
-// // 	};
-// // 	src('src/img/**/*.{png,jpg}')
-// // 		.pipe(avif(opciones))
-// // 		.pipe(dest('build/img'))
-// // 	done();
-// // }
 
 function versionWebp(done) {
 	const opciones = {
@@ -87,7 +65,7 @@ return src(paths.scss)								// Procesa todos los archivos scss
 	.pipe(sass({ outputStyle: 'expanded' }))		// Evita que el CSS de salida se comprima y se lea
 	.pipe( postcss([autoprefixer()]))				// Prefijos para el soporte en distintos navegadores
 	.pipe(sourcemaps.write('.'))
-	.pipe(dest('build/css'));				// destino del procesado
+	.pipe(dest('public/build/css'));				// destino del procesado
 }
 
 function javascript() {							
@@ -111,7 +89,7 @@ function javascript() {
 		.pipe(terser())						// Minifica el codigo
 		.pipe(sourcemaps.write('.'))		
 		.pipe(rename({ suffix: '.min' }))	// Añade el .min 
-		.pipe(dest('./build/js'))	// Lugar de almacenamiento
+		.pipe(dest('./public/build/js'))	// Lugar de almacenamiento
 }
 
 
