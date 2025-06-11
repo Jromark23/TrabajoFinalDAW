@@ -269,16 +269,19 @@ class AuthController
 			}
 		}
 
-
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && $token_valido) {
 
+			
 			validar_csrf();
 
 			$usuario->sincronizar($_POST);
-			$alertas = $usuario->validarPassword();
+			$usuario->validarPassword(); // Solo agrega alertas, no sobrescribe $alertas
+
+			// Recupera las alertas después de validar la contraseña
+			$alertas = Usuario::getAlertas();
 
 			// Si no hay errores de validacion reestablecemos la contraseña 
-			if (empty($alertas)) {
+			if (empty($alertas['error'])) {
 				// Hasheamos la nueva contraseña para guardarla hasehada
 				$usuario->hashPassword();
 
