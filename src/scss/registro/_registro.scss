@@ -57,7 +57,6 @@
 
 		&--conferencias {
 			color: v.$azul;
-			//white-space: nowrap;
 			@include m.texto-fluido(2rem, 6rem);
 		}
 
@@ -76,11 +75,10 @@
 	border-radius: 1rem;
 
 	@include m.tablet {
-			flex: 0 0 40%;
-			// width: 40%;
-			//position: sticky;
-			top: 3rem;
-		}
+		flex: 0 0 40%;
+		position: sticky;
+		top: 5rem;        
+	}
 	
 	&__descripcion {
 		text-align: center;
