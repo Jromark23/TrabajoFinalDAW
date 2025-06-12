@@ -327,45 +327,21 @@ class RegistroController
 		// Comprobar que tiene entrada presencial 
 		$usuario_id = $_SESSION['id'];
 		$registro = Registro::where('usuario_id', $usuario_id);
-		$eventoRegistro = EventosRegistros::where('registro_id', $registro->id);
 
 		// Si no tiene registro no permitir el acceso a la web
 		if (!isset($registro)) {
 			header('Location: /');
 		}
 
-		// Si ya tiene evento asociado, mandarle a su entrada
-		if ($eventoRegistro) {
-			header('Location: /entrada?id=' . urlencode($registro->token));
-		}
+		$eventoRegistro = EventosRegistros::where('registro_id', $registro->id);
 
-
-		// if ($registro->paquete_id) { 
-		// 	header('Location: /entrada?id=' . urlencode($registro->token));
-		// 	exit;
-		// }
-
-
-
-		// Si ya existe el registro y su paquete es virtual le mandamos a su entrada
-		if ($registro->paquete_id === 2) {
+		// Si ya tiene eventos presenciales seleccionados, o otro tipo de paquete, mandarle a su entrada
+		if ($eventoRegistro || $registro->paquete_id === 2 || $registro->paquete_id === 3) {
 			header('Location: /entrada?id=' . urlencode($registro->token));
 			exit;
 		}
 
-		// Si el paquete no es presencial, le mandamos a inicio
-		if ($registro->paquete_id === 3) {
-			header('Location: /entrada?id=' . urlencode($registro->token));
-			exit;
-		}
-
-		// // Si ya tiene el registro, redirigir a la entrada        REVISAR
-		// if ($registro->paquete_id === 1) {
-		// 	header('Location: /entrada?id=' . urlencode($registro->token));
-		// 	exit;
-		// }
-
-
+		// Si no, mostrarle los eventos. 
 		$eventos = Evento::whereOrden('hora_id', 'ASC');
 
 		$eventos_formateados = [];
@@ -475,7 +451,6 @@ class RegistroController
 			exit;
 		}
 
-
 		$router->renderizar('registro/conferencias', [
 			'titulo' => 'Eventos disponibles',
 			'eventos' => $eventos_formateados,
@@ -568,36 +543,89 @@ class RegistroController
 
 		$imgData   = base64_encode(file_get_contents($rutaQR));
 		$qrDataUri = 'data:image/png;base64,' . $imgData;
+		
+		// Obtenemos la imagen desde root, la codificamos y la insertamos en el HTML del PDF
+		$rutaLogo = $_SERVER['DOCUMENT_ROOT'] . '/src/img/logomd.png';
+		$imgLogoData = base64_encode(file_get_contents($rutaLogo));
+		$logoDataUri = 'data:image/png;base64,' . $imgLogoData;
+
+		$rutaFondo = $_SERVER['DOCUMENT_ROOT'] . '/src/img/fondoPDF.png';
+		$imgFondoData = base64_encode(file_get_contents($rutaFondo));
+		$fondoDataUri = 'data:image/png;base64,' . $imgFondoData;
 
 		$html = '
-				<html>
-				<head>
-					<meta charset="UTF-8" />
-					<style>
-					body { font-family: DejaVu Sans, sans-serif; }
-					.contenedor { text-align: center; margin-top: 50px; }
-					.titulo { font-size: 24px; margin-bottom: 20px; }
-					.detalle { font-size: 18px; margin-bottom: 40px; }
-					.qr img { width: 200px; height: 200px; }
-					</style>
-				</head>
-				<body>
-					<div class="contenedor">
-					<div class="titulo">Entrada al evento</div>
-					<div class="detalle">
-						<strong>Nombre:</strong><br>
-						' . htmlspecialchars($registro->usuario->nombre . ' ' . $registro->usuario->apellido) . '<br><br>
-						<strong>Paquete:</strong><br>
-						' . htmlspecialchars($registro->paquete->nombre) . '<br><br>
-						<strong>Código:</strong><br>
-						#' . htmlspecialchars($registro->token) . '
-					</div>
-					<div class="qr">
-						<img src="' . $qrDataUri . '" alt="Código QR">
-					</div>
-					</div>
-				</body>
-				</html>';
+			<!DOCTYPE html>
+			<html>
+			<head>
+				<meta charset="UTF-8" />
+				<style>
+				@page { margin: 0; }
+				body {
+					margin: 0;
+					padding: 0;
+					font-family: DejaVu Sans, sans-serif;
+				}
+				.background {
+					position: fixed;
+					top: 0; 
+					left: 0;
+					width: 100%; 
+					height: 100%;
+					background-image: url("' . $fondoDataUri . '");
+					background-repeat: no-repeat;
+					background-position: center center;
+					background-size: 100% 100%;
+					z-index: -100;
+				}
+				.contenedor {
+					position: relative;
+					z-index: 1000;
+					text-align: center;
+					padding: 50px 20px;
+				}
+				.header {
+					margin-bottom: 30px;
+				}
+				.header img {
+					width: 150px;
+					height: auto;
+				}
+				.titulo {
+					font-size: 24px;
+					margin-bottom: 20px;
+				}
+				.detalle {
+					font-size: 18px;
+					margin-bottom: 40px;
+				}
+				.qr img {
+					width: 200px;
+					height: 200px;
+				}
+				</style>
+			</head>
+			<body>
+				<div class="background"></div>
+
+				<div class="contenedor">
+				<div class="header">
+					<img src="' . $logoDataUri . '" alt="Logo">
+				</div>
+				<div class="titulo">Entrada al evento</div>
+				<div class="detalle">
+					<strong>Nombre:</strong><br>
+					' . htmlspecialchars($registro->usuario->nombre . ' ' . $registro->usuario->apellido) . '<br><br>
+					<strong>Paquete:</strong><br>
+					' . htmlspecialchars($registro->paquete->nombre) . '<br><br>
+					<strong>Código:</strong><br>
+					#' . htmlspecialchars($registro->token) . '
+				</div>
+				<div class="qr">
+					<img src="' . $qrDataUri . '" alt="Código QR">
+				</div>
+				</div>
+			</body>
+			</html>';
 
 		$options = new \Dompdf\Options();
 		$options->set('defaultFont', 'DejaVu Sans');
