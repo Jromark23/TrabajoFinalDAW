@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	const tablaPonentes = document.querySelector('.table__tbody');
 	const mensajeNoResultados = document.querySelector('.text-center');
 	const divTabla = document.querySelector('.tabla-scroll');
-	let todosPonentes = []; // Almacenará todos los ponentes
+	let ponentes = []; // Almacenará todos los ponentes
 
 	if (!inputBusqueda) return;
 
@@ -15,38 +15,47 @@ document.addEventListener('DOMContentLoaded', function () {
 		filtrarPonentes(busqueda);
 	});
 
-	// Solicita todos los ponentes a la API y los muestra
+	// Solicita los ponentes a la API y los muestra
 	async function cargarPonentes() {
 		try {
 			const respuesta = await fetch('/api/ponentes');
-			todosPonentes = await respuesta.json();
-			mostrarPonentes(todosPonentes);
+			ponentes = await respuesta.json();
+			mostrarPonentes(ponentes);
 		} catch (error) {
 			console.error('Error al cargar ponentes:', error);
 		}
 	}
 
-	// Filtra los ponentes por nombre o ciudad/país según el término de búsqueda
-	function filtrarPonentes(termino) {
-		if (termino.length > 0) {
-			const ponentesFiltrados = todosPonentes.filter(ponente => {
-				const nombreCompleto = `${ponente.nombre} ${ponente.apellido}`.toLowerCase();
-				const ciudadPais = `${ponente.ciudad}, ${ponente.pais}`.toLowerCase();
+	// Función para quitar tildes/acentos de un texto
+	function quitarTildes(texto) {
+		return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+	}
 
-				return nombreCompleto.includes(termino) ||
-					ciudadPais.includes(termino);
+	// Filtra los ponentes por nombre, ciudad o pais.
+	function filtrarPonentes(termino) {
+		const terminoNormalizado = termino.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+		if (termino.length > 0) {
+			const ponentesFiltrados = ponentes.filter(ponente => {
+				// Convertimos los caracteres con tildes y la ñ en caracteres sin ella, y eliminamos los caracteres con tildes dieresis etc 
+				const nombreCompleto = (`${ponente.nombre} ${ponente.apellido}`).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+				const ciudadPais = (`${ponente.ciudad}, ${ponente.pais}`).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+				return nombreCompleto.includes(terminoNormalizado) ||
+					ciudadPais.includes(terminoNormalizado);
 			});
 			mostrarPonentes(ponentesFiltrados);
 		} else {
-			mostrarPonentes(todosPonentes);
+			mostrarPonentes(ponentes);
 		}
 	}
 
 	// Muestra los ponentes en la tabla o un mensaje si no hay resultados
 	function mostrarPonentes(ponentes) {
 		if (ponentes.length > 0) {
-			if (divTabla) divTabla.style.display = 'block';
-			if (mensajeNoResultados) mensajeNoResultados.style.display = 'none';
+			if (divTabla) 
+				divTabla.style.display = 'block';
+			if (mensajeNoResultados) 
+				mensajeNoResultados.style.display = 'none';
 
 			let html = '';
 
