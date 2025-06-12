@@ -34,7 +34,7 @@ use Controllers\RegistroController;
 
 $router = new Router();
 
-
+					// Devuelve el nombre completo de la clase
 // Login
 $router->get('/login', [AuthController::class, 'login']);
 $router->post('/login', [AuthController::class, 'login']);

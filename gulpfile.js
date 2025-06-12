@@ -84,8 +84,6 @@ function javascript() {
 			watch: true
 		}))
 		.pipe(sourcemaps.init())			
-		/* ya lo hace webpack y se incluye en el layout en lugar del que generabamos nosotros
-		.pipe(concat('bundle.js'))  */
 		.pipe(terser())						// Minifica el codigo
 		.pipe(sourcemaps.write('.'))		
 		.pipe(rename({ suffix: '.min' }))	// Añade el .min 

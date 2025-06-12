@@ -53,7 +53,7 @@ class Router
 	// Recibe la vista y todos los datos que necesitemos pasarle
 	public function renderizar($view, $datos = [])
     {
-        // Extrae cada elemento del Array $datos como una variable
+        // Extrae cada elemento del array $datos como una variable nueva. Variable variable
         foreach ($datos as $key => $value) {
             $$key = $value; 
         }
