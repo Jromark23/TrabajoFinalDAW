@@ -15,6 +15,7 @@ body {
 	height: 100%;
 }
 .layout {
+	background-color: darken(v.$gris-claro, 3);
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;

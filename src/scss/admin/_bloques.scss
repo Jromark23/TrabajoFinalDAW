@@ -35,6 +35,10 @@
 		@include m.bg_gradiente(#17769e)
 	}
 
+	&:hover {
+        box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.3), 0 2rem 2rem rgba(0, 0, 0, 0.3);
+    }
+	
 	&__heading {
 		margin: .5rem;
 		font-size: 2.2rem;
